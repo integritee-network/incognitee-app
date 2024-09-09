@@ -59,9 +59,9 @@
           </h2>
           <p class="mt-6 text-gray-300">
             A new era of digital currency transfer is about to come. Our
-            Incognitee Web3 solution empowers you to make secure, private, and
-            anonymous transactions without compromising control over your
-            assets. <br /><br />
+            <a href="https://incognitee.io">Incognitee</a> Web3 solution
+            empowers you to make secure, private, and anonymous transactions
+            without compromising control over your assets. <br /><br />
             Collect TEERdays now and save the pole position for the Incognitee
             Go-Live.
           </p>
@@ -516,16 +516,17 @@
             <h1
               class="title text-3xl font-bold tracking-tight text-white sm:text-4xl"
             >
-              TEERdays Intro​
+              TEERdays Intro
             </h1>
             <p class="mt-4 text-gray-300">
               By bonding your TEER now, you can already accumulate TEERdays
-              prior to the launch of Incognitee. TEERdays are calculated by
-              multiplying the amount of TEER by the number of days bonded. You
-              can unbond your TEER anytime within 7 days, but you will lose a
-              fraction of the accumulated TEERdays if you do. TEERdays are
-              non-transferable. Start now to get the best position for the
-              Incognitee launch. ​
+              prior to the launch of
+              <a href="https://incognitee.io">Incognitee</a>. TEERdays are
+              calculated by multiplying the amount of TEER by the number of days
+              bonded. You can unbond your TEER anytime within 7 days, but you
+              will lose a fraction of the accumulated TEERdays if you do.
+              TEERdays are non-transferable. Start now to get the best position
+              for the Incognitee launch. ​
             </p>
           </div>
         </div>
@@ -543,9 +544,9 @@
             </h1>
             <p class="mt-4 text-gray-300">
               TEERdays can be used to increase your revenue share for the launch
-              of Incognitee on Polkadot/Kusama and will also increase your
-              governance voting power for future decisions related to
-              Incognitee.
+              of <a href="https://incognitee.io">Incognitee</a> on
+              Polkadot/Kusama and will also increase your governance voting
+              power for future decisions related to Incognitee.
             </p>
           </div>
         </div>
