@@ -3,10 +3,11 @@
     <header class="header">
       <div class="header-content">
         <Incognitee class="logo" />
-        <p class="address">{{ accountStore.getShortAddress }}</p>
+        <!--p class="address">{{ accountStore.getShortAddress }}</p -->
       </div>
     </header>
     <footer class="footer">
+      <!--
       <nav class="footer-content">
         <div class="container">
           <div
@@ -80,6 +81,7 @@
           </div>
         </div>
       </nav>
+      -->
     </footer>
     <main class="main">
       <NuxtPage />
