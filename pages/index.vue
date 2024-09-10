@@ -59,7 +59,7 @@
           </h2>
           <p class="mt-6 text-gray-300">
             A new era of digital currency transfer is about to come. Our
-            <a href="https://incognitee.io">Incognitee</a> Web3 solution
+            <a class="text-incognitee-green" href="https://incognitee.io">Incognitee</a> Web3 solution
             empowers you to make secure, private, and anonymous transactions
             without compromising control over your assets. <br /><br />
             Collect TEERdays now and save the pole position for the Incognitee
@@ -135,7 +135,7 @@
               d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
             />
           </svg>
-          <dt class="text-base font-normal text-gray-300">TEERday holder</dt>
+          <dt class="text-base font-normal text-gray-300">TEERday holders</dt>
           <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
             <div
               class="flex items-baseline text-2xl font-semibold text-incognitee-green"
@@ -525,7 +525,7 @@
             <p class="mt-4 text-gray-300">
               By bonding your TEER now, you can already accumulate TEERdays
               prior to the launch of
-              <a href="https://incognitee.io">Incognitee</a>. TEERdays are
+              <a class="text-incognitee-green" href="https://incognitee.io">Incognitee</a>. TEERdays are
               calculated by multiplying the amount of TEER by the number of days
               bonded. You can unbond your TEER anytime within 7 days, but you
               will lose a fraction of the accumulated TEERdays if you do.
@@ -548,7 +548,7 @@
             </h1>
             <p class="mt-4 text-gray-300">
               TEERdays can be used to increase your revenue share for the launch
-              of <a href="https://incognitee.io">Incognitee</a> on
+              of <a class="text-incognitee-green" href="https://incognitee.io">Incognitee</a> on
               Polkadot/Kusama and will also increase your governance voting
               power for future decisions related to Incognitee.
             </p>
@@ -569,23 +569,22 @@
             <p class="mt-6 text-gray-300">
               1. First, you need to possess some TEER. Grab them at one of the
               avenues like
-              <a
-                href="https://www.kraken.com/prices/integritee?quote=usd&interval=24h"
+              <a class="text-incognitee-green" href="https://www.kraken.com/prices/integritee?quote=usd&interval=24h"
                 >Kraken</a
-              >, <a href="https://www.gate.io/de/trade/TEER_USDT">Gate</a> or
-              <a href="https://app.basilisk.cloud/trade?assetIn=1&assetOut=17"
+              >, <a class="text-incognitee-green" href="https://www.gate.io/de/trade/TEER_USDT">Gate</a> or
+              <a class="text-incognitee-green" href="https://app.basilisk.cloud/trade?assetIn=1&assetOut=17"
                 >Basilisk</a
-              >. ​<br />
+              >​<br />
 
-              2. Get one of the supported wallets and connect your wallet. ​​<br />
+              2. Get one of the supported wallets and connect your wallet​​<br />
 
-              3. Transfer TEER to your wallet. ​​<br />
+              3. Transfer TEER to your wallet​​<br />
 
               4. Bond your TEER using this current page<br />
 
-              5. Start automatically collecting TEERdays.​​<br />
+              5. Start automatically collecting TEERdays<br />
 
-              6. Refer a friend (coming soon).​
+              6. Refer a friend (coming soon)
             </p>
           </div>
         </div>
@@ -1739,8 +1738,5 @@ input[type="number"] {
       }
     }
   }
-}
-a {
-  color: #24ad7c; /* Ensure this matches the .text-incognitee-green class */
 }
 </style>
