@@ -59,9 +59,12 @@
           </h2>
           <p class="mt-6 text-gray-300">
             A new era of digital currency transfer is about to come. Our
-            <a class="text-incognitee-green" href="https://incognitee.io">Incognitee</a> Web3 solution
-            empowers you to make secure, private, and anonymous transactions
-            without compromising control over your assets. <br /><br />
+            <a class="text-incognitee-green" href="https://incognitee.io"
+              >Incognitee</a
+            >
+            Web3 solution empowers you to make secure, private, and anonymous
+            transactions without compromising control over your assets.
+            <br /><br />
             Collect TEERdays now and save the pole position for the Incognitee
             Go-Live.
           </p>
@@ -525,12 +528,13 @@
             <p class="mt-4 text-gray-300">
               By bonding your TEER now, you can already accumulate TEERdays
               prior to the launch of
-              <a class="text-incognitee-green" href="https://incognitee.io">Incognitee</a>. TEERdays are
-              calculated by multiplying the amount of TEER by the number of days
-              bonded. You can unbond your TEER anytime within 7 days, but you
-              will lose a fraction of the accumulated TEERdays if you do.
-              TEERdays are non-transferable. Start now to get the best position
-              for the Incognitee launch. ​
+              <a class="text-incognitee-green" href="https://incognitee.io"
+                >Incognitee</a
+              >. TEERdays are calculated by multiplying the amount of TEER by
+              the number of days bonded. You can unbond your TEER anytime within
+              7 days, but you will lose a fraction of the accumulated TEERdays
+              if you do. TEERdays are non-transferable. Start now to get the
+              best position for the Incognitee launch. ​
             </p>
           </div>
         </div>
@@ -548,8 +552,11 @@
             </h1>
             <p class="mt-4 text-gray-300">
               TEERdays can be used to increase your revenue share for the launch
-              of <a class="text-incognitee-green" href="https://incognitee.io">Incognitee</a> on
-              Polkadot/Kusama and will also increase your governance voting
+              of
+              <a class="text-incognitee-green" href="https://incognitee.io"
+                >Incognitee</a
+              >
+              on Polkadot/Kusama and will also increase your governance voting
               power for future decisions related to Incognitee.
             </p>
           </div>
@@ -569,10 +576,20 @@
             <p class="mt-6 text-gray-300">
               1. First, you need to possess some TEER. Grab them at one of the
               avenues like
-              <a class="text-incognitee-green" href="https://www.kraken.com/prices/integritee?quote=usd&interval=24h"
+              <a
+                class="text-incognitee-green"
+                href="https://www.kraken.com/prices/integritee?quote=usd&interval=24h"
                 >Kraken</a
-              >, <a class="text-incognitee-green" href="https://www.gate.io/de/trade/TEER_USDT">Gate</a> or
-              <a class="text-incognitee-green" href="https://app.basilisk.cloud/trade?assetIn=1&assetOut=17"
+              >,
+              <a
+                class="text-incognitee-green"
+                href="https://www.gate.io/de/trade/TEER_USDT"
+                >Gate</a
+              >
+              or
+              <a
+                class="text-incognitee-green"
+                href="https://app.basilisk.cloud/trade?assetIn=1&assetOut=17"
                 >Basilisk</a
               >​<br />
 
