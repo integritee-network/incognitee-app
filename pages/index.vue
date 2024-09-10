@@ -1740,6 +1740,7 @@ input[type="number"] {
     }
   }
 }
+
 a {
   color: #24ad7c; /* Ensure this matches the .text-incognitee-green class */
 }
