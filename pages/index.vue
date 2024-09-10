@@ -1701,7 +1701,7 @@ input[type="number"] {
   }
 
   &__column-title {
-    color: $gray;
+    color: #88888c;
     margin-bottom: 32px;
     line-height: 150%;
     font-size: 1.125em;
@@ -1739,5 +1739,8 @@ input[type="number"] {
       }
     }
   }
+}
+a {
+  color: #24ad7c; /* Ensure this matches the .text-incognitee-green class */
 }
 </style>
