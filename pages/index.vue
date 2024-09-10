@@ -420,17 +420,7 @@
                         "
                         class="text-sm text-red-500"
                       >
-                        Not enough transferrable TEER. Please get free test TEER
-                        at our
-                        <a
-                          :href="
-                            'https://substratefaucet.xyz/integritee/' +
-                            accountStore.getAddress
-                          "
-                          target="_blank"
-                          class="text-indigo-500 underline"
-                          >testnet faucet</a
-                        >.
+                        Not enough transferrable TEER.
                       </div>
                       <div
                         v-else-if="pendingUnlock"
