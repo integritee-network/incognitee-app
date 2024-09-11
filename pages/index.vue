@@ -45,7 +45,7 @@
         "
       />
     </div>
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl">
       <div
         class="grid grid-cols-1 items-center gap-x-8 gap-y-16 lg:grid-cols-2"
       >
@@ -66,33 +66,34 @@
             Go-Live.
           </p>
           <div
-            class="mx-auto mt-10 grid max-w-lg grid-cols-2 gap-x-3 gap-y-3 sm:max-w-xl sm:grid-cols-4 sm:gap-x-3 lg:mx-0 lg:max-w-none lg:grid-cols-4"
-          >
-            <a href="https://talisman.xyz/download"
-              ><img
-                class="col-span-1 max-h-10 w-full object-contain lg:col-span-1"
-                src="/img/index/talisman-logo.svg"
-                alt="talisman"
-            /></a>
-            <a href="https://novawallet.io/"
-              ><img
-                class="col-span-1 max-h-7 w-full object-contain lg:col-span-1"
-                src="/img/index/nova-wallet-logo.svg"
-                alt="nova wallet"
-            /></a>
-            <a href="https://www.subwallet.app/"
-              ><img
-                class="col-span-1 max-h-10 w-full object-contain lg:col-span-1"
-                src="/img/index/sub-wallet-logo.svg"
-                alt="sub wallet"
-            /></a>
-            <a href="https://polkadot.js.org/extension/"
-              ><img
-                class="col-span-1 max-h-7 w-full object-contain lg:col-span-1"
-                src="/img/index/polkadotjs-logo.svg"
-                alt="polkajs"
-            /></a>
-          </div>
+  class="wallet-grid mx-auto mt-10 grid max-w-lg grid-cols-2 gap-x-3 gap-y-3 sm:max-w-xl sm:grid-cols-4 sm:gap-x-3 lg:mx-0 lg:max-w-none lg:grid-cols-4"
+>
+  <a href="https://talisman.xyz/download"
+    ><img
+      class="col-span-1 max-h-10 w-full object-contain lg:col-span-1"
+      src="/img/index/talisman-logo.svg"
+      alt="talisman"
+  /></a>
+  <a href="https://novawallet.io/"
+    ><img
+      class="col-span-1 max-h-7 w-full object-contain lg:col-span-1"
+      src="/img/index/nova-wallet-logo.svg"
+      alt="nova wallet"
+  /></a>
+  <a href="https://www.subwallet.app/"
+    ><img
+      class="col-span-1 max-h-10 w-full object-contain lg:col-span-1"
+      src="/img/index/sub-wallet-logo.svg"
+      alt="sub wallet"
+  /></a>
+  <a href="https://polkadot.js.org/extension/"
+    ><img
+      class="col-span-1 max-h-7 w-full object-contain lg:col-span-1"
+      src="/img/index/polkadotjs-logo.svg"
+      alt="polkajs"
+  /></a>
+</div>
+
           <div v-if="accounts.length < 1" class="mt-10 flex">
             <button
               @click="connect"
@@ -704,9 +705,7 @@
       </div>
     </div>
   </div>
-  <hr
-    class="my-20 border-0 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"
-  />
+  
 
   <footer class="footer">
     <div class="container">
@@ -1520,10 +1519,13 @@ input[type="number"] {
 }
 
 .footer {
+ margin-top: 50px;
+}
+
+.footer {
   &__logo {
     display: block;
-    width: 191px;
-    height: 40px;
+
     margin-bottom: 19px;
 
     @include slg {
@@ -1739,4 +1741,12 @@ input[type="number"] {
     }
   }
 }
+
+@media (max-width: 640px) {
+  .wallet-grid a:nth-child(3),
+  .wallet-grid a:nth-child(4) {
+    margin-top: 20px;
+  }
+}
+
 </style>

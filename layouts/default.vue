@@ -1,10 +1,11 @@
 <template>
   <div class="layout">
-    <header class="header">
-      <div class="header-content">
-        <Incognitee class="logo" />
+    <header class="container header">
+    
+        <Logo/>
+       
         <!--p class="address">{{ accountStore.getShortAddress }}</p -->
-      </div>
+     
     </header>
     <footer class="footer">
       <!--
@@ -90,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import Incognitee from "@/assets/img/incognitee-mask.svg";
+import Logo from '@/components/Logo'
 import { useAccount } from "@/store/account.ts";
 
 const accountStore = useAccount();
@@ -111,13 +112,14 @@ const accountStore = useAccount();
 
 .header {
   flex-shrink: 0; /* Prevents the header from shrinking */
+  padding: 10px 0px 10px 10px;
+
 }
 
 .header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1em;
 }
 
 .logo {
