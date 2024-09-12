@@ -421,17 +421,7 @@
                         "
                         class="text-sm text-red-500"
                       >
-                        Not enough transferrable TEER. Please get free test TEER
-                        at our
-                        <a
-                          :href="
-                            'https://substratefaucet.xyz/integritee/' +
-                            accountStore.getAddress
-                          "
-                          target="_blank"
-                          class="text-indigo-500 underline"
-                          >testnet faucet</a
-                        >.
+                        Not enough transferrable TEER.
                       </div>
                       <div
                         v-else-if="pendingUnlock"
@@ -1234,7 +1224,7 @@ watch(accountStore, async () => {
 const amountToBond = ref(0);
 const bondAmount = () => {
   // Handle the bonding process here
-  const amount = amountToBond.value * Math.pow(10, 12);
+  const amount = BigInt(amountToBond.value) * BigInt(Math.pow(10, 12));
   console.log(`Bonding ${amount}`);
   txStatus.value = "⌛ Bonding. Please sign the transaction in your wallet.";
   openStatusOverlay();
@@ -1263,7 +1253,7 @@ const bondAmount = () => {
 const amountToUnbond = ref(0);
 const unbondAmount = () => {
   // Handle the bonding process here
-  const amount = amountToUnbond.value * Math.pow(10, 12);
+  const amount = BigInt(amountToUnbond.value) * BigInt(Math.pow(10, 12));
   console.log(`Unbonding ${amount}`);
   txStatus.value = "⌛ Unbonding. Please sign the transaction in your wallet.";
   openStatusOverlay();
