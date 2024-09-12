@@ -28,6 +28,7 @@ import {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-bottom: 20px;
 
   svg {
     display: inline-block;

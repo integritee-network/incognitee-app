@@ -45,7 +45,7 @@
         "
       />
     </div>
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl">
       <div
         class="grid grid-cols-1 items-center gap-x-8 gap-y-16 lg:grid-cols-2"
       >
@@ -69,7 +69,7 @@
             Go-Live.
           </p>
           <div
-            class="mx-auto mt-10 grid max-w-lg grid-cols-2 gap-x-3 gap-y-3 sm:max-w-xl sm:grid-cols-4 sm:gap-x-3 lg:mx-0 lg:max-w-none lg:grid-cols-4"
+            class="wallet-grid mx-auto mt-10 grid max-w-lg grid-cols-2 gap-x-3 gap-y-3 sm:max-w-xl sm:grid-cols-4 sm:gap-x-3 lg:mx-0 lg:max-w-none lg:grid-cols-4"
           >
             <a href="https://talisman.xyz/download"
               ><img
@@ -96,6 +96,7 @@
                 alt="polkajs"
             /></a>
           </div>
+
           <div v-if="accounts.length < 1" class="mt-10 flex">
             <button
               @click="connect"
@@ -711,9 +712,6 @@
       </div>
     </div>
   </div>
-  <hr
-    class="my-20 border-0 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"
-  />
 
   <footer class="footer">
     <div class="container">
@@ -1527,10 +1525,13 @@ input[type="number"] {
 }
 
 .footer {
+  margin-top: 50px;
+}
+
+.footer {
   &__logo {
     display: block;
-    width: 191px;
-    height: 40px;
+
     margin-bottom: 19px;
 
     @include slg {
@@ -1744,6 +1745,13 @@ input[type="number"] {
         color: #7ca8ff;
       }
     }
+  }
+}
+
+@media (max-width: 640px) {
+  .wallet-grid a:nth-child(3),
+  .wallet-grid a:nth-child(4) {
+    margin-top: 20px;
   }
 }
 </style>
