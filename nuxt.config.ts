@@ -69,6 +69,7 @@ export default defineNuxtConfig({
     "/": { ssr: false },
     "/teerdays": { ssr: false },
     "/referral": { ssr: false },
+    "/referraltc": { ssr: false },
   },
   imports: {
     autoImport: false,

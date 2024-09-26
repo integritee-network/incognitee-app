@@ -1,163 +1,88 @@
 <template>
-  <div class="mx-auto max-w-7xl px-6 lg:px-8 mt-16 sm:mt-20 lg:mt-24">
-    <div
-      class="mx-auto grid max-w-2xl grid-cols-1 items-start gap-x-10 gap-y-16 sm:gap-y-24 lg:mx-0 lg:max-w-none lg:grid-cols-2">
-      <div class="w-full lg:w-4/5">
-        <div class="mx-auto max-w-2xl lg:text-left">
-          <p class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Invite Friends, Get Rewards!
-          </p>
-          <p class="mt-6 text-gray-300">
-            Join our exclusive Incognitee TEERdays referral program! Share the
-            love, invite your friends, and unlock amazing rewards in TEER. The
-            more you refer, the more you earn. Don’t miss out—start sharing
-            today and watch your perks pile up!
-          </p>
-        </div>
-        <div class="mt-10 flex">
-          <a href="https://try.incognitee.io/" target="_blank">
-            <button
-              class="incognitee-bg btn btn_gradient rounded-md px-3.5 py-2.5 text-sm font-semibold text-white mr-5">
-              Try Incognitee
-            </button>
-          </a>
-
-          <a href="https://teerdays.incognitee.io/" target="_blank">
-            <button
-              class="incognitee-blue ring-1 ring-inset ring-incognitee-green rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-incognitee-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-incognitee-green">
-              Earn TEERdays
-            </button>
-          </a>
-
-        </div>
-        <dl class="grid grid-cols-2 border-t border-gray-700 my-8 sm:grid-cols-4"></dl>
-     
-          <p class="text-xl font-bold tracking-tight text-white sm:text-xl">
-            Current active referral campaign
-          </p>
-          <!-- Countdown Timer -->
-          <div class="flex flex-wrap justify-between border-gray-700 pt-2 sm:grid sm:grid-cols-4">
-  <div class="flex flex-col items-center">
-    <dt class="text-sm font-semibold leading-6 text-gray-400">Days</dt>
-    <dd class="mt-2 text-3xl font-bold leading-10 tracking-tight text-white">{{ countdown.days }}</dd>
-  </div>
-  <div class="flex flex-col items-center">
-    <dt class="text-sm font-semibold leading-6 text-gray-400">Hours</dt>
-    <dd class="mt-2 text-3xl font-bold leading-10 tracking-tight text-white">{{ countdown.hours }}</dd>
-  </div>
-  <div class="flex flex-col items-center">
-    <dt class="text-sm font-semibold leading-6 text-gray-400">Minutes</dt>
-    <dd class="mt-2 text-3xl font-bold leading-10 tracking-tight text-white">{{ countdown.minutes }}</dd>
-  </div>
-  <div class="flex flex-col items-center">
-    <dt class="text-sm font-semibold leading-6 text-gray-400">Seconds</dt>
-    <dd class="mt-2 text-3xl font-bold leading-10 tracking-tight text-white">{{ countdown.seconds }}</dd>
-  </div>
-</div>
-
-       
-      </div>
-
-      <!-- Other content -->
-      <div class="lg:pr-4">
-  <div class="mx-auto max-w-2xl">
-    <dl class="grid grid-cols-3 gap-x-8 gap-y-2 lg:gap-y-16 lg:grid-cols-3">
-      <div class="flex flex-col">
-        <img class="col-span-1 h-40 lg:col-span-1" src="/img/index/prizes/prize1.svg" alt="prize1" />
-      </div>
-      <div class="flex flex-col">
-        <img class="col-span-1 h-40 lg:col-span-1" src="/img/index/prizes/prize2.svg" alt="prize2" />
-      </div>
-      <div class="flex flex-col">
-        <img class="col-span-1 h-40 lg:col-span-1" src="/img/index/prizes/prize3.svg" alt="prize3" />
-      </div>
-      <div class="flex flex-col">
-        <img class="col-span-1 h-40 lg:col-span-1" src="/img/index/prizes/1000points.svg" alt="1000points" />
-      </div>
-      <div class="flex flex-col">
-        <img class="col-span-1 h-40 lg:col-span-1" src="/img/index/prizes/400points.svg" alt="400points" />
-      </div>
-      <div class="flex flex-col">
-        <img class="col-span-1 h-40 lg:col-span-1" src="/img/index/prizes/200points.svg" alt="200points" />
-      </div>
-    </dl>
-  </div>
-</div>
-
-    </div>
-
-
-
-    <div class="my-20">
-      <div id="referralhero-dashboard-MFc4933b9201"></div>
-    </div>
-
-
-    <div class="my-20">
-      <p class=" mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-        Pointsystem
-      </p>
-
-      <div>
-        <div class="mt-6 border-t border-white/10">
-          <dl class="divide-y divide-white/10">
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-white">200 Points</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0"><span
-                  class="text-sm font-medium leading-6 text-white">Points conversion:</span> <br>
-                <ul class="list-disc list-outside px-4">
-                  <li> an advocate earns when their referral reaches the confirmed stage<br></li>
-                </ul>
-              </dd>
-            </div>
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-white">100 Points</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
-                <span class="text-sm font-medium leading-6 text-white">Points conversion:</span><br>
-                <ul class="list-disc list-outside px-4">
-                  <li>Points conversion: a person who has not been referred will earn for signing up for your
-                    campaign<br></li>
-                  <li>Points conversion: a referral (i.e. a friend) will earn for signing up for your campaign<br></li>
-                  <li>Points conversion: an advocate will earn for referring a unique visitor<br></li>
-                  <li>Multi-level conversion: an advocate will earn for a level-two confirmed referral<br></li>
-                  <li>Multi-level conversion: an advocate will earn for a level-three confirmed referral</li>
-                </ul>
-
-
-              </dd>
-            </div>
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-white">10 Points</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0"><span
-                  class="text-sm font-medium leading-6 text-white">Points for social actions:</span>
-                <br>
-                <ul class="list-disc list-outside px-4">
-                  <li>Join Discord<br></li>
-                  <li>Join Telegram<br></li>
-                </ul>
-              </dd>
-            </div>
-            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-white">1 Point</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0"><span
-                  class="text-sm font-medium leading-6 text-white">Points for social share
-                  action:</span><br>
-                <ul class="list-disc list-outside px-4">
-                  <li>Twitter<br></li>
-                  <li>Telegram<br></li>
-                  <li>Linkedin<br></li>
-                  <li>Reddit<br></li>
-                  <li>Mail</li>
-                </ul>
-              </dd>
-            </div>
-          </dl>
-        </div>
+    <div class="px-6 py-20 lg:px-8">
+      <div class="mx-auto max-w-3xl text-base leading-7 text-gray-300">
+        <h1 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">Incognitee TEERdays Referral Campaign T&C</h1>
+        <p class="mt-2 text-base leading-6 text-gray-400">Date: 28.09.2024</p>
+  
+        <h2 class="mt-10 text-xl font-bold tracking-tight text-white">1. Eligibility</h2>
+        <p class="mt-2">1.1 The Incognitee TEERdays Referral Campaign ("Campaign") is open to individuals who are at least 18 years old.</p>
+  
+        <h2 class="mt-10 text-xl font-bold tracking-tight text-white">2. Referral Program Overview</h2>
+        <p class="mt-2">2.1 The Campaign allows ("Referrers") to refer new members ("Referred Members") to Integritee in exchange for rewards as described below.</p>
+        <p>2.2 The Referrer and the Referred Member must each fulfill the terms and conditions of this Campaign to be eligible for any rewards.</p>
+  
+        <h2 class="mt-10 text-xl font-bold tracking-tight text-white">3. How to Participate</h2>
+        <p class="mt-2">3.1 To participate, Referrers must use their unique referral link/code, which can be found in their account dashboard or provided via email.</p>
+        <p>3.2 Referred Members must use the referral link/code when they sign up for the campaign for the first time.</p>
+        <p>3.3 The Referred Member must make a qualifying signup within 14 days of receiving the referral.</p>
+  
+        <h2 class="mt-10 text-xl font-bold tracking-tight text-white">4. Points & Rewards</h2>
+        <p class="mt-2">4.1 For each successful referral, the Referrer will receive points.</p>
+        <p>4.2 The Referred Member will also receive points.</p>
+        <p>4.3 Both the Referrer and the Referred Member will only be eligible for the points once the Referred Member completes a qualifying signup.</p>
+        <p>4.4 There is no limit of referrals per Referrer during the Campaign period.</p>
+        <p>4.5 Point system:</p>
+        <ul class="list-disc list-inside mt-4">
+          <li><strong class="text-white">200 Points:</strong> Points conversion: an advocate earns when their referral reaches the confirmed stage.</li>
+          <li><strong class="text-white">100 Points:</strong> 
+            <ul class="ml-4 list-disc">
+              <li>A person who has not been referred will earn for signing up for your campaign.</li>
+              <li>A referral (i.e., a friend) will earn for signing up for your campaign.</li>
+              <li>An advocate will earn for referring a unique visitor.</li>
+              <li>Multi-level conversion: an advocate will earn for a level-two confirmed referral.</li>
+              <li>Multi-level conversion: an advocate will earn for a level-three confirmed referral.</li>
+            </ul>
+          </li>
+          <li><strong class="text-white">10 Points:</strong> Points for social actions: Join Discord, Telegram.</li>
+          <li><strong class="text-white">1 Point:</strong> Social share action: Twitter, Telegram, Linkedin, Reddit, Mail.</li>
+        </ul>
+  
+        <h2 class="mt-10 text-xl font-bold tracking-tight text-white">4.6 Rewards:</h2>
+        <ul class="list-disc list-inside mt-4">
+          <li><strong>$200 in TEER:</strong> Nr 1 Leaderboard</li>
+          <li><strong>$100 in TEER:</strong> Nr 2 Leaderboard</li>
+          <li><strong>$50 in TEER:</strong> Nr 3 Leaderboard</li>
+          <li><strong>$10 in TEER:</strong> Reach 1000 Points</li>
+          <li><strong>$5 in TEER:</strong> Reach 400 Points</li>
+          <li><strong>$1 in TEER:</strong> Reach 200 Points</li>
+        </ul>
+  
+        <h2 class="mt-10 text-xl font-bold tracking-tight text-white">5. Reward Delivery</h2>
+        <p class="mt-2">5.1 Rewards will be credited to the Referrer's wallet address within latest [14] days after the qualifying status has been verified.</p>
+        <p>5.2 Rewards cannot be transferred, exchanged for cash, or combined with other offers unless explicitly stated.</p>
+  
+        <h2 class="mt-10 text-xl font-bold tracking-tight text-white">6. Fraud and Abuse</h2>
+        <p class="mt-2">6.1 Integritee reserves the right to investigate and disqualify any Referrers or Referred Customers suspected of fraud, abuse, or other violations of these Terms and Conditions.</p>
+        <p>6.2 Any attempt to manipulate or falsify referrals (e.g., creating fake accounts) will result in immediate disqualification and forfeiture of rewards.</p>
+  
+        <h2 class="mt-10 text-xl font-bold tracking-tight text-white">7. Program Termination</h2>
+        <p class="mt-2">7.1 Integritee reserves the right to modify, suspend, or terminate this Campaign at any time without prior notice.</p>
+        <p>7.2 If the Campaign is terminated, no further referrals will be processed, but previously earned rewards may still be honored, at Integritee’s discretion.</p>
+  
+        <h2 class="mt-10 text-xl font-bold tracking-tight text-white">8. Changes to Terms</h2>
+        <p class="mt-2">8.1 Integritee may update these Terms and Conditions at any time by posting changes on its website. Continued participation in the Campaign after such changes will constitute acceptance of the new terms.</p>
+  
+        <h2 class="mt-10 text-xl font-bold tracking-tight text-white">9. Liability</h2>
+        <p class="mt-2">9.1 Integritee shall not be liable for any direct, indirect, incidental, or consequential damages, losses, or expenses arising out of or related to participation in this Campaign, to the extent permitted by Swiss law.</p>
+        <p>9.2 Integritee is not responsible for any technical issues, delays, or errors in the processing of referrals or rewards, provided such issues are not the result of gross negligence or willful misconduct by Integritee.</p>
+  
+        <h2 class="mt-10 text-xl font-bold tracking-tight text-white">10. Data Privacy</h2>
+        <p class="mt-2">10.1 By participating in this Campaign, participants consent to the collection and processing of their personal data in accordance with the Swiss Federal Act on Data Protection (FADP).</p>
+        <p>10.2 Personal data will be processed exclusively for the purpose of administering the Campaign and will not be shared with third parties, except as required by law.</p>
+        <p>10.3 Participants can request access to, correction of, or deletion of their personal data by contacting us at hello@integritee.network.</p>
+  
+        <h2 class="mt-10 text-xl font-bold tracking-tight text-white">11. Governing Law and Jurisdiction</h2>
+        <p class="mt-2">11.1 These Terms and Conditions are governed by and construed in accordance with Swiss law.</p>
+        <p>11.2 Any disputes arising from or related to this Campaign shall be subject to the exclusive jurisdiction of the courts of Zurich.</p>
+  
+        <h2 class="mt-10 text-xl font-bold tracking-tight text-white">12. Severability</h2>
+        <p class="mt-2">12.1 If any provision of these Terms and Conditions is found to be invalid or unenforceable, the remaining provisions will remain in full force and effect.</p>
+  
+        <h2 class="mt-10 text-xl font-bold tracking-tight text-white">13. Contact Information</h2>
+        <p class="mt-2">13.1 For questions regarding the Campaign or these Terms and Conditions, please contact us at hello@integritee.network.</p>
       </div>
     </div>
-  </div>
-
-  <footer class="footer">
+    <footer class="footer">
     <div class="container">
       <div class="footer__row">
         <div class="footer__column footer__column_about">
@@ -285,10 +210,11 @@
       </div>
     </div>
   </footer>
-
-</template>
+  </template>
+  
 
 <script setup lang="ts">
+
 import Logo from "@/components/Logo/index.vue";
 import Socials from "@/components/Socials/index.vue";
 import {
@@ -314,45 +240,6 @@ import {
   TWITTER_LINK,
   YOUTUBE_LINK,
 } from "@/configs/app.config";
-import { ref, onMounted } from 'vue';
-
-const countdown = ref({
-  days: 0,
-  hours: 0,
-  minutes: 0,
-  seconds: 0
-});
-
-const startCountdown = () => {
-  const endDate = new Date();
-  endDate.setDate(endDate.getDate() + 14); // Set countdown to 14 days from now
-
-  const updateCountdown = () => {
-    const now = new Date().getTime();
-    const timeLeft = endDate.getTime() - now;
-
-    // Time calculations for days, hours, minutes, and seconds
-    countdown.value.days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-    countdown.value.hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    countdown.value.minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-    countdown.value.seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-    // Stop the countdown when it reaches zero
-    if (timeLeft < 0) {
-      countdown.value.days = 0;
-      countdown.value.hours = 0;
-      countdown.value.minutes = 0;
-      countdown.value.seconds = 0;
-    }
-  };
-
-  // Update the countdown every second
-  setInterval(updateCountdown, 1000);
-};
-
-onMounted(() => {
-  startCountdown();
-});
 </script>
 
 <style scoped>
