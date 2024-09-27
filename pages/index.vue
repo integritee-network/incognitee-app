@@ -59,40 +59,43 @@
           </h2>
           <p class="mt-6 text-gray-300">
             A new era of digital currency transfer is about to come. Our
-            <a class="text-incognitee-green" href="https://incognitee.io">Incognitee</a> Web3 solution
-            empowers you to make secure, private, and anonymous transactions
-            without compromising control over your assets. <br /><br />
+            <a class="text-incognitee-green" href="https://incognitee.io"
+              >Incognitee</a
+            >
+            Web3 solution empowers you to make secure, private, and anonymous
+            transactions without compromising control over your assets.
+            <br /><br />
             Collect TEERdays now and save the pole position for the Incognitee
             Go-Live.
           </p>
           <div
-  class="wallet-grid mx-auto mt-10 grid max-w-lg grid-cols-2 gap-x-3 gap-y-3 sm:max-w-xl sm:grid-cols-4 sm:gap-x-3 lg:mx-0 lg:max-w-none lg:grid-cols-4"
->
-  <a href="https://talisman.xyz/download"
-    ><img
-      class="col-span-1 max-h-10 w-full object-contain lg:col-span-1"
-      src="/img/index/talisman-logo.svg"
-      alt="talisman"
-  /></a>
-  <a href="https://novawallet.io/"
-    ><img
-      class="col-span-1 max-h-7 w-full object-contain lg:col-span-1"
-      src="/img/index/nova-wallet-logo.svg"
-      alt="nova wallet"
-  /></a>
-  <a href="https://www.subwallet.app/"
-    ><img
-      class="col-span-1 max-h-10 w-full object-contain lg:col-span-1"
-      src="/img/index/sub-wallet-logo.svg"
-      alt="sub wallet"
-  /></a>
-  <a href="https://polkadot.js.org/extension/"
-    ><img
-      class="col-span-1 max-h-7 w-full object-contain lg:col-span-1"
-      src="/img/index/polkadotjs-logo.svg"
-      alt="polkajs"
-  /></a>
-</div>
+            class="wallet-grid mx-auto mt-10 grid max-w-lg grid-cols-2 gap-x-3 gap-y-3 sm:max-w-xl sm:grid-cols-4 sm:gap-x-3 lg:mx-0 lg:max-w-none lg:grid-cols-4"
+          >
+            <a href="https://talisman.xyz/download"
+              ><img
+                class="col-span-1 max-h-10 w-full object-contain lg:col-span-1"
+                src="/img/index/talisman-logo.svg"
+                alt="talisman"
+            /></a>
+            <a href="https://novawallet.io/"
+              ><img
+                class="col-span-1 max-h-7 w-full object-contain lg:col-span-1"
+                src="/img/index/nova-wallet-logo.svg"
+                alt="nova wallet"
+            /></a>
+            <a href="https://www.subwallet.app/"
+              ><img
+                class="col-span-1 max-h-10 w-full object-contain lg:col-span-1"
+                src="/img/index/sub-wallet-logo.svg"
+                alt="sub wallet"
+            /></a>
+            <a href="https://polkadot.js.org/extension/"
+              ><img
+                class="col-span-1 max-h-7 w-full object-contain lg:col-span-1"
+                src="/img/index/polkadotjs-logo.svg"
+                alt="polkajs"
+            /></a>
+          </div>
 
           <div class="mt-10 flex">
             <button v-if="accounts.length < 1"
@@ -425,17 +428,7 @@
                         "
                         class="text-sm text-red-500"
                       >
-                        Not enough transferrable TEER. Please get free test TEER
-                        at our
-                        <a
-                          :href="
-                            'https://substratefaucet.xyz/integritee/' +
-                            accountStore.getAddress
-                          "
-                          target="_blank"
-                          class="text-indigo-500 underline"
-                          >testnet faucet</a
-                        >.
+                        Not enough transferrable TEER.
                       </div>
                       <div
                         v-else-if="pendingUnlock"
@@ -533,12 +526,13 @@
             <p class="mt-4 text-gray-300">
               By bonding your TEER now, you can already accumulate TEERdays
               prior to the launch of
-              <a class="text-incognitee-green" href="https://incognitee.io">Incognitee</a>. TEERdays are
-              calculated by multiplying the amount of TEER by the number of days
-              bonded. You can unbond your TEER anytime within 7 days, but you
-              will lose a fraction of the accumulated TEERdays if you do.
-              TEERdays are non-transferable. Start now to get the best position
-              for the Incognitee launch. ​
+              <a class="text-incognitee-green" href="https://incognitee.io"
+                >Incognitee</a
+              >. TEERdays are calculated by multiplying the amount of TEER by
+              the number of days bonded. You can unbond your TEER anytime within
+              7 days, but you will lose a fraction of the accumulated TEERdays
+              if you do. TEERdays are non-transferable. Start now to get the
+              best position for the Incognitee launch. ​
             </p>
           </div>
         </div>
@@ -556,8 +550,11 @@
             </h1>
             <p class="mt-4 text-gray-300">
               TEERdays can be used to increase your revenue share for the launch
-              of <a class="text-incognitee-green" href="https://incognitee.io">Incognitee</a> on
-              Polkadot/Kusama and will also increase your governance voting
+              of
+              <a class="text-incognitee-green" href="https://incognitee.io"
+                >Incognitee</a
+              >
+              on Polkadot/Kusama and will also increase your governance voting
               power for future decisions related to Incognitee.
             </p>
           </div>
@@ -577,10 +574,20 @@
             <p class="mt-6 text-gray-300">
               1. First, you need to possess some TEER. Grab them at one of the
               avenues like
-              <a class="text-incognitee-green" href="https://www.kraken.com/prices/integritee?quote=usd&interval=24h"
+              <a
+                class="text-incognitee-green"
+                href="https://www.kraken.com/prices/integritee?quote=usd&interval=24h"
                 >Kraken</a
-              >, <a class="text-incognitee-green" href="https://www.gate.io/de/trade/TEER_USDT">Gate</a> or
-              <a class="text-incognitee-green" href="https://app.basilisk.cloud/trade?assetIn=1&assetOut=17"
+              >,
+              <a
+                class="text-incognitee-green"
+                href="https://www.gate.io/de/trade/TEER_USDT"
+                >Gate</a
+              >
+              or
+              <a
+                class="text-incognitee-green"
+                href="https://app.basilisk.cloud/trade?assetIn=1&assetOut=17"
                 >Basilisk</a
               >​<br />
 
@@ -712,7 +719,6 @@
       </div>
     </div>
   </div>
-  
 
   <footer class="footer">
     <div class="container">
@@ -1225,7 +1231,7 @@ watch(accountStore, async () => {
 const amountToBond = ref(0);
 const bondAmount = () => {
   // Handle the bonding process here
-  const amount = amountToBond.value * Math.pow(10, 12);
+  const amount = BigInt(amountToBond.value) * BigInt(Math.pow(10, 12));
   console.log(`Bonding ${amount}`);
   txStatus.value = "⌛ Bonding. Please sign the transaction in your wallet.";
   openStatusOverlay();
@@ -1254,7 +1260,7 @@ const bondAmount = () => {
 const amountToUnbond = ref(0);
 const unbondAmount = () => {
   // Handle the bonding process here
-  const amount = amountToUnbond.value * Math.pow(10, 12);
+  const amount = BigInt(amountToUnbond.value) * BigInt(Math.pow(10, 12));
   console.log(`Unbonding ${amount}`);
   txStatus.value = "⌛ Unbonding. Please sign the transaction in your wallet.";
   openStatusOverlay();
@@ -1526,7 +1532,7 @@ input[type="number"] {
 }
 
 .footer {
- margin-top: 50px;
+  margin-top: 50px;
 }
 
 .footer {
@@ -1755,5 +1761,4 @@ input[type="number"] {
     margin-top: 20px;
   }
 }
-
 </style>

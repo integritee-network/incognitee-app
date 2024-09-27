@@ -1,11 +1,9 @@
 <template>
   <div class="layout">
     <header class="container header">
-    
-        <Logo/>
-       
-        <!--p class="address">{{ accountStore.getShortAddress }}</p -->
-     
+      <Logo />
+
+      <!--p class="address">{{ accountStore.getShortAddress }}</p -->
     </header>
     <footer class="footer">
       <!--
@@ -91,7 +89,7 @@
 </template>
 
 <script setup lang="ts">
-import Logo from '@/components/Logo'
+import Logo from "@/components/Logo";
 import { useAccount } from "@/store/account.ts";
 
 const accountStore = useAccount();
@@ -113,7 +111,6 @@ const accountStore = useAccount();
 .header {
   flex-shrink: 0; /* Prevents the header from shrinking */
   padding: 10px 0px 10px 10px;
-
 }
 
 .header-content {
