@@ -105,7 +105,7 @@
             >
               Connect Wallet
             </button>
-            <a href="https://teerdays.incognitee.io/referral" target="_blank">
+            <a href="referral" target="_blank">
               <button
                 class="ring-1 ring-inset ring-incognitee-green rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-incognitee-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-incognitee-green"
               >

@@ -26,7 +26,7 @@
             </button>
           </a>
 
-          <a href="https://teerdays.incognitee.io/" target="_blank">
+          <a href="/" target="_blank">
             <button
               class="incognitee-blue ring-1 ring-inset ring-incognitee-green rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-incognitee-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-incognitee-green"
             >

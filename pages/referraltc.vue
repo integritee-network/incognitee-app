@@ -65,7 +65,7 @@
         </li>
         <li>
           <strong class="text-white">100 Points:</strong>
-          <ul class="ml-4 list-disc">
+          <ul class="ml-8 list-disc">
             <li>
               A person who has not been referred will earn for signing up for
               your campaign.
