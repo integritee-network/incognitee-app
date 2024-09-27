@@ -8,11 +8,6 @@ export default defineNuxtConfig({
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
       meta: [
-        // {
-        //   hid: 'robots',
-        //   name: 'robots',
-        //   content: 'noindex',
-        // },
         {
           hid: "msapplication-TileColor",
           name: "msapplication-TileColor",
@@ -52,6 +47,19 @@ export default defineNuxtConfig({
           color: "#1c1c26",
         },
       ],
+      script: [
+        {
+          hid: "referralhero",
+          innerHTML: `
+            !function(m,a,i,t,r,e){if(m.RH)return;r=m.RH={},r.uuid=t,r.loaded=0,r.base_url=i,r.queue=[],m.rht=function(){r.queue.push(arguments)};e=a.getElementsByTagName('script')[0],c=a.createElement('script');c.async=!0,c.src='https://referralhero-global-code.s3.amazonaws.com/'+'production'+'/'+t+'.js',e.parentNode.insertBefore(c,e)}(window,document,'https://app.referralhero.com/','RHd320fee641');
+          `,
+          type: "text/javascript",
+          charset: "utf-8",
+        },
+      ],
+      __dangerouslyDisableSanitizersByTagID: {
+        referralhero: ["innerHTML"],
+      },
     },
   },
   experimental: {
@@ -60,6 +68,8 @@ export default defineNuxtConfig({
   routeRules: {
     "/": { ssr: false },
     "/teerdays": { ssr: false },
+    "/referral": { ssr: false },
+    "/referraltc": { ssr: false },
   },
   imports: {
     autoImport: false,
