@@ -98,20 +98,21 @@
           </div>
 
           <div class="mt-10 flex">
-            <button v-if="accounts.length < 1"
+            <button
+              v-if="accounts.length < 1"
               @click="connect"
               class="mr-5 incognitee-bg btn btn_gradient rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
             >
               Connect Wallet
-            </button>  
+            </button>
             <a href="https://teerdays.incognitee.io/referral" target="_blank">
-             <button
-    class="ring-1 ring-inset ring-incognitee-green rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-incognitee-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-incognitee-green"
-  >
-  Refer a friend
-  </button></a>
+              <button
+                class="ring-1 ring-inset ring-incognitee-green rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-incognitee-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-incognitee-green"
+              >
+                Refer a friend
+              </button></a
+            >
           </div>
-         
         </div>
         <div class="hidden sm:block sm:pl-40 mx-auto w-full max-w-xl lg:mx-0">
           <img

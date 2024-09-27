@@ -55,11 +55,11 @@ export default defineNuxtConfig({
           `,
           type: "text/javascript",
           charset: "utf-8",
-        }
+        },
       ],
       __dangerouslyDisableSanitizersByTagID: {
-        referralhero: ['innerHTML']
-      }
+        referralhero: ["innerHTML"],
+      },
     },
   },
   experimental: {
