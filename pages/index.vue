@@ -1,1395 +1,1581 @@
 <template>
-  <div class="text-center mb-17 sm:mb-20 lg:mb-20 py-4 lg:px-4">
-    <div
-      class="p-2 incognitee-bg items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex"
-      role="alert"
-    >
+  <div class="mt-10 incognitee-border-gradient">
+    <div class="text-center mb-17 sm:mb-20 lg:mb-20 py-4 lg:px-4">
+      <div
+        class="p-2 incognitee-bg items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex"
+        role="alert"
+      >
       <span
         class="flex rounded-full incognitee-blue uppercase px-2 py-1 text-xs font-bold mr-3"
-        >Note</span
+      >Note</span
       >
-      <span class="text-xs mr-2 text-left flex-auto"
-        >You need some signer extension to use this page. Please make sure to
-        enable your extension and reload the page in case the connect button
-        doesn't work.</span
-      >
+        <span class="text-xs mr-2 text-left flex-auto"
+        >This page is not yet live for mainnet. please visit <a href="https://try.incognitee.io">try.incognitee.io</a> for the latest version of our paseo testnet wallet</span
+        >
+      </div>
     </div>
-  </div>
-
-  <div class="py-24 sm:py-32 container">
+    <div class="text-center mb-17 sm:mb-20 lg:mb-20 py-4 lg:px-4">
+      <div
+        class="p-2 incognitee-bg items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex"
+        role="alert"
+      >
+      <span
+        class="flex rounded-full incognitee-blue uppercase px-2 py-1 text-xs font-bold mr-3"
+      >Note</span
+      >
+        <span class="text-xs mr-2 text-left flex-auto"
+        >If you are looking for our TEERDAYS page, please follow <a href="/teerdays">this link</a></span
+        >
+      </div>
+    </div>
     <div
-      class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-      aria-hidden="true"
+      class="flex flex-row justify-between w-full text-center gap-4 container mb-10"
     >
-      <div
-        class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-        style="
-          clip-path: polygon(
-            74.1% 44.1%,
-            100% 61.6%,
-            97.5% 26.9%,
-            85.5% 0.1%,
-            80.7% 2%,
-            72.5% 32.5%,
-            60.2% 62.4%,
-            52.4% 68.1%,
-            47.5% 58.3%,
-            45.2% 34.5%,
-            27.5% 76.7%,
-            0.1% 64.9%,
-            17.9% 100%,
-            27.6% 76.8%,
-            76.1% 97.7%,
-            74.1% 44.1%
-          );
-        "
-      />
-    </div>
-    <div class="mx-auto max-w-7xl">
-      <div
-        class="grid grid-cols-1 items-center gap-x-8 gap-y-16 lg:grid-cols-2"
-      >
-        <div class="mx-auto w-full max-w-xl lg:mx-0">
-          <h2
-            class="title text-4xl font-bold tracking-tight text-white mt-16 sm:mt-15 lg:mt-7 sm:text-6xl"
-          >
-            Secure. <br />
-            Anonymous. <br />
-            Decentralized.
-          </h2>
-          <p class="mt-6 text-gray-300">
-            A new era of digital currency transfer is about to come. Our
-            <a class="text-incognitee-green" href="https://incognitee.io"
-              >Incognitee</a
-            >
-            Web3 solution empowers you to make secure, private, and anonymous
-            transactions without compromising control over your assets.
-            <br /><br />
-            Collect TEERdays now and save the pole position for the Incognitee
-            Go-Live.
-          </p>
-          <div
-            class="wallet-grid mx-auto mt-10 grid max-w-lg grid-cols-2 gap-x-3 gap-y-3 sm:max-w-xl sm:grid-cols-4 sm:gap-x-3 lg:mx-0 lg:max-w-none lg:grid-cols-4"
-          >
-            <a href="https://talisman.xyz/download"
-              ><img
-                class="col-span-1 max-h-10 w-full object-contain lg:col-span-1"
-                src="/img/index/talisman-logo.svg"
-                alt="talisman"
-            /></a>
-            <a href="https://novawallet.io/"
-              ><img
-                class="col-span-1 max-h-7 w-full object-contain lg:col-span-1"
-                src="/img/index/nova-wallet-logo.svg"
-                alt="nova wallet"
-            /></a>
-            <a href="https://www.subwallet.app/"
-              ><img
-                class="col-span-1 max-h-10 w-full object-contain lg:col-span-1"
-                src="/img/index/sub-wallet-logo.svg"
-                alt="sub wallet"
-            /></a>
-            <a href="https://polkadot.js.org/extension/"
-              ><img
-                class="col-span-1 max-h-7 w-full object-contain lg:col-span-1"
-                src="/img/index/polkadotjs-logo.svg"
-                alt="polkajs"
-            /></a>
-          </div>
 
-          <div class="mt-10 flex">
-            <button
-              v-if="accounts.length < 1"
-              @click="connect"
-              class="mr-5 incognitee-bg btn btn_gradient rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
-            >
-              Connect Wallet
-            </button>
-            <!-- <a href="referral" target="_blank">
-              <button
-                class="ring-1 ring-inset ring-incognitee-green rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-incognitee-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-incognitee-green"
-              >
-                Refer a friend
-              </button></a
-            > -->
-          </div>
-        </div>
-        <div class="hidden sm:block sm:pl-40 mx-auto w-full max-w-xl lg:mx-0">
-          <img
-            class="col-span-1 w-80 w-full object-contain lg:col-span-1"
-            src="/img/index/incognitee-wallet.png"
-            alt="polkajs"
-          />
-        </div>
+      <div class="currency-box p-3 gap-2 basis-1/2" @click="openAssetsInfo">
+        <Polkadot class="w-[30px] h-[30px]" />
+        <p class="text-xs">DOT</p>
+        <span
+          class="inline-flex items-center rounded-lg bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600"
+          >coming soon</span
+        >
+      </div>
+      <div
+        class="currency-box gap-2 p-3 basis-1/2 border-2 border-incognitee-green"
+      >
+        <Paseo class="w-[30px] h-[30px]" />
+        <p class="text-xs">PAS<br />PASEO</p>
+      </div>
+      <div class="currency-box gap-2 p-3 basis-1/2" @click="openAssetsInfo">
+        <USDC class="w-[30px] h-[30px]" />
+        <p class="text-xs">USDC</p>
+        <span
+          class="inline-flex items-center rounded-lg bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600"
+          >coming soon</span
+        >
       </div>
     </div>
 
-    <hr
-      class="my-20 border-0 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"
-    />
-
-    <div class="mb-20">
-      <dl
-        class="mt-5 grid grid-cols-1 divide-y divide-gray-700 overflow-hidden rounded-lg bg-gray-800 shadow md:grid-cols-3 md:divide-x md:divide-y-0"
-      >
-        <div class="px-4 py-5 sm:p-6">
-          <svg
-            class="h-6 w-6 mb-3 text-white"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
-            />
-          </svg>
-          <dt class="text-base font-normal text-gray-300">TEERday holders</dt>
-          <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
-            <div
-              class="flex items-baseline text-2xl font-semibold text-incognitee-green"
-            >
-              {{ summaryHolders }}
-            </div>
-          </dd>
-        </div>
-        <div class="px-4 py-5 sm:p-6">
-          <svg
-            class="h-6 w-6 mb-3 text-white"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"
-            />
-          </svg>
-          <dt class="text-base font-normal text-gray-300">Total TEER bonded</dt>
-          <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
-            <div
-              class="flex items-baseline text-2xl font-semibold text-incognitee-green"
-            >
-              {{ summaryTeerBonded.toFixed(2) }}
-            </div>
-          </dd>
-        </div>
-        <div class="px-4 py-5 sm:p-6">
-          <svg
-            class="h-6 w-6 mb-3 text-white"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"
-            />
-          </svg>
-          <dt class="text-base font-normal text-gray-300">
-            Total TEERdays active
-          </dt>
-          <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
-            <div
-              class="flex items-baseline text-2xl font-semibold text-incognitee-green"
-            >
-              {{ summaryTeerDays.toFixed(2) }}
-            </div>
-          </dd>
-        </div>
-      </dl>
-    </div>
-
-    <div
-      v-if="accounts.length > 0"
-      ref="walletSection"
-      id="wallet"
-      class="py-12 sm:py-16"
-    >
-      <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div class="mx-auto max-w-2xl lg:max-w-none">
-          <h1
-            class="title mt-2 text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl"
-          >
-            My Wallet
-          </h1>
-
-          <div class="mt-5">
-            <div
-              class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 my-10"
-            >
-              <div class="sm:col-span-3">
-                <label
-                  for="account.address"
-                  class="text-sm font-medium leading-6 text-gray-300"
-                  >Select your account</label
-                >
-                <div class="mt-2">
-                  <select
-                    v-model="selectedAccount"
-                    id="account.address"
-                    name="account.address"
-                    placeholder="account.address"
-                    class="w-full rounded-md border-0 bg-gray-800 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-700 focus:ring-1 focus:ring-inset focus:ring-incognitee-green sm:text-sm sm:leading-6"
-                  >
-                    <option
-                      v-for="account in accounts"
-                      :key="account.address"
-                      :value="account.address"
-                    >
-                      {{ account.meta.name }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="sm:col-span-3">
-                <label
-                  for="last-name"
-                  class="text-sm font-medium leading-6 text-gray-300"
-                  >Selected Address</label
-                >
-                <div class="mt-2">
-                  <span class="wallet-address text-sm text-gray-300">{{
-                    accountStore.getAddress
-                  }}</span>
-                </div>
-              </div>
-            </div>
-
-            <div v-if="selectedAccount">
-              <div v-if="isFetchingTeerBalance">
-                <div
-                  class="spinner border-t-transparent border-solid animate-spin rounded-full border-gray-400 border-4 h-8 w-8"
-                ></div>
-              </div>
-
-              <div v-else class="mx-auto">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-                  <div>
-                    <div
-                      class="rounded-lg bg-gray-800 shadow-sm ring-1 ring-gray-700 pb-5"
-                    >
-                      <dl class="flex flex-wrap">
-                        <div
-                          class="w-full flex flex-col md:flex-row justify-between px-6 pt-6"
-                        >
-                          <div class="flex-auto mb-4 md:mb-0">
-                            <dt
-                              class="text-sm font-semibold leading-6 text-gray-300"
-                            >
-                              Current bond
-                            </dt>
-                            <dd
-                              class="mt-1 text-base font-semibold leading-6 text-white"
-                            >
-                              {{
-                                currentBond ? currentBond.getTeerBonded() : 0
-                              }}
-                              TEER
-                            </dd>
-                          </div>
-
-                          <div class="flex-auto text-left md:text-right">
-                            <dt
-                              class="text-sm font-semibold leading-6 text-gray-300"
-                            >
-                              Accumulated TEERdays
-                            </dt>
-                            <dd
-                              class="mt-1 text-base font-semibold leading-6 text-white"
-                            >
-                              {{ currentBond ? currentBond.getTeerDays() : 0 }}
-                              TEERdays
-                            </dd>
-                          </div>
-                        </div>
-
-                        <div
-                          class="mt-6 flex w-full flex-none gap-x-4 border-t border-gray-700 px-6 pt-6"
-                        >
-                          <dt
-                            class="text-sm font-semibold leading-6 text-gray-300"
-                          >
-                            Transferrable
-                          </dt>
-                          <dd class="text-sm leading-6 text-gray-400">
-                            <time datetime="2023-01-31"
-                              >{{
-                                accountStore.getHumanTransferrable
-                              }}
-                              TEER</time
-                            >
-                          </dd>
-                        </div>
-
-                        <div
-                          v-if="accountStore.frozen > 0"
-                          class="flex w-full flex-none gap-x-4 px-6"
-                        >
-                          <dt
-                            class="text-sm font-semibold leading-6 text-gray-300"
-                          >
-                            Locked
-                          </dt>
-                          <dd class="text-sm leading-6 text-gray-400">
-                            <time datetime="2023-01-31"
-                              >{{ accountStore.getHumanFrozen }} TEER</time
-                            >
-                          </dd>
-                        </div>
-
-                        <div
-                          v-if="accountStore.reserved > 0"
-                          class="flex w-full flex-none gap-x-4 px-6"
-                        >
-                          <dt
-                            class="text-sm font-semibold leading-6 text-gray-300"
-                          >
-                            Reserved
-                          </dt>
-                          <dd class="text-sm leading-6 text-gray-400">
-                            <time datetime="2023-01-31"
-                              >{{ accountStore.getHumanReserved }} TEER</time
-                            >
-                          </dd>
-                        </div>
-
-                        <div
-                          v-if="pendingUnlock"
-                          class="w-full flex justify-between flex-col md:flex-row px-6 pt-6"
-                        >
-                          <div class="flex-auto mb-4 md:mb-0">
-                            <div class="flex w-full flex-none gap-x-4">
-                              <dt
-                                class="text-sm font-semibold leading-6 text-gray-300"
-                              >
-                                Pending unlock
-                              </dt>
-                              <dd class="text-sm leading-6 text-gray-400">
-                                <time datetime="2023-01-31"
-                                  >{{
-                                    pendingUnlock
-                                      ? pendingUnlock.getTeerToUnlock()
-                                      : 0
-                                  }}
-                                  TEER</time
-                                >
-                              </dd>
-                            </div>
-
-                            <div class="flex w-full flex-none gap-x-4">
-                              <dt
-                                class="text-sm font-semibold leading-6 text-gray-300"
-                              >
-                                Unlocked on
-                              </dt>
-                              <dd class="text-sm leading-6 text-gray-400">
-                                <time datetime="2023-01-31">{{
-                                  pendingUnlock?.getDueDateStr()
-                                }}</time>
-                              </dd>
-                            </div>
-                          </div>
-
-                          <div
-                            v-if="pendingUnlock?.canWithdraw()"
-                            class="flex-auto text-left md:text-right gap-x-4"
-                          >
-                            <button
-                              @click="withdrawUnbonded"
-                              class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white btn btn_gradient"
-                            >
-                              Withdraw!
-                            </button>
-                          </div>
-                        </div>
-                      </dl>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div>
-                      <div class="text-sm font-medium leading-6 text-gray-300">
-                        Bond TEER to accumulate TEERdays
-                      </div>
-                      <div
-                        v-if="
-                          accountStore.getTransferrable <
-                          BigInt(Math.pow(10, 9))
-                        "
-                        class="text-sm text-red-500"
-                      >
-                        Not enough transferrable TEER.
-                      </div>
-                      <div
-                        v-else-if="pendingUnlock"
-                        class="text-sm text-red-500"
-                      >
-                        Can't bond more during unbonding period
-                      </div>
-                      <div v-else>
-                        <form @submit.prevent="bondAmount" class="space-y-2">
-                          <div class="flex flex-col sm:flex-row sm:space-x-2">
-                            <input
-                              type="number"
-                              v-model="amountToBond"
-                              placeholder="Enter amount to bond"
-                              step="0.1"
-                              :min="0.1"
-                              :max="
-                                Number(
-                                  accountStore.getTransferrable /
-                                    BigInt(Math.pow(10, 12)),
-                                ) - 0.1
-                              "
-                              required
-                              class="flex-grow rounded-md border-0 bg-gray-800 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-700 focus:ring-1 focus:ring-inset focus:ring-incognitee-green sm:text-sm sm:leading-6"
-                            />
-                            <button
-                              type="submit"
-                              class="w-full sm:w-40 mt-5 sm:mt-0 inline-flex justify-center items-center px-4 py-2 text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 btn btn_gradient"
-                            >
-                              Bond!
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-
-                    <div class="form-container mt-8" v-if="currentBond">
-                      <div class="text-sm font-medium leading-6 text-gray-300">
-                        Unbond TEER
-                      </div>
-
-                      <div v-if="pendingUnlock" class="text-sm text-red-500">
-                        Not possible until pending unlock expired and withdrawn.
-                      </div>
-
-                      <div v-else class="space-y-2">
-                        <form @submit.prevent="unbondAmount" class="space-y-2">
-                          <div class="flex flex-col sm:flex-row sm:space-x-2">
-                            <input
-                              type="number"
-                              v-model="amountToUnbond"
-                              placeholder="Enter amount to unbond"
-                              step="0.1"
-                              :min="0.1"
-                              :max="currentBond.teerBonded"
-                              required
-                              class="flex-grow rounded-md border-0 bg-gray-800 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-700 focus:ring-1 focus:ring-inset focus:ring-incognitee-green sm:text-sm sm:leading-6"
-                            />
-                            <button
-                              type="submit"
-                              class="w-full sm:w-40 mt-5 sm:mt-0 inline-flex justify-center items-center px-4 py-2 text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 btn btn_gradient"
-                            >
-                              Unbond!
-                            </button>
-                          </div>
-                        </form>
-                        <p
-                          class="mt-2 text-xs text-gray-500"
-                          id="email-description"
-                        >
-                          Unbonded TEER will be locked for 7 days.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 my-10">
-      <div
-        class="sm:col-span-3 rounded-xl p-6 border border-incognitee-green bg-cover bg-no-repeat shadow-2xl shadow-blue-500/20"
-      >
-        <div class="flex items-center">
-          <div class="flex-1">
-            <h1
-              class="title text-3xl font-bold tracking-tight text-white sm:text-4xl"
-            >
-              TEERdays Intro
-            </h1>
-            <p class="mt-4 text-gray-300">
-              By bonding your TEER now, you can already accumulate TEERdays
-              prior to the launch of
-              <a class="text-incognitee-green" href="https://incognitee.io"
-                >Incognitee</a
-              >. TEERdays are calculated by multiplying the amount of TEER by
-              the number of days bonded. You can unbond your TEER anytime within
-              7 days, but you will lose a fraction of the accumulated TEERdays
-              if you do. TEERdays are non-transferable. Start now to get the
-              best position for the Incognitee launch. ​
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div
-        class="sm:col-span-3 rounded-xl p-6 border border-incognitee-green bg-cover bg-no-repeat shadow-2xl shadow-blue-500/20"
-      >
-        <div class="flex items-center">
-          <div class="flex-1">
-            <h1
-              class="title text-3xl font-bold tracking-tight text-white sm:text-4xl"
-            >
-              Why collect TEERdays?​
-            </h1>
-            <p class="mt-4 text-gray-300">
-              TEERdays can be used to increase your revenue share for the launch
-              of
-              <a class="text-incognitee-green" href="https://incognitee.io"
-                >Incognitee</a
-              >
-              on Polkadot/Kusama and will also increase your governance voting
-              power for future decisions related to Incognitee.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div
-        class="sm:col-span-3 rounded-xl p-6 border border-incognitee-green bg-cover bg-no-repeat shadow-2xl shadow-blue-500/20"
-      >
-        <div class="flex items-center">
-          <div class="flex-1">
-            <h1
-              class="title text-3xl font-bold tracking-tight text-white sm:text-4xl"
-            >
-              How to participate?​​
-            </h1>
-            <p class="mt-6 text-gray-300">
-              1. First, you need to possess some TEER. Grab them at one of the
-              avenues like
-              <a
-                class="text-incognitee-green"
-                href="https://www.kraken.com/prices/integritee?quote=usd&interval=24h"
-                >Kraken</a
-              >,
-              <a
-                class="text-incognitee-green"
-                href="https://www.gate.io/de/trade/TEER_USDT"
-                >Gate</a
-              >
-              or
-              <a
-                class="text-incognitee-green"
-                href="https://app.basilisk.cloud/trade?assetIn=1&assetOut=17"
-                >Basilisk</a
-              >​<br />
-
-              2. Get one of the supported wallets and connect your wallet​​<br />
-
-              3. Transfer TEER to your wallet​​<br />
-
-              4. Bond your TEER using this current page<br />
-
-              5. Start automatically collecting TEERdays<br />
-
-              6. Refer a friend (coming soon)
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div
-        class="sm:col-span-3 rounded-xl p-6 border border-incognitee-green bg-cover bg-no-repeat shadow-2xl shadow-blue-500/20"
-      >
-        <div class="flex items-center">
-          <div class="flex-1">
-            <h1
-              class="title text-3xl font-bold tracking-tight text-white sm:text-4xl"
-            >
-              Rules
-            </h1>
-            <ul class="list-disc list-outside text-gray-300 mt-6 px-4">
-              <li>You can bond as many TEER as you like​</li>
-              <li>You can unbond any time with a 7-day unbonding period​</li>
-              <li>
-                You will not accumulate any TEERdays during the unbonding period
-              </li>
-              <li>
-                You can’t bond any additional TEER during the unbonding period
-              </li>
-              <li>
-                You will lose a % of your TEERdays if you unbond your TEER pro
-                rata of the unbonded amount​
-              </li>
-              <li>TEERdays are non-transferable</li>
-              <li>
-                TEERdays are calculated as follows:<br />
-                Amount of TEER times the number of days bonded = TEERdays<br />
-                Example: 20 TEER * 7 days = 140 TEERdays
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="mt-20 mx-auto max-w-7xl">
-      <div class="sm:flex sm:items-center">
-        <div class="sm:flex-auto">
-          <div class="mt-10">
-            <h1
-              class="title text-3xl font-bold tracking-tight text-white sm:text-4xl"
-            >
-              Leaderboard​​
-            </h1>
-            <!-- Verwende kleinere obere Randabstände auf mobilen Geräten -->
-            <div class="mt-4 sm:mt-10 overflow-x-auto">
-              <table class="rounded-table min-w-full">
-                <thead>
-                  <tr>
-                    <th
-                      scope="col"
-                      class="px-4 py-4 text-left text-sm font-semibold text-white"
-                    >
-                      Rank
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-4 py-4 text-left text-sm font-semibold text-white"
-                    >
-                      TEERdays
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-4 py-4 text-left text-sm font-semibold text-white"
-                    >
-                      Wallet
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-4 py-4 text-left text-sm font-semibold text-white"
-                    >
-                      TEER bonded
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="text-left">
-                  <tr
-                    v-for="(entry, index) in allBonds.slice(0, 10)"
-                    :key="index"
-                    :class="{
-                      'bg-gray-700': index % 2 === 0, // Jede zweite Zeile grau
-                      'bg-gray-800': index % 2 !== 0, // Jede andere Zeile dunkelgrau
-                    }"
-                    class="rounded-lg shadow text-left"
-                  >
-                    <td
-                      class="whitespace-nowrap px-4 py-4 text-sm font-medium text-white text-left"
-                    >
-                      {{ index + 1 }}
-                    </td>
-                    <td
-                      class="whitespace-nowrap px-4 py-4 text-sm text-gray-300 text-left"
-                    >
-                      {{ entry[2].toFixed(2) }}
-                    </td>
-                    <td
-                      class="wallet-address whitespace-nowrap px-4 py-4 text-sm text-gray-300 text-left"
-                    >
-                      {{ entry[0] }}
-                    </td>
-                    <td
-                      class="whitespace-nowrap px-4 py-4 text-sm text-gray-300 text-left"
-                    >
-                      {{ entry[1].toFixed(2) }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <footer class="footer">
     <div class="container">
-      <div class="footer__row">
-        <div class="footer__column footer__column_about">
-          <NuxtLink to="/" class="footer__logo">
-            <Logo />
-          </NuxtLink>
-          <p class="footer__description">
-            The fastest, most scalable and secure Web3 network bringing the
-            vision of a trustless, decentralized future for all.
-          </p>
-          <Socials />
-        </div>
-        <div class="footer__columns-row">
-          <div class="footer__column">
-            <div class="footer__column-title">TEER Token</div>
-            <div class="footer__column-list">
-              <a
-                :href="KRAKEN_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                Kraken
-              </a>
-              <a
-                :href="GATE_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                Gate.io
-              </a>
-              <a
-                :href="BASILISK_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                Basilisk
-              </a>
-              <a
-                :href="COIN_MARKET_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                CoinMarketCap
-              </a>
-              <a
-                :href="COIN_GECKO_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                CoinGecko
-              </a>
-              <a
-                :href="TRADING_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                TradingView
-              </a>
-            </div>
-          </div>
-          <div class="footer__column">
-            <div class="footer__column-title">Network</div>
-            <div class="footer__column-list">
-              <a
-                :href="GOVERNANCE_FOOTER_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                Governance
-              </a>
-              <a
-                :href="SUBSCAN_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                Integritee Subscan
-              </a>
-              <a
-                :href="INTEGRITEE_NETWORK_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                Integritee Network
-              </a>
-              <a
-                :href="BUGBOUNTY_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                Bug Bounty
-              </a>
-            </div>
-          </div>
-          <div class="footer__column">
-            <div class="footer__column-title">Resources</div>
-            <div class="footer__column-list">
-              <a
-                :href="TOKENOMICS_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                Tokenomics
-              </a>
-              <a
-                :href="DOCS_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                Documentation
-              </a>
-              <a
-                :href="LIGHTPAPER_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                Lightpaper
-              </a>
-              <a
-                :href="HELP_CENTER_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                Help Center
-              </a>
-            </div>
-          </div>
-          <div class="footer__column">
-            <div class="footer__column-title">Community</div>
-            <div class="footer__column-list">
-              <a
-                :href="TELEGRAM_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                Telegram
-              </a>
-              <a
-                :href="TWITTER_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                Twitter
-              </a>
-              <a
-                :href="DISCORD_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                Discord
-              </a>
-              <a
-                :href="YOUTUBE_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                YouTube
-              </a>
-              <a
-                :href="MEDIUM_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                Medium
-              </a>
-              <a
-                :href="REDDIT_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                Reddit
-              </a>
-            </div>
-          </div>
-          <div class="footer__column">
-            <div class="footer__column-title">Company</div>
-            <div class="footer__column-list">
-              <NuxtLink to="/about#join" class="footer__column-link text-link">
-                Jobs
-              </NuxtLink>
-              <NuxtLink
-                to="/about#roadmap"
-                class="footer__column-link text-link"
-              >
-                Roadmap
-              </NuxtLink>
-              <a
-                :href="LINKEDIN_LINK"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer__column-link text-link"
-              >
-                LinkedIn
-              </a>
-              <!--              <a href="/" target="_blank" class="footer__column-link text-link">-->
-              <!--                Contacts-->
-              <!--              </a>-->
-            </div>
-          </div>
+      <div class="w-full bg-incognitee-blue mt-10">
+        <div
+          class="border bg-incognitee-blue border-incognitee-green rounded-lg p-1"
+        >
+          <nav class="flex space-x-4" aria-label="Tabs">
+            <button
+              @click="selectTab('public')"
+              :class="[
+                currentTab === 'public'
+                  ? 'bg-gray-800 text-white'
+                  : 'text-gray-500 hover:text-gray-700',
+                'flex-1 py-2 text-sm font-medium   rounded-lg',
+              ]"
+            >
+              Public Balance
+            </button>
+            <button
+              @click="selectTab('private')"
+              :class="[
+                currentTab === 'private'
+                  ? 'bg-gray-800 text-white'
+                  : 'text-gray-500 hover:text-gray-700',
+                'flex-1 py-2 text-sm font-medium rounded-lg',
+              ]"
+            >
+              Private Balance
+            </button>
+          </nav>
         </div>
       </div>
-      <div class="footer__bottom">
-        <span class="paragraph_medium"
-          >©{{ new Date().getFullYear() }} Integritee, Inc.</span
-        >
-        <span>
-          <NuxtLink to="/privacy-policy" class="blue paragraph_medium"
-            >Imprint and Privacy Policy</NuxtLink
-          >
-        </span>
+
+      <div class="bg-gray-900 flex mt-2">
+        <div class="custom-border-gradient">
+          <div class="inner-box">
+            <div v-if="currentTab === 'public'">
+              <!-- Public Balance Content -->
+
+              <div class="text-white mb-6 text-center">
+                <div class="">
+                  <h3 class="text-sm mb-3">Public Balance</h3>
+                  <div v-if="isFetchingPaseoBalance" class="spinner"></div>
+                  <div class="text-4xl font-semibold" v-else>
+                    {{ accountStore.getPaseoHumanBalance }}
+                    <span class="text-sm font-semibold">PAS</span>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-10">
+                <div
+                  class="inner-box flex justify-around text-white py-2 bg-gray-800 rounded-md"
+                >
+                  <div
+                    class="flex flex-col items-center text-center"
+                    @click="openShieldOverlay"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-6 mx-auto mb-2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"
+                      />
+                    </svg>
+                    <p class="text-xs">Shield</p>
+                  </div>
+                  <div
+                    class="flex flex-col items-center text-center"
+                    @click="openFaucetOverlay"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-6 mx-auto mb-2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"
+                      />
+                    </svg>
+                    <p class="text-xs">Faucet</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-else>
+              <!-- Private Balance Content -->
+              <div class="text-white mb-6 text-center">
+                <h3 class="text-sm mb-3" @click="openPrivacyInfo">
+                  Private Balance ⓘ
+                </h3>
+                <div v-if="isFetchingIncogniteeBalance" class="spinner"></div>
+                <div class="text-4xl font-semibold" v-else>
+                  {{ accountStore.getIncogniteeHumanBalance }}
+                  <span class="text-sm font-semibold">PAS</span>
+                </div>
+              </div>
+              <div class="mt-10">
+                <div
+                  class="inner-box flex justify-around text-white py-2 bg-gray-800 rounded-md"
+                >
+                  <div
+                    class="flex flex-col items-center text-center"
+                    @click="openPrivateSendOverlay"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-6 mx-auto mb-2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"
+                      />
+                    </svg>
+                    <p class="text-xs">Send</p>
+                  </div>
+
+                  <div
+                    class="flex flex-col items-center text-center"
+                    @click="openReceiveOverlay"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-6 mx-auto mb-2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"
+                      />
+                    </svg>
+                    <p class="text-xs">Receive</p>
+                  </div>
+
+                  <div
+                    class="flex flex-col items-center text-center"
+                    @click="openUnshieldOverlay"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-6 mx-auto mb-2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                      />
+                    </svg>
+                    <p class="text-xs">Unshield</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </footer>
 
-  <div
-    aria-live="assertive"
-    class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
-  >
-    <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
-      <!-- Notification panel, dynamically insert this into the live region when it needs to be displayed -->
-      <transition
-        enter-active-class="transform ease-out duration-300 transition"
-        enter-from-class="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-        enter-to-class="translate-y-0 opacity-100 sm:translate-x-0"
-        leave-active-class="transition ease-in duration-100"
-        leave-from-class="opacity-100"
-        leave-to-class="opacity-0"
-      >
-        <div
-          v-if="showStatusOverlay"
-          class="bg-cover bg-no-repeat shadow-blue-500/20 pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-gray-800 border-incognitee-green shadow-lg ring-1 ring-incognitee-green"
+    <TransitionRoot as="template" :show="showAssetsInfo">
+      <Dialog class="relative z-10" @close="closeAssetsInfo">
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="ease-in duration-200"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
         >
-          <div class="p-4">
-            <div class="flex items-start">
-              <div class="ml-3 w-0 flex-1 pt-0.5">
-                <p class="mt-1 text-sm text-gray-300">{{ txStatus }}</p>
-              </div>
-              <div class="ml-4 flex flex-shrink-0">
+          <div
+            class="fixed inset-0 bg-black bg-opacity-80 transition-opacity"
+          />
+        </TransitionChild>
+
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div
+            class="fixed inset-0 z-10 w-screen flex items-center justify-center p-4"
+          >
+            <TransitionChild
+              as="template"
+              enter="ease-out duration-300"
+              enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enter-to="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leave-from="opacity-100 translate-y-0 sm:scale-100"
+              leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <DialogPanel
+                class="w-full relative transform overflow-hidden rounded-xl bg-gray-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all flex flex-col sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
+              >
+                <div class="absolute right-0 top-0 pr-4 pt-4">
+                  <button
+                    type="button"
+                    class="text-gray-400 hover:text-gray-500"
+                    @click="closeAssetsInfo"
+                  >
+                    <span class="sr-only">Close</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div>
+                  <div class="mt-3 text-center sm:mt-5">
+                    <DialogTitle
+                      as="h3"
+                      class="text-base font-semibold leading-6 text-white"
+                      >Other Assets
+                    </DialogTitle>
+                    <div class="mt-2">
+                      <p class="text-sm text-gray-400 mt-4 text-left">
+                        Incognitee is capable of shielding any fungible asset on
+                        any substrate-based chain. Stay tuned for dedicated
+                        deployments for DOT, KSM, USDC, USDT and others
+                      </p>
+                      <p class="text-sm text-gray-400 text-left my-4">
+                        With further extension, Incognitee will be able to
+                        shield BTC, ETH and any other token whose protocol
+                        supports light clients
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-full mt-8 bg-gray-800">
+                  <button
+                    type="button"
+                    class="btn btn_gradient inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm"
+                    @click="closeAssetsInfo"
+                  >
+                    Got it!
+                  </button>
+                </div>
+              </DialogPanel>
+            </TransitionChild>
+          </div>
+        </div>
+      </Dialog>
+    </TransitionRoot>
+
+    <TransitionRoot as="template" :show="showPrivacyInfo">
+      <Dialog class="relative z-10" @close="closeOnOutsideClick">
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="ease-in duration-200"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div
+            class="fixed inset-0 bg-black bg-opacity-80 transition-opacity"
+          />
+        </TransitionChild>
+
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div
+            class="flex items-start justify-center p-4 text-center sm:items-center sm:p-0"
+          >
+            <TransitionChild
+              as="template"
+              enter="ease-out duration-300"
+              enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enter-to="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leave-from="opacity-100 translate-y-0 sm:scale-100"
+              leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <DialogPanel
+                class="w-full relative transform overflow-hidden rounded-lg bg-gray-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
+              >
+                <div class="absolute right-0 top-0 pr-4 pt-4">
+                  <button
+                    type="button"
+                    class="text-gray-400 hover:text-gray-500"
+                    @click="closePrivacyInfo"
+                  >
+                    <span class="sr-only">Close</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div class="mt-3 text-center sm:mt-5">
+                  <DialogTitle
+                    as="h3"
+                    class="text-base font-semibold leading-6 text-white"
+                    >On Privacy
+                  </DialogTitle>
+
+                  <div class="mt-2">
+                    <p class="text-sm text-gray-400 mt-4 text-justify">
+                      Incognitee enhances your privacy while dealing with
+                      digital assets. But what does privacy mean and how does
+                      incognitee improve privacy?
+                    </p>
+                    <p class="text-sm text-gray-400 text-justify my-4">
+                      First, let's explore why digital assets are generally
+                      <b>not</b> private. When dealing with crypto assets, your
+                      account is a pseudonym on a public ledger, much like a
+                      bank account number. Every single transaction this account
+                      does will be stored publicly forever and you have no right
+                      for deletion of the trace you left. If, at a certain point
+                      in time your pseudonym can be linked to your identity -
+                      i.e. because you send tokens to someone else - your entire
+                      behavioral history is revealed as is your balance.
+                    </p>
+                    <p class="text-sm text-gray-400 text-justify my-4">
+                      <NuxtLink to="https://incognitee.io" class="color_blue"
+                        >Incognitee
+                      </NuxtLink>
+                      is a privacy enhancing technology that allows you to
+                      shield your assets and transfer them privately. This means
+                      that you can send tokens to someone else without revealing
+                      your balance or transaction history. The recipient will
+                      not be able to see your balance or transaction history
+                      either. This is achieved by using a technology called
+                      <NuxtLink
+                        to="https://docs.integritee.network/2-integritee-network/2.7-privacy-technology-trusted-execution-environments"
+                        class="color_blue"
+                        >trusted execution environments (TEE)
+                      </NuxtLink>
+                      . The TEEs we use are a hardware feature of server CPU's
+                      called <i>Intel SGX</i>. In addition, the
+                      <NuxtLink
+                        to="https://docs.integritee.network/2-integritee-network"
+                        class="color_blue"
+                        >Integritee Network
+                      </NuxtLink>
+                      , a Polkadot parachain, performs independent,
+                      decentralized remote attestation of TEEs. Moreover, it
+                      gives finality to Incognitee sidechain blocks.
+                    </p>
+                    <p class="text-sm text-gray-400 mt-4 text-justify">
+                      Incognitee is a layer 2 solution, maintaining a private
+                      ledger secured by TEE. All your transactions are
+                      confidential, only known to and the person your
+                      transacting with. Sender, recipient and amount are
+                      invisible to the public and even to the operators of
+                      Incognitee infrastructure.
+                    </p>
+                    <p class="text-sm text-gray-400 mt-4 text-justify">
+                      For maximal privacy, we suggest to shield your assets to
+                      incognitee and from then on transact them on incognitee
+                      only. If you need to unshield back to L1, you can still
+                      benefit from k-anonymity: the public just sees that
+                      someone out of <i>k</i> individuals is the originator of
+                      an unshielding event. If <i>k</i> is large enough, you can
+                      plausibly deny it was you. You can influence the size of
+                      <i>k</i> by choosing popular amounts and timing.
+                    </p>
+                  </div>
+                </div>
+                <div class="mt-5 sm:mt-6">
+                  <button
+                    type="button"
+                    class="btn btn_gradient inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm"
+                    @click="closePrivacyInfo"
+                  >
+                    Got it!
+                  </button>
+                </div>
+              </DialogPanel>
+            </TransitionChild>
+          </div>
+        </div>
+      </Dialog>
+    </TransitionRoot>
+
+    <TransitionRoot as="template" :show="showShieldOverlay">
+      <Dialog class="relative z-20" @close="closeShieldOverlay">
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="ease-in duration-200"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div
+            class="fixed inset-0 bg-black bg-opacity-80 transition-opacity"
+          />
+        </TransitionChild>
+
+        <div
+          class="fixed inset-0 z-10 w-screen flex items-center justify-center p-4"
+        >
+          <TransitionChild
+            as="template"
+            enter="ease-out duration-300"
+            enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            enter-to="opacity-100 translate-y-0 sm:scale-100"
+            leave="ease-in duration-200"
+            leave-from="opacity-100 translate-y-0 sm:scale-100"
+            leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+          >
+            <DialogPanel
+              class="w-full relative transform overflow-hidden rounded-xl bg-gray-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all flex flex-col sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
+            >
+              <div class="absolute right-0 top-0 pr-4 pt-4">
                 <button
                   type="button"
-                  @click="showStatusOverlay = false"
-                  class="inline-flex rounded-md bg-gray-800 text-gray-400 hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  class="text-gray-400 hover:text-gray-500"
+                  @click="closeShieldOverlay"
                 >
                   <span class="sr-only">Close</span>
-                  <XMarkIcon class="h-5 w-5" aria-hidden="true" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
                 </button>
+              </div>
+              <div class="mt-3 text-center sm:mt-5 flex-grow">
+                <DialogTitle
+                  as="h3"
+                  class="text-base font-semibold leading-6 text-white"
+                  >Shield PAS
+                </DialogTitle>
+
+                <p class="text-sm text-gray-400 text-left my-4">
+                  Shielding is the process of moving naked, publicly visible
+                  balance on Paseo to your private wallet on Incognitee.
+                </p>
+
+                <form
+                  @submit.prevent="submitShieldForm"
+                  class="flex-grow flex flex-col justify-between"
+                >
+                  <div>
+                    <div class="flex justify-between items-center mt-4">
+                      <label
+                        for="sendAmount"
+                        class="text-sm font-medium leading-6 text-white"
+                        >PAS Amount</label
+                      >
+
+                      <span class="text-xs text-gray-400"
+                        >Available public balance:
+                        {{ accountStore.getPaseoHumanBalance }}</span
+                      >
+                    </div>
+                    <input
+                      id="shieldAmount"
+                      v-model="shieldAmount"
+                      type="number"
+                      step="0.01"
+                      :min="0.1"
+                      :max="
+                        (accountStore.paseoBalance -
+                          existential_deposit_paseo) /
+                          Math.pow(10, 10) -
+                        0.1
+                      "
+                      required
+                      class="w-full text-sm rounded-lg flex-grow py-2 bg-cool-900 text-white placeholder-gray-500 border border-green-500 text-right"
+                      style="border-color: #24ad7c"
+                    />
+                    <div class="text-right">
+                      <span class="text-xs text-gray-400"
+                        >Fee: 16 mPAS for Paseo, 0.175% for Incognitee</span
+                      >
+                    </div>
+                  </div>
+                  <div class="bottom-0 left-0 w-full mt-8 bg-gray-800">
+                    <button
+                      type="submit"
+                      class="btn btn_gradient inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm"
+                      @click="submitShieldForm"
+                    >
+                      Shield
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </DialogPanel>
+          </TransitionChild>
+        </div>
+      </Dialog>
+    </TransitionRoot>
+
+    <TransitionRoot as="template" :show="showFaucetOverlay">
+      <Dialog class="relative z-20" @close="closeFaucetOverlay">
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="ease-in duration-200"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div
+            class="fixed inset-0 bg-black bg-opacity-80 transition-opacity"
+          />
+        </TransitionChild>
+
+        <div
+          class="fixed inset-0 z-10 w-screen flex items-center justify-center p-4"
+        >
+          <TransitionChild
+            as="template"
+            enter="ease-out duration-300"
+            enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            enter-to="opacity-100 translate-y-0 sm:scale-100"
+            leave="ease-in duration-200"
+            leave-from="opacity-100 translate-y-0 sm:scale-100"
+            leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+          >
+            <DialogPanel
+              class="w-full relative transform overflow-hidden rounded-lg bg-gray-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all flex flex-col sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
+            >
+              <div class="absolute right-0 top-0 pr-4 pt-4">
+                <button
+                  type="button"
+                  class="text-gray-400 hover:text-gray-500"
+                  @click="closeFaucetOverlay"
+                >
+                  <span class="sr-only">Close</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div class="flex-grow">
+                <div class="mt-3 text-center sm:mt-5">
+                  <DialogTitle
+                    as="h3"
+                    class="text-base font-semibold leading-6 text-white"
+                    >Drip Faucet
+                  </DialogTitle>
+                  <div class="mt-2">
+                    <p class="text-sm text-gray-400">
+                      The Paseo Faucet grants you PAS tokens every day. Just
+                      copy-paste your address and solve a CAPTCHA to get free
+                      PAS tokens
+                    </p>
+
+                    <div class="flex flex-col mt-5">
+                      <div class="relative flex items-center rounded-lg">
+                        <input
+                          id="accountAddress"
+                          type="text"
+                          :value="accountStore.getAddress"
+                          readonly
+                          class="w-full text-sm rounded-lg flex-grow pr-14 py-2 bg-cool-900 text-white placeholder-gray-500 border border-green-500 truncate-input"
+                          style="border-color: #24ad7c"
+                        />
+                        <div class="absolute right-3 flex space-x-2">
+                          <div
+                            @click="copyOwnAddressToClipboard"
+                            class="cursor-pointer"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="size-6"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-5 sm:mt-6">
+                <a href="https://faucet.polkadot.io/" target="_blank">
+                  <button
+                    type="button"
+                    class="btn btn_gradient inline-flex w-full justify-center rounded-md px-3 py-3 mt-8 text-sm font-semibold text-white shadow-sm"
+                  >
+                    Get free PAS tokens from faucet
+                  </button>
+                </a>
+              </div>
+            </DialogPanel>
+          </TransitionChild>
+        </div>
+      </Dialog>
+    </TransitionRoot>
+
+    <TransitionRoot
+      as="template"
+      :show="showUnshieldOverlay && !showScanOverlay"
+    >
+      <Dialog class="relative z-10" @close="closeUnshieldOverlay">
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="ease-in duration-200"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div
+            class="fixed inset-0 bg-black bg-opacity-80 transition-opacity"
+          />
+        </TransitionChild>
+
+        <div
+          class="fixed inset-0 z-10 w-screen flex items-center justify-center p-4"
+        >
+          <TransitionChild
+            as="template"
+            enter="ease-out duration-300"
+            enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            enter-to="opacity-100 translate-y-0 sm:scale-100"
+            leave="ease-in duration-200"
+            leave-from="opacity-100 translate-y-0 sm:scale-100"
+            leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+          >
+            <DialogPanel
+              class="relative w-full max-w-sm mx-auto bg-gray-800 rounded-lg shadow-xl flex flex-col px-4 pb-4 pt-5 text-left transition-all sm:my-8 sm:max-w-sm sm:p-6"
+            >
+              <div class="absolute right-0 top-0 pr-4 pt-4">
+                <button
+                  type="button"
+                  class="text-gray-400 hover:text-gray-500"
+                  @click="closeUnshieldOverlay"
+                >
+                  <span class="sr-only">Close</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div class="mt-3 text-center sm:mt-5">
+                <DialogTitle
+                  as="h3"
+                  class="text-base font-semibold leading-6 text-white"
+                  >Unshield PAS
+                </DialogTitle>
+                <div class="mt-5">
+                  <p class="text-sm text-gray-400 text-left my-4">
+                    Unshielding is the process of moving funds from your private
+                    balance on Incognitee to publicly visible (naked) Paseo.
+                  </p>
+                </div>
+                <form class="mt-5" @submit.prevent="submitUnshieldForm">
+                  <div class="flex flex-col">
+                    <label
+                      for="recipientAddress"
+                      class="text-sm font-medium leading-6 text-white text-left"
+                      >Recipient</label
+                    >
+                    <div class="relative flex items-center rounded-lg">
+                      <div class="absolute left-3 flex items-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          class="h-6 w-6 text-white"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M11.9889 0L0.0222883 5.99115L0 18.0089L12.0111 24L23.9778 18.0089L24 5.99115L11.9889 0ZM11.9055 2.93685L15.012 4.49375V7.60754L11.9055 9.16444L8.79902 7.60754V4.49375L11.9055 2.93685ZM5.66099 6.0491L8.76754 7.606V10.7198L5.66099 12.2767L8.76749 13.8336V16.9489L5.66093 18.5058L2.55438 16.9489V13.8336L5.66087 12.2767L2.55438 10.7198V7.606L5.66087 6.0491H5.66099ZM18.1278 6.0491L21.2343 7.606V10.7198L18.1279 12.2767L21.2344 13.8336V16.9489L18.1279 18.5058L15.0214 16.9489V13.8336L18.1279 12.2767L15.0214 10.7198V7.606L18.1278 6.0491ZM11.9055 9.16928L15.012 10.7262V13.84L11.913 15.3937L15.012 16.9457V20.0611L11.9055 21.618L8.79902 20.0611V16.9457L11.898 15.3937L8.79902 13.84V10.7262L11.9055 9.16928H11.9055Z"
+                            fill="white"
+                          />
+                        </svg>
+                      </div>
+                      <input
+                        id="recipientAddress"
+                        v-model="recipientAddress"
+                        type="text"
+                        required
+                        placeholder="Recipient"
+                        class="w-full text-sm rounded-lg flex-grow pl-12 py-2 pr-20 bg-cool-900 text-white placeholder-gray-500 border border-green-500 truncate-input"
+                        style="border-color: #24ad7c"
+                      />
+                      <div class="absolute right-3 flex space-x-2">
+                        <div
+                          @click="setRecipientAddressToSelf"
+                          class="cursor-pointer"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="h-6 w-6 text-white"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                            />
+                          </svg>
+                        </div>
+                        <div @click="openScanOverlay" class="cursor-pointer">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="h-6 w-6 text-white"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 3.75 9.375v-4.5ZM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5ZM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 13.5 9.375v-4.5Z"
+                            />
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M6.75 6.75h.75v.75h-.75v-.75ZM6.75 16.5h.75v.75h-.75v-.75ZM16.5 6.75h.75v.75h-.75v-.75ZM13.5 13.5h.75v.75h-.75v-.75ZM13.5 19.5h.75v.75h-.75v-.75ZM19.5 13.5h.75v.75h-.75v-.75ZM19.5 19.5h.75v.75h-.75v-.75ZM16.5 16.5h.75v.75h-.75v-.75Z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p class="text-sm text-gray-400 text-left mt-5">
+                    For optimal k-anonymity, we advise you to unshield exactly
+                    10 PAS at the time. In the future we will provide a score
+                    including timing and popular amounts to enhance
+                    unlinkability of your actions.
+                  </p>
+
+                  <div class="flex justify-between items-center mt-5">
+                    <label
+                      for="unshieldAmount"
+                      class="text-sm font-medium leading-6 text-white"
+                      >PAS Amount</label
+                    >
+
+                    <span class="text-xs text-gray-400"
+                      >Available private balance:
+                      {{ accountStore.getIncogniteeHumanBalance }}</span
+                    >
+                  </div>
+                  <input
+                    id="unshieldAmount"
+                    v-model="unshieldAmount"
+                    type="number"
+                    step="0.1"
+                    :min="1.1"
+                    :max="
+                      accountStore.incogniteeBalance / Math.pow(10, 10) - 0.1
+                    "
+                    required
+                    class="w-full text-sm rounded-lg flex-grow py-2 bg-cool-900 text-white placeholder-gray-500 border border-green-500 text-right"
+                    style="border-color: #24ad7c"
+                  />
+                  <!-- Fee description -->
+                  <div class="text-right">
+                    <span class="text-xs text-gray-400"
+                      >Fee: 30m PAS for Incognitee</span
+                    >
+                  </div>
+
+                  <div class="mt-8 w-full bg-gray-800">
+                    <button
+                      type="submit"
+                      class="btn btn_gradient inline-flex w-full justify-center rounded-md text-sm font-semibold text-white shadow-sm"
+                    >
+                      Unshield
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </DialogPanel>
+          </TransitionChild>
+        </div>
+      </Dialog>
+    </TransitionRoot>
+
+    <TransitionRoot as="template" :show="showReceiveOverlay">
+      <Dialog
+        class="fixed inset-0 z-20 flex items-center justify-center"
+        @close="closeReceiveOverlay"
+      >
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="ease-in duration-200"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div
+            class="fixed inset-0 bg-black bg-opacity-80 transition-opacity"
+          />
+        </TransitionChild>
+
+        <div
+          class="fixed inset-0 z-10 w-screen flex items-center justify-center p-4"
+        >
+          <TransitionChild
+            as="template"
+            enter="ease-out duration-300"
+            enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            enter-to="opacity-100 translate-y-0 sm:scale-100"
+            leave="ease-in duration-200"
+            leave-from="opacity-100 translate-y-0 sm:scale-100"
+            leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+          >
+            <DialogPanel
+              class="w-full relative transform overflow-hidden rounded-lg bg-gray-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all flex flex-col sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
+            >
+              <div class="absolute right-0 top-0 pr-4 pt-4">
+                <button
+                  type="button"
+                  class="text-gray-400 hover:text-gray-500"
+                  @click="closeReceiveOverlay"
+                >
+                  <span class="sr-only">Close</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div class="flex-grow flex flex-col justify-start">
+                <!-- Anpassung hier -->
+                <div class="mt-3 text-center sm:mt-5">
+                  <DialogTitle
+                    as="h3"
+                    class="text-base font-semibold leading-6 text-white"
+                  >
+                    Receive
+                  </DialogTitle>
+                  <div class="mt-5">
+                    <p class="text-sm text-gray-400 text-left my-4">
+                      Share your address with the sender. You can either have
+                      them scan this QR code or send them a private message.
+                    </p>
+                  </div>
+                  <div class="mt-5 qrcode-container">
+                    <qrcode :value="accountStore.getAddress"></qrcode>
+                  </div>
+
+                  <div class="flex flex-col mt-5">
+                    <div
+                      class="w-full mt-5 mb-2 text-sm font-medium leading-6 text-white font-semibold"
+                    >
+                      Your address:
+                    </div>
+                    <div class="relative flex items-center rounded-lg">
+                      <input
+                        id="accountAddress"
+                        type="text"
+                        :value="accountStore.getAddress"
+                        readonly
+                        class="w-full text-sm rounded-lg flex-grow pr-14 py-2 bg-cool-900 text-white placeholder-gray-500 border border-green-500 truncate-input"
+                        style="border-color: #24ad7c"
+                      />
+                      <div class="absolute right-3 flex space-x-2">
+                        <div
+                          @click="copyOwnAddressToClipboard"
+                          class="cursor-pointer"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-6"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </DialogPanel>
+          </TransitionChild>
+        </div>
+      </Dialog>
+    </TransitionRoot>
+
+    <TransitionRoot
+      as="template"
+      :show="showPrivateSendOverlay && !showScanOverlay"
+    >
+      <Dialog class="relative z-20" @close="closePrivateSendOverlay">
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="ease-in duration-200"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div
+            class="fixed inset-0 bg-black bg-opacity-80 transition-opacity"
+          />
+        </TransitionChild>
+
+        <div
+          class="fixed inset-0 z-10 w-screen flex items-center justify-center p-4"
+        >
+          <TransitionChild
+            as="template"
+            enter="ease-out duration-300"
+            enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            enter-to="opacity-100 translate-y-0 sm:scale-100"
+            leave="ease-in duration-200"
+            leave-from="opacity-100 translate-y-0 sm:scale-100"
+            leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+          >
+            <DialogPanel
+              class="w-full relative transform overflow-hidden rounded-lg bg-gray-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all flex flex-col sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
+            >
+              <div class="absolute right-0 top-0 pr-4 pt-4">
+                <button
+                  type="button"
+                  class="text-gray-400 hover:text-gray-500"
+                  @click="closePrivateSendOverlay"
+                >
+                  <span class="sr-only">Close</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div class="flex-grow">
+                <div class="mt-3 text-center sm:mt-5">
+                  <DialogTitle
+                    as="h3"
+                    class="text-base font-semibold leading-6 text-white"
+                    >Send Privately
+                  </DialogTitle>
+                  <div class="mt-5">
+                    <p class="text-sm text-gray-400 text-left my-4">
+                      Sending privately means that only you and the recipient
+                      know who sent how much to whom.
+                    </p>
+                  </div>
+                  <form class="mt-5" @submit.prevent="submitSendForm">
+                    <div class="flex flex-col">
+                      <label
+                        for="recipientAddress"
+                        class="text-sm font-medium leading-6 text-white text-left"
+                        >Recipient</label
+                      >
+                      <div class="relative flex items-center rounded-lg">
+                        <input
+                          id="recipientAddress"
+                          v-model="recipientAddress"
+                          type="text"
+                          required
+                          class="w-full text-sm rounded-lg flex-grow py-2 bg-cool-900 text-white placeholder-gray-500 border border-green-500 truncate-input pr-12"
+                          style="border-color: #24ad7c"
+                          placeholder="Recipient"
+                        />
+                        <div class="absolute right-3 flex space-x-2">
+                          <div @click="openScanOverlay" class="cursor-pointer">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="h-6 w-6 text-white"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 3.75 9.375v-4.5ZM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5ZM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 13.5 9.375v-4.5Z"
+                              />
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M6.75 6.75h.75v.75h-.75v-.75ZM6.75 16.5h.75v.75h-.75v-.75ZM16.5 6.75h.75v.75h-.75v-.75ZM13.5 13.5h.75v.75h-.75v-.75ZM13.5 19.5h.75v.75h-.75v-.75ZM19.5 13.5h.75v.75h-.75v-.75ZM19.5 19.5h.75v.75h-.75v-.75ZM16.5 16.5h.75v.75h-.75v-.75Z"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mt-10">
+                      <!-- Label and available balance -->
+                      <div class="flex justify-between items-center">
+                        <label
+                          for="sendAmount"
+                          class="text-sm font-medium leading-6 text-white"
+                          >PAS Amount</label
+                        >
+
+                        <span class="text-xs text-gray-400"
+                          >Available private balance:
+                          {{ accountStore.getIncogniteeHumanBalance }}</span
+                        >
+                      </div>
+
+                      <!-- Input field -->
+                      <div>
+                        <input
+                          id="sendAmount"
+                          v-model="sendAmount"
+                          type="number"
+                          step="0.01"
+                          :min="0.1"
+                          :max="
+                            accountStore.incogniteeBalance / Math.pow(10, 10) -
+                            0.1
+                          "
+                          required
+                          class="w-full text-sm rounded-lg flex-grow py-2 bg-cool-900 text-white placeholder-gray-500 border border-green-500 text-right"
+                          style="border-color: #24ad7c"
+                          placeholder="Amount"
+                        />
+                      </div>
+
+                      <!-- Fee description -->
+                      <div class="text-right">
+                        <span class="text-xs text-gray-400"
+                          >Fee: 10m PAS for Incognitee</span
+                        >
+                      </div>
+                    </div>
+
+                    <div class="mt-8 bottom-0 left-0 w-full bg-gray-800">
+                      <button
+                        type="submit"
+                        class="btn btn_gradient inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm"
+                      >
+                        Transfer
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </DialogPanel>
+          </TransitionChild>
+        </div>
+      </Dialog>
+    </TransitionRoot>
+
+    <TransitionRoot as="template" :show="showScanOverlay">
+      <Dialog class="relative z-20" @close="closeScanOverlay">
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="ease-in duration-200"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div
+            class="fixed inset-0 bg-black bg-opacity-80 transition-opacity"
+          />
+        </TransitionChild>
+
+        <div
+          class="fixed inset-0 z-10 w-screen flex items-center justify-center p-4"
+        >
+          <TransitionChild
+            as="template"
+            enter="ease-out duration-300"
+            enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            enter-to="opacity-100 translate-y-0 sm:scale-100"
+            leave="ease-in duration-200"
+            leave-from="opacity-100 translate-y-0 sm:scale-100"
+            leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+          >
+            <DialogPanel
+              class="w-full relative transform overflow-hidden rounded-lg bg-gray-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
+            >
+              <div class="absolute right-0 top-0 pr-4 pt-4">
+                <button
+                  type="button"
+                  class="text-gray-400 hover:text-gray-500"
+                  @click="closeScanOverlay"
+                >
+                  <span class="sr-only">Close</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div class="mt-3 text-center sm:mt-5">
+                <DialogTitle
+                  as="h3"
+                  class="text-base font-semibold leading-6 text-white"
+                  >Scan recipient's QR code
+                </DialogTitle>
+
+                <div class="mt-6 qrcode-container">
+                  <qrcode-stream @detect="onDecode"></qrcode-stream>
+                </div>
+              </div>
+            </DialogPanel>
+          </TransitionChild>
+        </div>
+      </Dialog>
+    </TransitionRoot>
+
+    <TransitionRoot as="template" :show="showNewWalletOverlay">
+      <Dialog class="relative z-10" @close="closeNewWalletOverlay">
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="ease-in duration-200"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div
+            class="fixed inset-0 bg-black bg-opacity-80 transition-opacity"
+          />
+        </TransitionChild>
+
+        <div
+          class="fixed inset-0 z-10 w-screen flex items-center justify-center p-4"
+        >
+          <TransitionChild
+            as="template"
+            enter="ease-out duration-300"
+            enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            enter-to="opacity-100 translate-y-0 sm:scale-100"
+            leave="ease-in duration-200"
+            leave-from="opacity-100 translate-y-0 sm:scale-100"
+            leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+          >
+            <DialogPanel
+              class="relative transform overflow-hidden rounded-lg bg-gray-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
+            >
+              <div class="absolute right-0 top-0 pr-4 pt-4">
+                <button
+                  type="button"
+                  class="text-gray-400 hover:text-gray-500"
+                  @click="closeNewWalletOverlay"
+                >
+                  <span class="sr-only">Close</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div>
+                <div
+                  class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100"
+                >
+                  <CheckIcon
+                    class="h-6 w-6 text-green-600"
+                    aria-hidden="true"
+                  />
+                </div>
+
+                <div class="mt-3 text-center sm:mt-5">
+                  <DialogTitle
+                    as="h3"
+                    class="text-base font-semibold leading-6 text-white"
+                    >New Wallet!
+                  </DialogTitle>
+                  <div class="mt-2">
+                    <p class="text-sm text-gray-400">
+                      We have created a new wallet for you.
+                    </p>
+
+                    <div class="flex flex-col mt-5">
+                      <div class="relative flex items-center rounded-lg">
+                        <input
+                          id="accountAddress"
+                          type="text"
+                          :value="accountStore.getAddress"
+                          readonly
+                          class="w-full text-sm rounded-lg flex-grow pr-14 py-2 bg-cool-900 text-white placeholder-gray-500 border border-green-500 truncate-input"
+                          style="border-color: #24ad7c"
+                        />
+                        <div class="absolute right-3 flex space-x-2">
+                          <div
+                            @click="copyOwnAddressToClipboard"
+                            class="cursor-pointer"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="size-6"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mt-5">
+                      <a href="https://faucet.polkadot.io/" target="_blank">
+                        <button
+                          type="button"
+                          class="btn btn_gradient inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm"
+                        >
+                          Get free PAS tokens from faucet
+                        </button>
+                      </a>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-4 text-left">
+                      In order to keep your wallet, please store a bookmark to
+                      the current url which includes your secret
+                      <strong>NOW</strong>. (i.e. type Ctrl+D to bookmark this
+                      page). If you lose the bookmark, you will lose access to
+                      your wallet. If you share your personal url with others,
+                      they can spend your funds. The purpose of this demo is not
+                      security but optimal user experience for testing purposes.
+                    </p>
+                    <p class="text-sm text-gray-400 text-left my-4">
+                      You will have zero funds. Please tap "Get free PAS tokens
+                      from faucet" and go to Paseo Faucet to get your first PAS
+                      tokens.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </DialogPanel>
+          </TransitionChild>
+        </div>
+      </Dialog>
+    </TransitionRoot>
+
+    <div
+      aria-live="assertive"
+      class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
+    >
+      <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
+        <!-- Notification panel, dynamically insert this into the live region when it needs to be displayed -->
+        <transition
+          enter-active-class="transform ease-out duration-300 transition"
+          enter-from-class="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+          enter-to-class="translate-y-0 opacity-100 sm:translate-x-0"
+          leave-active-class="transition ease-in duration-100"
+          leave-from-class="opacity-100"
+          leave-to-class="opacity-0"
+        >
+          <div
+            v-if="showStatusOverlay"
+            class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+          >
+            <div class="p-4">
+              <div class="flex items-center">
+                <div class="flex w-0 flex-1 justify-between">
+                  <p class="w-0 flex-1 text-sm font-medium text-gray-900">
+                    {{ txStatus }}
+                  </p>
+                </div>
+                <div class="ml-4 flex flex-shrink-0">
+                  <button
+                    type="button"
+                    @click="showStatusOverlay = false"
+                    class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  >
+                    <span class="sr-only">Close</span>
+                    <XMarkIcon class="h-5 w-5" aria-hidden="true" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </transition>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Logo from "@/components/Logo/index.vue";
-import Socials from "@/components/Socials/index.vue";
-import {
-  BASILISK_LINK,
-  BUGBOUNTY_LINK,
-  COIN_GECKO_LINK,
-  COIN_MARKET_LINK,
-  DISCORD_LINK,
-  DOCS_LINK,
-  GATE_LINK,
-  GOVERNANCE_FOOTER_LINK,
-  HELP_CENTER_LINK,
-  INTEGRITEE_NETWORK_LINK,
-  KRAKEN_LINK,
-  LIGHTPAPER_LINK,
-  LINKEDIN_LINK,
-  MEDIUM_LINK,
-  REDDIT_LINK,
-  SUBSCAN_LINK,
-  TELEGRAM_LINK,
-  TOKENOMICS_LINK,
-  TRADING_LINK,
-  TWITTER_LINK,
-  YOUTUBE_LINK,
-} from "@/configs/app.config";
-import {
-  web3Accounts,
-  web3Enable,
-  web3FromAddress,
-} from "@polkadot/extension-dapp";
-import { ApiPromise, WsProvider } from "@polkadot/api";
-import { cryptoWaitReady } from "@polkadot/util-crypto";
-import { onMounted, ref, watch } from "vue";
-import { useAccount } from "@/store/teerAccount.ts";
-import { useInterval } from "@vueuse/core";
 import { XMarkIcon } from "@heroicons/vue/20/solid";
-import { CheckCircleIcon } from "@heroicons/vue/24/outline";
 
+import Paseo from "@/assets/img/paseo-logo.svg";
+import Polkadot from "@/assets/img/polkadot-logo.svg";
+import USDC from "@/assets/img/usdc-logo.svg";
+
+import { useAccount } from "@/store/account.ts";
+import { useIncognitee } from "@/store/incognitee.ts";
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  TransitionChild,
+  TransitionRoot,
+} from "@headlessui/vue";
+import { CheckIcon } from "@heroicons/vue/24/outline";
+import { ApiPromise, WsProvider } from "@polkadot/api";
+import { Keyring } from "@polkadot/keyring";
+import { formatBalance, hexToU8a, u8aToHex } from "@polkadot/util";
+import {
+  cryptoWaitReady,
+  mnemonicGenerate,
+  mnemonicToMiniSecret,
+} from "@polkadot/util-crypto";
+import { useInterval } from "@vueuse/core";
+import { onMounted, ref, watch } from "vue";
+import Qrcode from "vue-qrcode";
+import { QrcodeStream } from "vue-qrcode-reader";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 const accountStore = useAccount();
+const incogniteeStore = useIncognitee();
+const isFetchingPaseoBalance = ref(true);
+const isFetchingIncogniteeBalance = ref(true);
 
-const accounts = ref([]);
-const selectedAccount = ref(null);
-const currentBond = ref(null);
-const pendingUnlock = ref(null);
-const allBonds = ref([]);
-const summaryHolders = ref(0);
-const summaryTeerBonded = ref(0);
-const summaryTeerDays = ref(0);
-
-watch(selectedAccount, (newAccount) => {
-  if (newAccount) {
-    console.log("user selected account:", newAccount);
-    accountStore.setAddress(newAccount);
-  }
-});
-import { nextTick } from "vue";
-
-const connect = () => {
-  web3Enable("Integritee Dapp")
-    .then((extensions) => {
-      console.log("Enabled extensions:", extensions);
-
-      // Check if any extensions are found
-      if (extensions.length === 0) {
-        console.error(
-          "No wallet extensions found. Please install or enable a wallet.",
-        );
-        alert("No wallet extensions found. Please install or enable a wallet.");
-        return; // Stop execution if no extensions are found
-      }
-
-      return web3Accounts();
-    })
-    .then((accountsList) => {
-      // If web3Accounts() didn't return a list, exit gracefully
-      if (!accountsList) {
-        console.error("No accounts found. Please unlock your wallet.");
-        alert("No accounts found. Please unlock your wallet.");
-        return;
-      }
-
-      // If accounts are found, store them
-      accounts.value = accountsList;
-      console.log("Found accounts:", accountsList);
-
-      if (accountsList.length > 0) {
-        // Wallet accounts found, scroll to the wallet section
-        nextTick(() => {
-          const walletSection = document.getElementById("wallet");
-          if (walletSection) {
-            // Scroll with smooth behavior
-            walletSection.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          } else {
-            console.error("Wallet section not found.");
-          }
-        });
-      } else {
-        console.error(
-          "No accounts detected. Please unlock your wallet or create an account.",
-        );
-        alert(
-          "No accounts detected. Please unlock your wallet or create an account.",
-        );
-      }
-    })
-    .catch((error) => {
-      // Handle any errors during the connection process
-      console.error("Error during wallet connection:", error);
-      alert("Error during wallet connection. Please try again.");
-    });
-};
+const existential_deposit_paseo = 10000000000;
+const txStatus = ref("");
+const recipientAddress = ref("");
+const sendAmount = ref(1.0);
+const shieldAmount = ref(1.0);
+const unshieldAmount = ref(10.0);
+const scanResult = ref("No QR code data yet");
 
 let api: ApiPromise | null = null;
 
-onMounted(async () => {
-  console.log("trying to init api");
-  const wsProvider = new WsProvider("wss://kusama.api.integritee.network");
-  api = await ApiPromise.create({ provider: wsProvider });
-  console.log("api initialized");
-  allBonds.value = [];
-  cryptoWaitReady().then(() => {
-    api.query.teerDays.teerDayBonds.entries().then((entries) => {
-      entries.forEach(([key, maybeBond]) => {
-        console.log(key.args + " " + maybeBond);
-        let account = key.args[0];
-        let lastUpdated = new Date(0);
-        let bond = maybeBond.unwrap();
-        lastUpdated.setUTCMilliseconds(bond.lastUpdated.toNumber());
-        let mybond = new Bond(
-          bond.value / Math.pow(10, 12),
-          lastUpdated,
-          bond.accumulatedTokentime / Math.pow(10, 12) / 86400 / 1000,
-        );
-        mybond.updateTeerDays();
-        console.log(mybond);
-        allBonds.value.push([
-          account,
-          mybond.teerBonded,
-          mybond.accumulatedTeerDays,
-          42,
-        ]);
-      });
-      // sort descending by value
-      allBonds.value = allBonds.value.sort((a, b) => b[2] - a[2]);
-      console.log(allBonds.value);
-      summaryTeerBonded.value = allBonds.value.reduce(
-        (acc, val) => acc + val[1],
-        0,
-      );
-      summaryTeerDays.value = allBonds.value.reduce(
-        (acc, val) => acc + val[2],
-        0,
-      );
-      summaryHolders.value = allBonds.value.length;
-      console.log(summaryHolders.value);
-    });
-  });
-});
+const tabs = [
+  { name: "Public Balance", href: "#", current: true },
+  { name: "Private Balance", href: "#", current: false },
+];
 
-const isFetchingTeerBalance = ref(true);
+const currentTab = ref("public");
 
-watch(accountStore, async () => {
-  //todo! only reinitialize if account changes
-  if (accountStore.getAddress === "none") {
-    console.log("skipping api init. no address");
-    return;
-  }
-  await api.query.system.account(
-    accountStore.address,
-    ({
-      data: {
-        free: currentFree,
-        reserved: currentReserved,
-        frozen: currentFrozen,
-      },
-    }) => {
-      console.log("TEER balance:" + currentFree);
-      accountStore.free = BigInt(currentFree);
-      accountStore.reserved = BigInt(currentReserved);
-      accountStore.frozen = BigInt(currentFrozen);
-      isFetchingTeerBalance.value = false;
-    },
-  );
-  await api.query.teerDays.teerDayBonds(
-    accountStore.address,
-    ({ value: bond }) => {
-      if (bond.value) {
-        console.log(
-          "TEERday bond:" +
-            bond.value +
-            " last updated:" +
-            bond.lastUpdated +
-            " accumulated tokentime:" +
-            bond.accumulatedTokentime,
-        );
-        let lastUpdated = new Date(0);
-        lastUpdated.setUTCMilliseconds(bond.lastUpdated.toNumber());
-        currentBond.value = new Bond(
-          bond.value / Math.pow(10, 12),
-          lastUpdated,
-          bond.accumulatedTokentime / Math.pow(10, 12) / 86400 / 1000,
-        );
-        currentBond.value.updateTeerDays();
-      } else {
-        console.log("TEERday bond not found");
-        currentBond.value = null;
-      }
-    },
-  );
-  await api.query.teerDays.pendingUnlock(
-    accountStore.address,
-    ({ value: timestamp_amount }) => {
-      console.log("TEER pending unlock:" + timestamp_amount);
-      if (timestamp_amount[1]) {
-        let unlockDate = new Date(0);
-        const unlockEpoch = timestamp_amount[0].toNumber();
-        unlockDate.setUTCMilliseconds(unlockEpoch);
-        console.log("Unlock date:" + unlockDate + "epoch:" + unlockEpoch);
-        pendingUnlock.value = new PendingUnlock(
-          timestamp_amount[1] / Math.pow(10, 12),
-          unlockDate,
-        );
-      } else {
-        pendingUnlock.value = null;
-      }
-    },
-  );
-});
+const selectTab = (tab) => {
+  currentTab.value = tab;
+};
 
-const amountToBond = ref(0);
-const bondAmount = () => {
-  // Handle the bonding process here
-  const amount = BigInt(amountToBond.value) * BigInt(Math.pow(10, 12));
-  console.log(`Bonding ${amount}`);
-  txStatus.value = "⌛ Bonding. Please sign the transaction in your wallet.";
+const submitSendForm = () => {
+  // Handle the form submission here
+  console.log("submitting send form");
   openStatusOverlay();
-  web3FromAddress(accountStore.getAddress).then((injector) => {
-    if (currentBond.value?.getTeerBonded() > 0) {
-      api.tx.teerDays
-        .bondExtra(amount)
-        .signAndSend(
-          accountStore.getAddress,
-          { signer: injector.signer },
-          txResHandlerIntegritee,
-        )
-        .catch(txErrHandlerIntegritee);
-    } else {
-      api.tx.teerDays
-        .bond(amount)
-        .signAndSend(
-          accountStore.getAddress,
-          { signer: injector.signer },
-          txResHandlerIntegritee,
-        )
-        .catch(txErrHandlerIntegritee);
-    }
-  });
+  closePrivateSendOverlay();
+  sendPrivately();
 };
-const amountToUnbond = ref(0);
-const unbondAmount = () => {
-  // Handle the bonding process here
-  const amount = BigInt(amountToUnbond.value) * BigInt(Math.pow(10, 12));
-  console.log(`Unbonding ${amount}`);
-  txStatus.value = "⌛ Unbonding. Please sign the transaction in your wallet.";
+const submitShieldForm = () => {
+  // Handle the form submission here
   openStatusOverlay();
-  web3FromAddress(accountStore.getAddress).then((injector) => {
-    api.tx.teerDays
-      .unbond(amount)
-      .signAndSend(
-        accountStore.getAddress,
-        { signer: injector.signer },
-        txResHandlerIntegritee,
-      )
-      .catch(txErrHandlerIntegritee);
-  });
+  closeShieldOverlay();
+  shield();
 };
-
-const withdrawUnbonded = () => {
-  // Handle the bonding process here
-  console.log(`Withdrawing`);
-  txStatus.value =
-    "⌛ Withdrawing. Please sign the transaction in your wallet.";
+const submitUnshieldForm = () => {
+  // Handle the form submission here
   openStatusOverlay();
-  web3FromAddress(accountStore.getAddress).then((injector) => {
-    api.tx.teerDays
-      .withdrawUnbonded()
-      .signAndSend(
-        accountStore.getAddress,
-        { signer: injector.signer },
-        txResHandlerIntegritee,
-      )
-      .catch(txErrHandlerIntegritee);
-  });
+  closeUnshieldOverlay();
+  unshield();
 };
 
-const refreshCounter = useInterval(1000);
-
-watch(refreshCounter, async () => {
-  //console.log("ping: " + refreshCounter.value);
-  currentBond.value?.updateTeerDays();
-});
-
-class Bond {
-  teerBonded: number;
-  lastUpdated: Date;
-  accumulatedTeerDays: number;
-
-  constructor(
-    teerBonded: number = 0,
-    lastUpdated: Date = new Date(),
-    accumulatedTeerDays: number = 0,
-  ) {
-    this.teerBonded = teerBonded;
-    this.lastUpdated = lastUpdated;
-    this.accumulatedTeerDays = accumulatedTeerDays;
-  }
-
-  updateTeerDays() {
-    const now = new Date();
-    const elapsed = now.getTime() - this.lastUpdated.getTime(); //milliseconds
-    this.accumulatedTeerDays += (this.teerBonded * elapsed) / 86400 / 1000;
-    this.lastUpdated = now;
-  }
-
-  getTeerDays() {
-    return this.accumulatedTeerDays.toFixed(4);
-  }
-
-  getTeerBonded() {
-    return this.teerBonded.toFixed(4);
-  }
-}
-
-class PendingUnlock {
-  teerToUnlock: number;
-  due: Date;
-
-  constructor(teerToUnlock: number = 0, due: Date = new Date()) {
-    this.teerToUnlock = teerToUnlock;
-    this.due = due;
-  }
-
-  getDueDateStr() {
-    return this.due.toISOString();
-  }
-
-  getTeerToUnlock() {
-    return this.teerToUnlock > 0 ? this.teerToUnlock.toFixed(4) : null;
-  }
-
-  canWithdraw() {
-    return this.due < new Date();
-  }
-}
-
-const txStatus = ref("");
-const showStatusOverlay = ref(false);
-
-// Open the status overlay (notification)
-const openStatusOverlay = () => {
-  showStatusOverlay.value = true;
+const setRecipientAddressToSelf = () => {
+  recipientAddress.value = accountStore.getAddress;
 };
 
-// Close the status overlay after a delay (e.g., 5 seconds)
-const closeStatusOverlay = () => {
-  setTimeout(() => {
-    showStatusOverlay.value = false;
-  }, 5000); // 5 seconds delay
+const onDecode = (decodeResult) => {
+  console.log("QR scan decoded: " + decodeResult[0].rawValue);
+  scanResult.value = decodeResult[0].rawValue;
+  recipientAddress.value = decodeResult[0].rawValue;
+  closeScanOverlay();
 };
 
-const txResHandlerIntegritee = ({ events = [], status, txHash }) => {
-  if (status.isFinalized) {
-    txStatus.value = `😀 Finalized!`;
-
-    // Close the overlay automatically after 5 seconds
-    closeStatusOverlay();
-  } else {
-    txStatus.value = `⌛ Current transaction status: ${status.type}. Please be patient a few more seconds.`;
-  }
+const txResHandlerPaseo = ({ events = [], status, txHash }) => {
+  status.isFinalized
+    ? (txStatus.value = `😀 Finalized. Finalized. You should see your Incognitee balance increase in seconds. Please move to the Private Balance tab`)
+    : (txStatus.value = `⌛ Current transaction status: ${status.type}. please be patient a few more seconds. you should see your Paseo balance going down`);
 
   // Loop through Vec<EventRecord> to display all events
   events.forEach(({ _, event: { data, method, section } }) => {
     if (section + ":" + method === "system:ExtrinsicFailed") {
-      // Extract the data for this event
+      // extract the data for this event
       const [dispatchError, dispatchInfo] = data;
       console.log(`dispatchinfo: ${dispatchInfo}`);
       let errorInfo;
 
-      // Decode the error
+      // decode the error
       if (dispatchError.isModule) {
+        // for module errors, we have the section indexed, lookup
+        // (For specific known errors, we can also do a check against the
+        // api.errors.<module>.<ErrorName>.is(dispatchError.asModule) guard)
         const mod = dispatchError.asModule;
         const error = api.registry.findMetaError(
           new Uint8Array([
@@ -1411,95 +1597,456 @@ const txResHandlerIntegritee = ({ events = [], status, txHash }) => {
       }
       txStatus.value = `😞 Transaction Failed! ${section}.${method}::${errorInfo}`;
     } else if (section + ":" + method === "system:ExtrinsicSuccess") {
-      txStatus.value = `❤️️ Transaction successful!`;
-      // Close the overlay automatically after 5 seconds if successful
-      closeStatusOverlay();
+      txStatus.value`❤️️ Transaction successful!`;
     }
   });
 };
 
-const txErrHandlerIntegritee = (err) => {
-  txStatus.value = `😞 Transaction Failed: ${err.toString()}`;
+const txErrHandlerPaseo = (err) =>
+  (txStatus.value = `😞 Transaction Failed: ${err.toString()}`);
+const shield = async () => {
+  console.log("shielding .....");
+  txStatus.value = "⌛ connecting to Paseo....please be patient";
+  if (incogniteeStore.vault) {
+    const balance = accountStore.paseoBalance;
+    const amount = Math.pow(10, 10) * shieldAmount.value;
+    console.log(`sending ${amount} to vault: ${incogniteeStore.vault}`);
+    const wsProvider = new WsProvider("wss://rpc.ibp.network/paseo");
+    const api = await ApiPromise.create({ provider: wsProvider });
+    console.log("api initialized for shielding");
+    await api.tx.balances
+      .transferKeepAlive(incogniteeStore.vault, amount)
+      .signAndSend(accountStore.account, txResHandlerPaseo)
+      .catch(txErrHandlerPaseo);
+  }
+};
+
+const unshield = () => {
+  console.log("will unshield 30% of your private funds to same account on L1");
+  txStatus.value = "⌛ will unshield to L1";
+  const balance = accountStore.incogniteeBalance;
+  const amount = Math.pow(10, 10) * unshieldAmount.value;
+  const signer = accountStore.account;
+  console.log(
+    `sending ${formatBalance(amount)} from ${
+      signer.address
+    } privately to ${recipientAddress.value} on L1 (shard: ${incogniteeStore.shard}`,
+  );
+  incogniteeStore.api
+    .balanceUnshieldFunds(
+      signer,
+      incogniteeStore.shard,
+      incogniteeStore.fingerprint,
+      signer.address,
+      recipientAddress.value,
+      amount,
+    )
+    .then((hash) => {
+      txStatus.value = "😀 Triggered unshielding of funds successfully.";
+      console.log(`trustedOperationHash: ${hash}`);
+    });
+};
+
+const sendPrivately = () => {
+  console.log("sending funds on incognitee");
+  txStatus.value = "⌛ sending funds privately on incognitee";
+  const amount = Math.pow(10, 10) * sendAmount.value;
+  const signer = accountStore.account;
+  console.log(
+    `sending ${formatBalance(amount)} from ${signer.address} privately to ${recipientAddress.value}`,
+  );
+  incogniteeStore.api
+    .trustedBalanceTransfer(
+      signer,
+      incogniteeStore.shard,
+      incogniteeStore.fingerprint,
+      signer.address,
+      recipientAddress.value,
+      amount,
+    )
+    .then((hash) => {
+      console.log(`trustedOperationHash: ${hash}`);
+      txStatus.value = "😀 Success";
+    });
+};
+
+const fetchIncogniteeBalance = async () => {
+  if (!incogniteeStore.apiReady) return;
+  if (!accountStore.account) return;
+  incogniteeStore.api
+    .getBalance(accountStore.account, incogniteeStore.shard)
+    .then((balance) => {
+      console.log(
+        `current account balance L2: ${balance} on shard ${incogniteeStore.shard}`,
+      );
+      accountStore.setIncogniteeBalance(balance);
+      isFetchingIncogniteeBalance.value = false;
+    });
+};
+
+const pollCounter = useInterval(2000);
+
+watch(pollCounter, async () => {
+  console.log("ping: " + pollCounter.value);
+  await fetchIncogniteeBalance();
+});
+
+watch(accountStore, async () => {
+  //todo! only reinitialize if account changes
+  if (accountStore.getAddress === "none") {
+    console.log("skipping api init. no address");
+    return;
+  }
+  if (api?.isReady) {
+    console.log(
+      "skipping api init. It seems the Paseo api is already subscribed to balance changes",
+    );
+    return;
+  }
+
+  console.log("trying to init api");
+  const wsProvider = new WsProvider("wss://rpc.ibp.network/paseo");
+  api = await ApiPromise.create({ provider: wsProvider });
+  api.query.system.account(
+    accountStore.account.address,
+    ({ data: { free: currentFree } }) => {
+      console.log("paseo balance:" + currentFree);
+      accountStore.paseoBalance = Number(currentFree);
+      isFetchingPaseoBalance.value = false;
+    },
+  );
+  // for quicker responsiveness we dont wait until the next regular poll, but trigger the balance fetch here
+  fetchIncogniteeBalance().then(() =>
+    console.log("fetched incognitee balance"),
+  );
+});
+
+const copyOwnAddressToClipboard = () => {
+  navigator.clipboard
+    .writeText(accountStore.getAddress)
+    .then(() =>
+      alert(
+        "copied your account address to clipboard. Please paste it into the address field on the Paseo faucet.",
+      ),
+    );
+};
+
+onMounted(() => {
+  incogniteeStore.initializeApi();
+
+  const seedHex = router.currentRoute.value.query.seed;
+  if (seedHex) {
+    console.log("found seed in url: " + seedHex);
+    cryptoWaitReady().then(() => {
+      const localKeyring = new Keyring({ type: "sr25519" });
+      const account = localKeyring.addFromSeed(hexToU8a(seedHex));
+      accountStore.setAccount(account);
+    });
+  } else {
+    console.log("no seed found in url. will automatically create fresh wallet");
+    cryptoWaitReady().then(() => {
+      const generatedMnemonic = mnemonicGenerate();
+      const localKeyring = new Keyring({ type: "sr25519", ss58Format: 42 });
+      const newAccount = localKeyring.addFromMnemonic(generatedMnemonic, {
+        name: "fresh",
+      });
+      const seed = mnemonicToMiniSecret(generatedMnemonic);
+      const privateKeyHex = u8aToHex(seed);
+      console.log(`Private Key in Hex: ${privateKeyHex}`);
+      // change url to contain new seed to allow bookmarking
+      router.push({
+        query: { seed: privateKeyHex },
+      });
+      accountStore.setAccount(newAccount);
+      openNewWalletOverlay();
+    });
+  }
+});
+
+const open = ref(true);
+
+const showAssetsInfo = ref(false);
+const openAssetsInfo = () => {
+  showAssetsInfo.value = true;
+};
+const closeAssetsInfo = () => {
+  showAssetsInfo.value = false;
+};
+
+const showPrivacyInfo = ref(false);
+const openPrivacyInfo = () => {
+  showPrivacyInfo.value = true;
+};
+const closePrivacyInfo = () => {
+  showPrivacyInfo.value = false;
+};
+const privacyInfo = ref(null);
+const closeOnOutsideClick = (event) => {
+  if (event.target === privacyInfo.value) {
+    showPrivacyInfo.value = false;
+  }
+};
+
+const showNewWalletOverlay = ref(false);
+const openNewWalletOverlay = () => {
+  showNewWalletOverlay.value = true;
+};
+const closeNewWalletOverlay = () => {
+  showNewWalletOverlay.value = false;
+};
+const showShieldOverlay = ref(false);
+const openShieldOverlay = () => {
+  showShieldOverlay.value = true;
+};
+const closeShieldOverlay = () => {
+  showShieldOverlay.value = false;
+};
+
+const showFaucetOverlay = ref(false);
+const openFaucetOverlay = () => {
+  showFaucetOverlay.value = true;
+};
+const closeFaucetOverlay = () => {
+  showFaucetOverlay.value = false;
+};
+
+const showUnshieldOverlay = ref(false);
+const openUnshieldOverlay = () => {
+  unshieldAmount.value = 10;
+  showUnshieldOverlay.value = true;
+};
+const closeUnshieldOverlay = () => {
+  showUnshieldOverlay.value = false;
+};
+const showReceiveOverlay = ref(false);
+const openReceiveOverlay = () => {
+  showReceiveOverlay.value = true;
+};
+const closeReceiveOverlay = () => {
+  showReceiveOverlay.value = false;
+};
+const showPrivateSendOverlay = ref(false);
+const openPrivateSendOverlay = () => {
+  console.log(`openSendOverlay (scanoverlay=${showScanOverlay.value})`);
+  showPrivateSendOverlay.value = true;
+};
+const closePrivateSendOverlay = () => {
+  console.log("closePrivateSendOverlay");
+  showPrivateSendOverlay.value = false;
+};
+
+const showScanOverlay = ref(false);
+const openScanOverlay = () => {
+  scanResult.value = "No QR code data yet";
+  showScanOverlay.value = true;
+};
+const closeScanOverlay = () => {
+  console.log("closeScanOverlay");
+  showScanOverlay.value = false;
+};
+const showStatusOverlay = ref(false);
+const openStatusOverlay = () => {
+  showStatusOverlay.value = true;
+};
+const closeStatusOverlay = () => {
+  showStatusOverlay.value = false;
+  showPrivateSendOverlay.value = false;
+  showShieldOverlay.value = false;
+  showUnshieldOverlay.value = false;
 };
 </script>
 
 <style scoped>
-.wallet-address {
-  display: block;
-  white-space: nowrap; /* Verhindert Zeilenumbruch */
-  overflow: hidden; /* Versteckt überlaufenden Text */
-  text-overflow: ellipsis; /* Zeigt '...' bei zu langem Text an */
+.border-green-500 {
+  border-color: #24ad7c;
 }
 
-/* Für mobile Bildschirme (max-width: 640px) */
-@media (max-width: 640px) {
-  .wallet-address {
-    max-width: 10ch; /* Zeigt nur die ersten 5 Zeichen */
-  }
+.bg-gray-800 {
+  background-color: #1f2937;
 }
 
-/* Für größere Bildschirme (ab 641px) */
-@media (min-width: 641px) {
-  .wallet-address {
-    max-width: none; /* Zeigt die komplette Adresse an */
-  }
-}
-
-.rounded-table {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  border-collapse: separate;
-  /* Necessary for rounded corners */
-  border-spacing: 0 10px;
-  /* Space between rows */
-}
-
-.rounded-table thead th {
-  /* Header background color */
-  padding: 15px;
-  text-align: left;
+.text-white {
   color: #ffffff;
-  /* Lighter text for header */
-  font-weight: bold;
 }
 
-.rounded-table tbody tr {
-  background-color: #1b1d26;
-  /* Row background */
+.wallet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
 }
 
-.rounded-table tbody td {
-  padding: 15px;
-  background-color: #1b1d26;
-  /* Matches row background */
+.truncate-input {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.rounded-table tbody tr td.rounded-left {
-  border-top-left-radius: 10px;
-  /* Top-left corner */
-  border-bottom-left-radius: 10px;
-  /* Bottom-left corner */
+.balance {
+  font-size: 48px;
+  padding: 20px 20px;
 }
 
-.rounded-table tbody tr td.rounded-right {
-  border-top-right-radius: 10px;
-  /* Top-right corner */
-  border-bottom-right-radius: 10px;
-  /* Bottom-right corner */
+.balance-naked {
+  font-size: 24px;
+  padding: 20px 20px;
 }
 
-.rounded-table tbody tr td:nth-child(3),
-.rounded-table tbody tr td:nth-child(4) {
-  text-align: left;
-  /* Align text to the right for points and prize */
+h1 {
+  font-size: 1em; /* Adjust as needed */
+  font-weight: bold; /* Makes the text bold */
+  color: #999; /* Change color as needed */
+  text-align: center; /* Centers the text */
+  margin-bottom: 20px; /* Adds space below the heading */
 }
 
-.rounded-table tbody tr td .icon {
-  margin-right: 10px;
-  /* Space between icon and text */
-  color: #8c8e9c;
-  /* Icon color */
+.currency-selector {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.currency-logo {
+  height: 50px; /* Adjust as needed */
+  width: 50px; /* Adjust as needed */
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+hr {
+  border: none;
+  border-top: 1px #222; /* Change color as needed */
+  color: #111; /* Change color as needed */
+  background-color: #333; /* Change color as needed */
+  height: 1px; /* Adjust as needed */
+}
+
+.privacy-separator {
+  width: 90%;
+  text-align: center;
+  color: #555;
+}
+
+.alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.alert {
+  background: #222;
+  padding: 20px;
+  width: 90%;
+  border-radius: 10px;
+  overflow: auto;
+  max-height: 90%;
+}
+
+.action-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.action {
+  background: #222;
+  padding: 20px;
+  width: 90%;
+  border-radius: 10px;
+  overflow: auto;
+  max-height: 90%;
+}
+
+.status-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.status {
+  background: #269;
+  padding: 20px;
+  width: 90%;
+  border-radius: 10px;
+}
+
+.qrcode-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.qrcode {
+  width: min(90vw, 80vh);
+  height: min(90vw, 80vh);
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-container input {
+  background-color: #333;
+  color: #fff; /* You might want to change the text color to ensure it's readable against the dark background */
+}
+
+.form-container input#amount {
+  font-size: 2em; /* Make the font size twice as large */
+  text-align: center; /* Center the text */
+  width: 50%; /* Reduce the width by 50% */
+}
+
+.incognitee-border-gradient {
+  width: 100%;
+  height: 100%;
+  background: url("/img/global/bg-line.svg") no-repeat center center;
+  background-size: cover;
+}
+
+.spinner {
+  border: 2px solid #f3f3f3; /* Light grey */
+  border-top: 2px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 1em; /* Adjust the size here */
+  height: 1em; /* Adjust the size here */
+  animation: spin 2s linear infinite;
+  vertical-align: middle; /* Align with the text */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .incognitee-bg {
@@ -1508,258 +2055,5 @@ const txErrHandlerIntegritee = (err) => {
 
 .incognitee-blue {
   background: #1845b9;
-}
-
-.incognitee-green {
-  background: #24ad7c;
-}
-
-/* Hide the arrows for number input fields */
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type="number"] {
-  -moz-appearance: textfield;
-  /* Hides the arrows in Firefox */
-}
-
-.evervault-card {
-  background-color: #1c1c26;
-  border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.footer {
-  margin-top: 50px;
-}
-
-.footer {
-  &__logo {
-    display: block;
-
-    margin-bottom: 19px;
-
-    @include slg {
-      width: 117px;
-      height: 24px;
-      margin-bottom: 26px;
-    }
-
-    @include md {
-      margin-bottom: 0;
-      width: 144px;
-      height: 30px;
-      flex-shrink: 0;
-    }
-
-    @include sm {
-      margin-bottom: 24px;
-      width: 117px;
-      height: 24px;
-    }
-
-    svg {
-      width: 100%;
-      height: auto;
-    }
-  }
-
-  &__row {
-    display: block; /* Default for mobile */
-
-    /* Media Query for Desktop */
-    @media (min-width: 768px) {
-      /* Adjust the pixel value according to your breakpoint */
-      display: flex;
-      gap: 48px;
-    }
-  }
-
-  &__column {
-    @media screen and (max-width: 660px) {
-      margin-bottom: 24px;
-      width: 50%;
-
-      &:first-child {
-        width: 100%;
-
-        .footer__column-list {
-          display: flex;
-          flex-wrap: wrap;
-        }
-
-        .footer__column-link {
-          width: 50%;
-        }
-      }
-
-      &:nth-last-child(1),
-      &:nth-last-child(2) {
-        margin-bottom: 0;
-      }
-    }
-
-    @include xsm {
-      &:first-child {
-        width: 100% !important;
-
-        .footer__column-link {
-          width: 125px;
-        }
-
-        .footer__column-list {
-          justify-content: space-between;
-        }
-      }
-
-      width: 125px !important;
-    }
-
-    &_about {
-      flex-shrink: 0;
-      max-width: 255px;
-      font-size: 1.125em;
-
-      @include slg {
-        font-size: 0.875em;
-      }
-
-      @include md {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        max-width: 100%;
-        width: 100%;
-        gap: 24px;
-        margin-bottom: 35px;
-        font-size: 0.75em;
-      }
-
-      @include sm {
-        display: block;
-        margin-bottom: 24px !important;
-        font-size: 0.875em;
-      }
-    }
-
-    &:last-child {
-      width: auto;
-
-      @media screen and (max-width: 660px) {
-        width: 50%;
-      }
-    }
-  }
-
-  &__column-link {
-    display: block;
-    line-height: 150%;
-    margin-bottom: 14px;
-    font-size: 1.125em;
-
-    @include slg {
-      font-size: 1em;
-    }
-
-    @include sm {
-      font-size: 0.875em;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  &__columns-row {
-    display: flex;
-    gap: 82px;
-
-    @include lg {
-      gap: 52px;
-    }
-
-    @include slg {
-      gap: 32px;
-    }
-
-    @include md {
-      justify-content: space-between;
-    }
-
-    @media screen and (max-width: 660px) {
-      gap: 0;
-      flex-wrap: wrap;
-    }
-  }
-
-  &__description {
-    line-height: 150%;
-    margin-bottom: 19px;
-
-    @include slg {
-      margin-bottom: 26px;
-    }
-
-    @include md {
-      margin-bottom: 0;
-      max-width: 415px;
-      margin-right: auto;
-    }
-
-    @include sm {
-      margin-bottom: 24px;
-      max-width: 100%;
-    }
-  }
-
-  &__column-title {
-    color: #88888c;
-    margin-bottom: 32px;
-    line-height: 150%;
-    font-size: 1.125em;
-
-    @include slg {
-      margin-bottom: 24px;
-    }
-
-    @include md {
-      margin-bottom: 16px;
-    }
-
-    @include sm {
-      font-size: 0.875em;
-    }
-  }
-
-  &__bottom {
-    display: flex;
-    justify-content: space-between;
-    padding: 36px 0;
-    margin-top: 36px;
-    border-top: 2px solid $alphaGray;
-
-    @include md {
-      padding: 24px 0;
-      margin-top: 24px;
-    }
-
-    a {
-      transition: 0.3s ease;
-
-      &:hover {
-        color: #7ca8ff;
-      }
-    }
-  }
-}
-
-@media (max-width: 640px) {
-  .wallet-grid a:nth-child(3),
-  .wallet-grid a:nth-child(4) {
-    margin-top: 20px;
-  }
 }
 </style>
