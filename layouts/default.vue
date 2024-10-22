@@ -29,7 +29,6 @@
       </div>
     </header>
     <footer class="footer">
-      <!--
       <nav class="footer-content">
         <div class="container">
           <div
@@ -115,7 +114,6 @@
           </div>
         </div>
       </nav>
-      -->
     </footer>
     <main class="main">
       <NuxtPage />
@@ -153,13 +151,13 @@ const emitAddressClicked = () => {
 
 .header {
   flex-shrink: 0; /* Prevents the header from shrinking */
-  padding: 10px 0px 10px 10px;
 }
 
 .header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 1em;
 }
 
 .logo {
