@@ -952,6 +952,8 @@
           >
         </span>
       </div>
+      <!-- this is necessary to avoid the footer overlapping the text -->
+      <br /><br /><br /><br /><br /><br /><br />
     </div>
   </footer>
 
@@ -1031,6 +1033,7 @@ import { ApiPromise, WsProvider } from "@polkadot/api";
 import { cryptoWaitReady } from "@polkadot/util-crypto";
 import { onMounted, ref, watch } from "vue";
 import { useAccount } from "@/store/teerAccount.ts";
+import { ChainId, chainConfigs } from "@/configs/chains.ts";
 import { useInterval } from "@vueuse/core";
 import { XMarkIcon } from "@heroicons/vue/20/solid";
 import { CheckCircleIcon } from "@heroicons/vue/24/outline";
@@ -1045,6 +1048,7 @@ const allBonds = ref([]);
 const summaryHolders = ref(0);
 const summaryTeerBonded = ref(0);
 const summaryTeerDays = ref(0);
+const integriteeNetwork = ref(ChainId.IntegriteeKusama);
 
 watch(selectedAccount, (newAccount) => {
   if (newAccount) {
@@ -1053,6 +1057,7 @@ watch(selectedAccount, (newAccount) => {
   }
 });
 import { nextTick } from "vue";
+import { useRuntimeConfig } from "#app";
 
 const connect = () => {
   web3Enable("Integritee Dapp")
@@ -1115,8 +1120,20 @@ const connect = () => {
 let api: ApiPromise | null = null;
 
 onMounted(async () => {
-  console.log("trying to init api");
-  const wsProvider = new WsProvider("wss://kusama.api.integritee.network");
+  const integriteeNetworkEnv = useRuntimeConfig().public.INTEGRITEE_NETWORK;
+  if (ChainId[integriteeNetworkEnv]) {
+    integriteeNetwork.value = ChainId[integriteeNetworkEnv];
+  }
+  console.log(
+    "INTEGRITEE_NETWORK: env:" +
+      integriteeNetworkEnv +
+      ". using " +
+      ChainId[integriteeNetwork.value],
+  );
+  const wsProvider = new WsProvider(chainConfigs[integriteeNetwork.value].api);
+  console.log(
+    "trying to init api at " + chainConfigs[integriteeNetwork.value].api,
+  );
   api = await ApiPromise.create({ provider: wsProvider });
   console.log("api initialized");
   allBonds.value = [];
@@ -1500,18 +1517,6 @@ const txErrHandlerIntegritee = (err) => {
   /* Space between icon and text */
   color: #8c8e9c;
   /* Icon color */
-}
-
-.incognitee-bg {
-  background: linear-gradient(84.58deg, #24ad7c, #1845b9);
-}
-
-.incognitee-blue {
-  background: #1845b9;
-}
-
-.incognitee-green {
-  background: #24ad7c;
 }
 
 /* Hide the arrows for number input fields */

@@ -2,6 +2,16 @@ import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
   target: "static",
+  runtimeConfig: {
+    public: {
+      SHIELDING_TARGET: process.env.SHIELDING_TARGET,
+      INCOGNITEE_SIDECHAIN: process.env.INCOGNITEE_SIDECHAIN,
+      INTEGRITEE_NETWORK: process.env.INTEGRITEE_NETWORK,
+      SHARD: process.env.SHARD,
+      SHIELDING_LIMIT: process.env.SHIELDING_LIMIT,
+      LIVE: process.env.LIVE,
+    },
+  },
   app: {
     head: {
       title: "Incognitee",
