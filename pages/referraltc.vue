@@ -479,6 +479,11 @@ import {
   TWITTER_LINK,
   YOUTUBE_LINK,
 } from "@/configs/app.config";
+import { definePageMeta } from "#imports";
+// don't use header and footer. plain layout with just a logo in the top left corner
+definePageMeta({
+  layout: "landing",
+});
 </script>
 
 <style scoped>
