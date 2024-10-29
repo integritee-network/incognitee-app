@@ -1,6 +1,6 @@
 <template>
   <CampaignBanner
-    v-if="isLive"
+    v-if="enableActions"
     :onClick="openGuessTheNumberOverlay"
     :isMobile="isMobile"
     textMobile="Guess-The-Number Campaign."
@@ -8,14 +8,14 @@
   />
 
   <InfoBanner
-    v-if="!isLive"
+    v-if="!enableActions"
     :isMobile="isMobile"
     textMobile="This page is not yet live for mainnet. please visit <a href='https://try.incognitee.io'>try.incognitee.io</a> for the latest version of our paseo testnet wallet"
     textDesktop="This page is not yet live for mainnet. please visit <a href='https://try.incognitee.io'>try.incognitee.io</a> for the latest version of our paseo testnet wallet"
   />
 
   <InfoBanner
-    v-if="!isLive"
+    v-if="!enableActions"
     :isMobile="isMobile"
     textMobile="If you are looking for our TEERDAYS page, please follow <a href='/teerdays'>this link</a>"
     textDesktop="If you are looking for our TEERDAYS page, please follow <a href='/teerdays'>this link</a>"
@@ -40,10 +40,14 @@
 
         <div class="text-white mb-6 text-center">
           <div class="">
-            <h3 class="text-sm mb-3">Public Balance</h3>
+            <h3 class="text-sm mb-3">Public Transferable Balance</h3>
             <div v-if="isFetchingShieldingTargetBalance" class="spinner"></div>
             <div class="text-4xl font-semibold" v-else>
-              {{ accountStore.formatBalance(shieldingTarget) }}
+              {{
+                formatDecimalBalance(
+                  accountStore.getDecimalBalanceTransferable(shieldingTarget),
+                )
+              }}
               <span class="text-sm font-semibold">{{
                 accountStore.getSymbol
               }}</span>
@@ -95,6 +99,27 @@
               </svg>
               <p class="text-xs">Faucet</p>
             </div>
+            <div
+              class="flex flex-col items-center text-center"
+              @click="openObtainTokenOverlay"
+              v-else
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6 mx-auto mb-2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"
+                />
+              </svg>
+              <p class="text-xs">Get {{ accountStore.getSymbol }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -106,10 +131,14 @@
           </h3>
           <div v-if="isFetchingIncogniteeBalance" class="spinner"></div>
           <div v-if="disableGetter">
-            getter disabled. please reconnect your account
+            getter disabled. please reconnect your account and sign the getter
+            request in your extension
           </div>
-          <div class="text-4xl font-semibold" v-else>
-            {{ accountStore.formatBalance(incogniteeSidechain) }}
+          <div
+            v-if="!isFetchingIncogniteeBalance && !disableGetter"
+            class="text-4xl font-semibold"
+          >
+            {{ accountStore.formatBalanceFree(incogniteeSidechain) }}
             <span class="text-sm font-semibold">{{
               accountStore.getSymbol
             }}</span>
@@ -340,8 +369,9 @@
         />
         <div class="text-right">
           <span class="text-xs text-gray-400"
-            >Fee: 16 m{{ accountStore.getSymbol }} for L1, 0.175% for
-            Incognitee</span
+            >Fee: ~16 m{{ accountStore.getSymbol }} for L1,
+            {{ formatDecimalBalance(INCOGNITEE_SHIELDING_FEE_FRACTION * 100) }}%
+            for Incognitee</span
           >
         </div>
       </div>
@@ -410,6 +440,13 @@
       </a>
     </div>
   </OverlayDialog>
+
+  <ObtainTokenOverlay
+    :withdraw-to-address="accountStore.getAddress"
+    :token-symbol="accountStore.getSymbol"
+    :close="closeObtainTokenOverlay"
+    :show="showObtainTokenOverlay"
+  />
 
   <!-- Unshield -->
   <OverlayDialog
@@ -513,7 +550,7 @@
 
         <span class="text-xs text-gray-400"
           >Available private balance:
-          {{ accountStore.formatBalance(incogniteeSidechain) }}</span
+          {{ accountStore.formatBalanceFree(incogniteeSidechain) }}</span
         >
       </div>
       <input
@@ -523,7 +560,7 @@
         step="0.1"
         :min="1.1"
         :max="
-          accountStore.getDecimalBalance(incogniteeSidechain) -
+          accountStore.getDecimalBalanceFree(incogniteeSidechain) -
           accountStore.getDecimalExistentialDeposit(incogniteeSidechain) -
           0.1
         "
@@ -534,7 +571,8 @@
       <!-- Fee description -->
       <div class="text-right">
         <span class="text-xs text-gray-400"
-          >Fee: 30m {{ accountStore.getSymbol }} for Incognitee</span
+          >Fee: {{ formatDecimalBalance(INCOGNITEE_UNSHIELDING_FEE) }}
+          {{ accountStore.getSymbol }} for Incognitee</span
         >
       </div>
 
@@ -667,7 +705,7 @@
 
           <span class="text-xs text-gray-400"
             >Available private balance:
-            {{ accountStore.formatBalance(incogniteeSidechain) }}</span
+            {{ accountStore.formatBalanceFree(incogniteeSidechain) }}</span
           >
         </div>
 
@@ -680,7 +718,7 @@
             step="0.01"
             :min="0.1"
             :max="
-              accountStore.getDecimalBalance(incogniteeSidechain) -
+              accountStore.getDecimalBalanceFree(incogniteeSidechain) -
               accountStore.getDecimalExistentialDeposit(incogniteeSidechain) -
               0.1
             "
@@ -694,7 +732,8 @@
         <!-- Fee description -->
         <div class="text-right">
           <span class="text-xs text-gray-400"
-            >Fee: 10m {{ accountStore.getSymbol }} for Incognitee</span
+            >Fee: {{ formatDecimalBalance(INCOGNITEE_TX_FEE) }}
+            {{ accountStore.getSymbol }} for Incognitee</span
           >
         </div>
       </div>
@@ -717,8 +756,10 @@
     title="Guess The Number"
   >
     <div class="my-3 text-gray-300 text-sm text-center">
-      <p>Guess a number between 0-10000 and win a weekly giveaway!</p>
-      <p>You can place up to 10 guesses per round.</p>
+      <p>
+        Guess a number between 0-10000 and win a weekly giveaway! You can place
+        up to 10 guesses per round.
+      </p>
     </div>
 
     <div class="mx-auto">
@@ -738,8 +779,13 @@
                   <dd
                     class="mt-1 text-left text-base font-semibold leading-6 text-white"
                   >
-                    {{ guessTheNumberInfo?.winnings / Math.pow(10, 10) }}
-                    PAS
+                    {{
+                      formatDecimalBalance(
+                        guessTheNumberInfo?.winnings /
+                          Math.pow(10, accountStore.decimals),
+                      )
+                    }}
+                    {{ accountStore.getSymbol }}
                   </dd>
                 </div>
 
@@ -794,25 +840,10 @@
                 </div>
 
                 <!-- Winner's address displayed under the last lucky number -->
-                <div class="text-sm leading-6 text-gray-400">
-                  <span v-if="isMobile">
-                    {{
-                      guessTheNumberInfo?.last_winners.isEmpty
-                        ? "no one"
-                        : guessTheNumberInfo?.last_winners
-                            .join(", ")
-                            .slice(0, 20) + "..."
-                    }}
-                  </span>
-
-                  <span v-else>
-                    {{
-                      guessTheNumberInfo?.last_winners.isEmpty
-                        ? "no one"
-                        : guessTheNumberInfo?.last_winners.join(", ")
-                    }}
-                  </span>
-                </div>
+                <div
+                  class="text-sm leading-6 text-gray-400"
+                  v-html="gtnWinners"
+                />
               </div>
             </dl>
           </div>
@@ -823,50 +854,90 @@
         </div>
       </div>
     </div>
+    <div
+      v-if="
+        accountStore.getDecimalBalanceTransferable(incogniteeSidechain) >
+        INCOGNITEE_GTN_GUESS_FEE
+      "
+    >
+      <form class="" @submit.prevent="submitGuessForm">
+        <!-- Label for the input -->
+        <div class="flex justify-between mb-2">
+          <label for="guess" class="text-sm font-medium leading-6 text-white"
+            >Enter your guess</label
+          >
+        </div>
 
-    <form class="" @submit.prevent="submitGuessForm">
-      <!-- Label for the input -->
-      <div class="flex justify-between mb-2">
-        <label for="guess" class="text-sm font-medium leading-6 text-white"
-          >Enter your guess</label
-        >
-      </div>
+        <!-- Flex container for input and button -->
+        <div class="flex items-center space-x-4">
+          <!-- Guess Input Field -->
+          <div class="flex-grow relative">
+            <input
+              id="guess"
+              v-model="guess"
+              type="number"
+              step="1"
+              :min="0"
+              :max="10000"
+              required
+              class="w-full text-sm rounded-lg bg-cool-900 text-white placeholder-gray-500 border border-green-500"
+              style="border-color: #24ad7c"
+              placeholder="guess"
+            />
 
-      <!-- Flex container for input and button -->
-      <div class="flex items-center space-x-4">
-        <!-- Guess Input Field -->
-        <div class="flex-grow relative">
-          <input
-            id="guess"
-            v-model="guess"
-            type="number"
-            step="1"
-            :min="0"
-            :max="10000"
-            required
-            class="w-full text-sm rounded-lg bg-cool-900 text-white placeholder-gray-500 border border-green-500"
-            style="border-color: #24ad7c"
-            placeholder="guess"
-          />
+            <!-- Fee description below input, right-aligned -->
+            <div class="absolute right-0 -bottom-5">
+              <span class="text-xs text-gray-400"
+                >Fee: {{ formatDecimalBalance(INCOGNITEE_GTN_GUESS_FEE) }}
+                {{ accountStore.getSymbol }} for Incognitee</span
+              >
+            </div>
+          </div>
 
-          <!-- Fee description below input, right-aligned -->
-          <div class="absolute right-0 -bottom-5">
-            <span class="text-xs text-gray-400">Fee: 1 PAS for Incognitee</span>
+          <!-- Submit Button -->
+          <div class="flex items-center justify-center">
+            <button
+              type="submit"
+              class="btn btn_gradient rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm"
+              style="margin-left: auto; margin-right: auto"
+            >
+              Submit
+            </button>
           </div>
         </div>
-
-        <!-- Submit Button -->
-        <div class="flex items-center justify-center">
-          <button
-            type="submit"
-            class="btn btn_gradient rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm"
-            style="margin-left: auto; margin-right: auto"
-          >
-            Submit
-          </button>
+      </form>
+    </div>
+    <div v-else>
+      <div class="rounded-md bg-yellow-50 p-4">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg
+              class="h-5 w-5 text-yellow-400"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+              data-slot="icon"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <div class="text-left text-sm text-yellow-700">
+              <p>
+                You need at least
+                {{ formatDecimalBalance(INCOGNITEE_GTN_GUESS_FEE) }} private
+                {{ accountStore.getSymbol }} to participate in the game. Please
+                shield some first.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-    </form>
+    </div>
   </OverlayDialog>
 
   <!-- Scan QR -->
@@ -946,94 +1017,13 @@
   </OverlayDialog>
 
   <!-- Choose Wallet -->
-  <OverlayDialog
+  <ChooseWalletOverlay
     :show="showChooseWalletOverlay"
     :close="closeChooseWalletOverlay"
-    title="Access Your Wallet!"
-  >
-    <div class="mt-2">
-      <p class="text-sm text-gray-400">How would you like to connect?</p>
-      <div class="mt-4">
-        <button
-          @click="createTestingAccount"
-          class="incognitee-bg btn btn_gradient rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
-        >
-          Create a New Account for Testing
-        </button>
-      </div>
-      <p class="mt-4">or</p>
-      <div v-if="extensionAccounts.length < 1" class="mt-4 flex flex-col">
-        <div
-          class="mx-auto grid max-w-lg grid-cols-2 gap-x-3 gap-y-3 sm:max-w-xl sm:grid-cols-4 sm:gap-x-3 lg:mx-0 lg:max-w-none lg:grid-cols-4"
-        >
-          <a href="https://talisman.xyz/download"
-            ><img
-              class="col-span-1 max-h-10 w-full object-contain lg:col-span-1"
-              src="/img/index/talisman-logo.svg"
-              alt="talisman"
-          /></a>
-          <a href="https://novawallet.io/"
-            ><img
-              class="col-span-1 max-h-7 w-full object-contain lg:col-span-1"
-              src="/img/index/nova-wallet-logo.svg"
-              alt="nova wallet"
-          /></a>
-          <a href="https://www.subwallet.app/"
-            ><img
-              class="col-span-1 max-h-10 w-full object-contain lg:col-span-1"
-              src="/img/index/sub-wallet-logo.svg"
-              alt="sub wallet"
-          /></a>
-          <a href="https://polkadot.js.org/extension/"
-            ><img
-              class="col-span-1 max-h-7 w-full object-contain lg:col-span-1"
-              src="/img/index/polkadotjs-logo.svg"
-              alt="polkajs"
-          /></a>
-        </div>
-        <div class="mt-10">
-          <button
-            @click="connectExtension"
-            class="incognitee-bg btn btn_gradient rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
-          >
-            Connect Signer Extension
-          </button>
-        </div>
-      </div>
-      <div
-        v-if="extensionAccounts.length > 0"
-        ref="walletSection"
-        id="wallet"
-        class="py-12 sm:py-16"
-      >
-        <p class="text-sm text-gray-400">
-          Choose one of your extension accounts
-        </p>
-        <select
-          v-model="selectedExtensionAccount"
-          id="account.address"
-          name="account.address"
-          placeholder="account.address"
-          class="w-full rounded-md border-0 bg-gray-800 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-700 focus:ring-1 focus:ring-inset focus:ring-incognitee-green sm:text-sm sm:leading-6"
-        >
-          <option
-            v-for="account in extensionAccounts"
-            :key="account.address"
-            :value="account.address"
-          >
-            {{ account.meta.name }}
-          </option>
-        </select>
-      </div>
-      <div v-if="accountStore.hasInjector" class="mt-10">
-        <p>
-          please allow this app to read your balance by signing the upcoming
-          request in your extension
-        </p>
-        <p>this window will close once a balance could be fetched</p>
-      </div>
-    </div>
-  </OverlayDialog>
+    :createTestingAccount="isProd ? undefined : createTestingAccount"
+    :onExtensionAccountChange="onExtensionAccountChange"
+    :showTrustedGetterHint="true"
+  />
 
   <StatusOverlay
     :tx-status="txStatus"
@@ -1043,23 +1033,20 @@
 </template>
 
 <script setup lang="ts">
-import {
-  web3Accounts,
-  web3Enable,
-  web3FromAddress,
-} from "@polkadot/extension-dapp";
 import NetworkSelector from "@/components/ui/NetworkSelector.vue";
 import PublicPrivateBalanceSwitcher from "@/components/ui/PublicPrivateBalanceSwitcher.vue";
 import BalanceInteractorContainer from "@/components/ui/BalanceInteractorContainer.vue";
 import StatusOverlay from "@/components/ui/StatusOverlay.vue";
+import ChooseWalletOverlay from "@/components/ui/ChooseWalletOverlay.vue";
 import { computed } from "vue";
-import { ChainId, chainConfigs } from "@/configs/chains.ts";
+import { chainConfigs } from "@/configs/chains.ts";
 import { useAccount } from "@/store/account.ts";
 import { useIncognitee } from "@/store/incognitee.ts";
 import OverlayDialog from "@/components/ui/OverlayDialog.vue";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import { Keyring } from "@polkadot/keyring";
 import { hexToU8a, u8aToHex } from "@polkadot/util";
+import { encodeAddress } from "@polkadot/util-crypto";
 import { TypeRegistry, u32 } from "@polkadot/types";
 import {
   cryptoWaitReady,
@@ -1072,26 +1059,41 @@ import Qrcode from "vue-qrcode";
 import { QrcodeStream } from "vue-qrcode-reader";
 import { useRouter } from "vue-router";
 import { eventBus } from "@/helpers/eventBus";
-import { useRuntimeConfig } from "#app";
 import InfoBanner from "~/components/ui/InfoBanner.vue";
 import CampaignBanner from "~/components/ui/CampaignBanner.vue";
+import {
+  extensionAccounts,
+  connectExtension,
+  injectorForAddress,
+} from "@/lib/signerExtensionUtils";
+import {
+  loadEnv,
+  shieldingTarget,
+  shieldingLimit,
+  incogniteeSidechain,
+  incogniteeShard,
+  isLive,
+} from "@/lib/environmentConfig";
+import ObtainTokenOverlay from "@/components/ui/ObtainTokenOverlay.vue";
+import { formatDecimalBalance } from "@/helpers/numbers";
+import {
+  INCOGNITEE_GTN_GUESS_FEE,
+  INCOGNITEE_SHIELDING_FEE_FRACTION,
+  INCOGNITEE_TX_FEE,
+  INCOGNITEE_UNSHIELDING_FEE,
+} from "../configs/incognitee";
+import { useSystemHealth } from "@/store/systemHealth";
 
 const router = useRouter();
 const accountStore = useAccount();
 const incogniteeStore = useIncognitee();
+const systemHealth = useSystemHealth();
 const isFetchingShieldingTargetBalance = ref(true);
 const isFetchingIncogniteeBalance = ref(true);
 const isUpdatingIncogniteeBalance = ref(false);
 const isChoosingAccount = ref(false);
 const disableGetter = ref(false);
 const isSignerBusy = ref(false);
-
-const shieldingTarget = ref(ChainId.PaseoRelay);
-const shieldingLimit = ref(Infinity);
-const incogniteeSidechain = ref(ChainId.IncogniteePaseoRelay);
-const incogniteeShard = ref(null);
-const isLive = ref(true);
-
 const txStatus = ref("");
 const recipientAddress = ref("");
 const sendAmount = ref(1.0);
@@ -1100,31 +1102,19 @@ const unshieldAmount = ref(10.0);
 const guess = ref(null);
 const guessTheNumberInfo = ref(null);
 const scanResult = ref("No QR code data yet");
-const extensionAccounts = ref([]);
-const selectedExtensionAccount = ref(null);
 const faucetUrl = ref(null);
+const forceLive = ref(false);
 
-// Funktion, um die Adressen zu kürzen
-const shortenAddress = (address) => {
-  if (!address) return "";
-  return address.slice(0, 6) + "..." + address.slice(-6);
+const isProd = computed(
+  () => chainConfigs[shieldingTarget.value].faucetUrl === undefined,
+);
+const onExtensionAccountChange = async (selectedAddress) => {
+  dropSubscriptions();
+  console.log("user selected extension account:", selectedAddress);
+  accountStore.setAccount(selectedAddress.toString());
+  accountStore.setInjector(await injectorForAddress(accountStore.getAddress));
+  isUpdatingIncogniteeBalance.value = false;
 };
-
-watch(selectedExtensionAccount, async (selectedAddress) => {
-  if (selectedAddress) {
-    console.log("user selected extension account:", selectedAddress);
-    dropSubscriptions();
-    router.push({
-      query: { address: selectedAddress },
-    });
-    accountStore.setAccount(selectedAddress.toString());
-    const injector = await web3FromAddress(accountStore.getAddress);
-    console.debug(`setting injector: ${JSON.stringify(injector)}`);
-    console.debug(`setting injector: ${JSON.stringify(injector.signer)}`);
-    accountStore.setInjector(injector);
-    isUpdatingIncogniteeBalance.value = false;
-  }
-});
 
 let api: ApiPromise | null = null;
 
@@ -1160,14 +1150,12 @@ const submitUnshieldForm = () => {
   closeUnshieldOverlay();
   unshield();
 };
-
 const submitGuessForm = () => {
   // Handle the form submission here
   openStatusOverlay();
   closeGuessTheNumberOverlay();
   submitGuess();
 };
-
 const setRecipientAddressToSelf = () => {
   recipientAddress.value = accountStore.getAddress;
 };
@@ -1227,6 +1215,33 @@ const txResHandlerShieldingTarget = ({ events = [], status, txHash }) => {
 
 const txErrHandlerShieldingTarget = (err) =>
   (txStatus.value = `😞 Transaction Failed: ${err.toString()}`);
+
+const handleTopResult = (result, successMsg?) => {
+  console.log("TOP result: " + result);
+  if (result) {
+    if (result.status.isInSidechainBlock) {
+      if (successMsg) {
+        txStatus.value = successMsg;
+      } else {
+        txStatus.value =
+          "😀 included in sidechain block: " + result.status.asInSidechainBlock;
+      }
+      return;
+    }
+    if (result.status.isInvalid) {
+      txStatus.value = "😞 Invalid (unspecified reason)";
+      return;
+    }
+  }
+  console.error(`unknown result: ${result}`);
+  txStatus.value = "😞 Unknown Result";
+};
+
+const handleTopError = (err) => {
+  console.error(`error: ${err}`);
+  txStatus.value = `😞 Submission Failed: ${err}`;
+};
+
 const shield = async () => {
   console.log("shielding .....");
   if (isSignerBusy.value) {
@@ -1237,7 +1252,6 @@ const shield = async () => {
   isSignerBusy.value = true;
   txStatus.value = "⌛ awaiting signature and connection";
   if (incogniteeStore.vault && api?.isReady) {
-    const balance = accountStore.balance[shieldingTarget.value];
     const amount = accountStore.decimalAmountToBigInt(shieldAmount.value);
     console.log(`sending ${amount} to vault: ${incogniteeStore.vault}`);
 
@@ -1277,10 +1291,10 @@ const unshield = () => {
         nonce: nonce,
       },
     )
-    .then((hash) => {
-      txStatus.value = "😀 Triggered unshielding of funds";
-      console.log(`trustedOperationHash: ${hash}`);
-    });
+    .then((result) =>
+      handleTopResult(result, "😀 Triggered unshielding of funds"),
+    )
+    .catch((err) => handleTopError(err));
   //todo: manually inc nonce locally avoiding clashes with fetchIncogniteeBalance
 };
 
@@ -1310,10 +1324,8 @@ const sendPrivately = () => {
         nonce: nonce,
       },
     )
-    .then((hash) => {
-      console.log(`trustedOperationHash: ${hash}. status unknown`);
-      txStatus.value = "😀 submitted";
-    });
+    .then((result) => handleTopResult(result, "😀 Balance transfer successful"))
+    .catch((err) => handleTopError(err));
   //todo: manually inc nonce locally avoiding clashes with fetchIncogniteeBalance
 };
 
@@ -1321,6 +1333,10 @@ const submitGuess = () => {
   console.log("submit guess: ", guess.value);
   txStatus.value = "⌛ privately submitting your guess to incognitee";
   const account = accountStore.account;
+  const nonce = new u32(
+    new TypeRegistry(),
+    accountStore.nonce[incogniteeSidechain.value],
+  );
   console.log(
     `sending guess ${guess.value} from ${account.address} privately to incognitee`,
   );
@@ -1333,13 +1349,11 @@ const submitGuess = () => {
       guess.value,
       {
         signer: accountStore.injector?.signer,
-        nonce: accountStore.incogniteeNonce,
+        nonce: nonce,
       },
     )
-    .then((hash) => {
-      console.log(`trustedOperationHash: ${hash}`);
-      txStatus.value = "😀 Success";
-    });
+    .then((result) => handleTopResult(result, "😀 Guess submission successful"))
+    .catch((err) => handleTopError(err));
   //todo: manually inc nonce locally avoiding clashes with fetchIncogniteeBalance
 };
 
@@ -1397,7 +1411,7 @@ const fetchIncogniteeBalance = async () => {
       console.debug(
         `current account info L2: ${accountInfo} on shard ${incogniteeStore.shard}`,
       );
-      accountStore.setBalance(
+      accountStore.setBalanceFree(
         BigInt(accountInfo.data.free),
         incogniteeSidechain.value,
       );
@@ -1417,7 +1431,7 @@ const fetchIncogniteeBalance = async () => {
 
 const fetchGuessTheNumberInfo = async () => {
   if (!incogniteeStore.apiReady) return;
-  console.log("TODO: fetch guess the number info");
+  console.log("fetch guess the number info");
   const getter = incogniteeStore.api.guessTheNumberInfoGetter(
     incogniteeStore.shard,
   );
@@ -1427,18 +1441,68 @@ const fetchGuessTheNumberInfo = async () => {
   });
 };
 
+const gtnWinners = computed(() => {
+  if (guessTheNumberInfo.value) {
+    let winners = [];
+    for (const winner of guessTheNumberInfo.value.last_winners) {
+      winners.push(
+        encodeAddress(winner, accountStore.getSs58Format).slice(0, 8) + "...",
+      );
+    }
+    return winners.join("<br>");
+  }
+  return "no one";
+});
+
+const fetchNetworkStatus = async () => {
+  if (api?.isReady) {
+    api.rpc.chain.getFinalizedHead().then((head) => {
+      api.rpc.chain.getBlock(head).then((block) => {
+        console.log(
+          `finalized L1 block number, according to L1 api: ${block.block.header.number}`,
+        );
+      });
+    });
+  }
+  if (!incogniteeStore.apiReady) return;
+  console.debug("fetch network status info");
+  const getter = incogniteeStore.api.parentchainsInfoGetter(
+    incogniteeShard.value,
+  );
+  getter.send().then((info) => {
+    console.debug(`parentchains info: ${info}`);
+    const shielding_target_id = info.shielding_target
+      .toString()
+      .replace(/([A-Z])/g, "_$1")
+      .toLowerCase()
+      .replace(/^_/, "");
+    const block_number = info[shielding_target_id]?.block_number;
+    const genesis_hash = info[shielding_target_id]?.genesis_hash
+      .toHex()
+      .toString();
+    if (block_number !== null && block_number !== undefined) {
+      systemHealth.observeShieldingTargetImportedBlockNumber(block_number);
+    }
+    if (genesis_hash?.length > 0) {
+      systemHealth.setShieldingTargetLightClientGenesisHashHex(genesis_hash);
+    }
+  });
+};
+
 const pollCounter = useInterval(2000);
 
 watch(pollCounter, async () => {
-  await fetchIncogniteeBalance();
+  fetchIncogniteeBalance();
+  fetchNetworkStatus();
 });
 
-watch(accountStore, async () => {
+watch(
+  () => accountStore.getAddress,
+  async () => subscribeWhatsReady(),
+);
+
+const subscribeWhatsReady = async () => {
   //todo! only reinitialize if account changes
-  if (accountStore.getAddress === "none") {
-    console.log("skipping api init. no address");
-    return;
-  }
   if (api?.isReady) {
     //console.log("skipping api init. It seems the ShieldingTarget api is already subscribed to balance changes");
     return;
@@ -1456,17 +1520,61 @@ watch(accountStore, async () => {
   accountStore.setDecimals(Number(api.registry.chainDecimals));
   accountStore.setSS58Format(Number(api.registry.chainSS58));
   accountStore.setSymbol(String(api.registry.chainTokens));
-
+  console.log(
+    "api-reported genesis hash for shielding target: " +
+      api.genesisHash.toHex().toString(),
+  );
+  systemHealth.setShieldingTargetApiGenesisHashHex(
+    api.genesisHash.toHex().toString(),
+  );
+  api.rpc.chain.subscribeNewHeads((lastHeader) => {
+    systemHealth.observeShieldingTargetBlockNumber(
+      lastHeader.number.toNumber(),
+    );
+  });
   faucetUrl.value = chainConfigs[shieldingTarget.value].faucetUrl?.replace(
     "ADDRESS",
     accountStore.getAddress,
   );
   console.log("faucet url: " + faucetUrl.value);
+  if (accountStore.hasInjector) {
+    const currentQuery = { ...router.currentRoute.value.query };
+    currentQuery.address = accountStore.getAddress;
+    currentQuery.seed = undefined;
+    router.push({
+      query: currentQuery,
+    });
+  }
+  if (accountStore.getAddress === "none") {
+    console.log("skipping account subscription. no address");
+    return;
+  }
   api.query.system.account(
     accountStore.getAddress,
-    ({ data: { free: currentFree } }) => {
-      console.log("shielding target balance:" + currentFree);
-      accountStore.setBalance(BigInt(currentFree), shieldingTarget.value);
+    ({
+      data: {
+        free: currentFree,
+        reserved: currentReserved,
+        frozen: currentFrozen,
+      },
+    }) => {
+      console.log(
+        "shielding-target balance: free=" +
+          currentFree +
+          " reserved=" +
+          currentReserved +
+          " frozen=" +
+          currentFrozen,
+      );
+      accountStore.setBalanceFree(BigInt(currentFree), shieldingTarget.value);
+      accountStore.setBalanceReserved(
+        BigInt(currentReserved),
+        shieldingTarget.value,
+      );
+      accountStore.setBalanceFrozen(
+        BigInt(currentFrozen),
+        shieldingTarget.value,
+      );
       isFetchingShieldingTargetBalance.value = false;
     },
   );
@@ -1474,8 +1582,7 @@ watch(accountStore, async () => {
   fetchIncogniteeBalance().then(() =>
     console.log("fetched incognitee balance"),
   );
-});
-
+};
 const copyOwnAddressToClipboard = () => {
   navigator.clipboard
     .writeText(accountStore.getAddress)
@@ -1497,7 +1604,10 @@ onMounted(async () => {
   eventBus.on("addressClicked", openChooseWalletOverlay);
   const seedHex = router.currentRoute.value.query.seed;
   const injectedAddress = router.currentRoute.value.query.address;
-
+  if (router.currentRoute.value.query.forceLive) {
+    forceLive.value = true;
+    console.log("forcing live status to true");
+  }
   if (seedHex) {
     console.log("found seed in url: " + seedHex);
     cryptoWaitReady().then(() => {
@@ -1509,10 +1619,9 @@ onMounted(async () => {
     connectExtension();
     try {
       accountStore.setAccount(injectedAddress.toString());
-      const injector = await web3FromAddress(accountStore.getAddress);
-      console.debug(`setting injector: ${JSON.stringify(injector)}`);
-      console.debug(`setting injector: ${JSON.stringify(injector.signer)}`);
-      accountStore.setInjector(injector);
+      accountStore.setInjector(
+        await injectorForAddress(accountStore.getAddress),
+      );
     } catch (e) {
       console.warn("could not load injected account" + e);
       alert(
@@ -1520,6 +1629,7 @@ onMounted(async () => {
       );
     }
   } else {
+    subscribeWhatsReady();
     openChooseWalletOverlay();
   }
 });
@@ -1550,8 +1660,11 @@ const createTestingAccount = () => {
     const privateKeyHex = u8aToHex(seed);
     console.log(`Private Key in Hex: ${privateKeyHex}`);
     // change url to contain new seed to allow bookmarking
+    const currentQuery = { ...router.currentRoute.value.query };
+    currentQuery.address = undefined;
+    currentQuery.seed = privateKeyHex;
     router.push({
-      query: { seed: privateKeyHex },
+      query: currentQuery,
     });
     accountStore.setAccount(newAccount);
     openNewWalletOverlay();
@@ -1562,118 +1675,18 @@ const createTestingAccount = () => {
   });
 };
 
-const connectExtension = () => {
-  web3Enable("Integritee Dapp")
-    .then((extensions) => {
-      console.log("Enabled extensions:", extensions);
-
-      // Check if any extensions are found
-      if (extensions.length === 0) {
-        console.error(
-          "No wallet extensions found. Please install or enable a wallet.",
-        );
-        alert("No wallet extensions found. Please install or enable a wallet.");
-        return; // Stop execution if no extensions are found
-      }
-
-      return web3Accounts();
-    })
-    .then((accountsList) => {
-      // If web3Accounts() didn't return a list, exit gracefully
-      if (!accountsList) {
-        console.error("No accounts found. Please unlock your wallet.");
-        alert("No accounts found. Please unlock your wallet.");
-        return;
-      }
-
-      // If accounts are found, store them
-      extensionAccounts.value = accountsList;
-      console.log("Found accounts:", accountsList);
-
-      if (accountsList.length < 1) {
-        console.error(
-          "No accounts detected in extension. Please unlock your wallet, check visibility or create an account.",
-        );
-        alert(
-          "No accounts detected in extension. Please unlock your wallet, check visibility or create an account.",
-        );
-      }
-    })
-    .catch((error) => {
-      // Handle any errors during the connection process
-      console.error("Error during wallet connection:", error);
-      alert("Error during wallet connection. Please try again.");
-    });
-};
-
-const loadEnv = () => {
-  const shieldingTargetEnv = useRuntimeConfig().public.SHIELDING_TARGET;
-  const shieldingLimitEnv = useRuntimeConfig().public.SHIELDING_LIMIT;
-  const incogniteeSidechainEnv = useRuntimeConfig().public.INCOGNITEE_SIDECHAIN;
-  const incogniteeShardEnv = useRuntimeConfig().public.SHARD;
-  const isLiveEnv = useRuntimeConfig().public.LIVE;
-  // apply sane defaults and fallbacks
-
-  incogniteeShard.value =
-    incogniteeShardEnv.length > 0
-      ? incogniteeShardEnv
-      : "5wePd1LYa5M49ghwgZXs55cepKbJKhj5xfzQGfPeMS7c";
-
-  if (ChainId[shieldingTargetEnv]) {
-    shieldingTarget.value = ChainId[shieldingTargetEnv];
-  }
-  if (ChainId[incogniteeSidechainEnv]) {
-    incogniteeSidechain.value = ChainId[incogniteeSidechainEnv];
-  }
-  if (shieldingLimitEnv > 0) {
-    shieldingLimit.value = Number(shieldingLimitEnv);
-  }
-  isLive.value = toBoolean(isLiveEnv);
-
-  console.log(
-    "SHIELDING_TARGET: env:" +
-      shieldingTargetEnv +
-      ". using " +
-      ChainId[shieldingTarget.value],
-  );
-  console.log(
-    "SHIELDING_LIMIT: env:" +
-      shieldingLimitEnv +
-      ". using " +
-      shieldingLimit.value,
-  );
-  console.log(
-    "INCOGNITEE_SIDECHAIN: env:" +
-      incogniteeSidechainEnv +
-      ". using " +
-      ChainId[incogniteeSidechain.value],
-  );
-  console.log(
-    "SHARD: env:" +
-      useRuntimeConfig().public.SHARD +
-      ". using " +
-      incogniteeShard.value,
-  );
-  console.log("LIVE: env:" + isLiveEnv + ". using " + isLive.value);
-};
-
 const computedShieldingMax = computed(() => {
-  return Math.min(
-    shieldingLimit.value -
-      accountStore.getDecimalBalance(incogniteeSidechain.value),
-    accountStore.getDecimalBalance(shieldingTarget.value) -
-      accountStore.getDecimalExistentialDeposit(shieldingTarget.value) -
-      0.1,
+  return Math.max(
+    0,
+    Math.min(
+      shieldingLimit.value -
+        accountStore.getDecimalBalanceFree(incogniteeSidechain.value),
+      accountStore.getDecimalBalanceTransferable(shieldingTarget.value) -
+        accountStore.getDecimalExistentialDeposit(shieldingTarget.value) -
+        0.1,
+    ),
   );
 });
-
-const toBoolean = (value: string | number | boolean): boolean => {
-  if (typeof value === "boolean") return value;
-  if (typeof value === "number") return value === 1;
-  if (typeof value === "string")
-    return value.toLowerCase() === "true" || value === "1";
-  return false;
-};
 
 const showAssetsInfo = ref(false);
 const openAssetsInfo = () => {
@@ -1693,7 +1706,7 @@ const closePrivacyInfo = () => {
 
 const showNewWalletOverlay = ref(false);
 const openNewWalletOverlay = () => {
-  if (!isLive.value) {
+  if (!enableActions.value) {
     console.error("network not live");
     return;
   }
@@ -1705,11 +1718,10 @@ const closeNewWalletOverlay = () => {
 
 const showChooseWalletOverlay = ref(false);
 const openChooseWalletOverlay = () => {
-  if (!isLive.value) {
+  if (!enableActions.value) {
     console.error("network not live");
     return;
   }
-  selectedExtensionAccount.value = null;
   isChoosingAccount.value = true;
   isUpdatingIncogniteeBalance.value = true;
   showChooseWalletOverlay.value = true;
@@ -1721,7 +1733,7 @@ const closeChooseWalletOverlay = () => {
 
 const showShieldOverlay = ref(false);
 const openShieldOverlay = () => {
-  if (!isLive.value) {
+  if (!enableActions.value) {
     console.error("network not live");
     return;
   }
@@ -1736,7 +1748,7 @@ const closeShieldOverlay = () => {
 
 const showFaucetOverlay = ref(false);
 const openFaucetOverlay = () => {
-  if (!isLive.value) {
+  if (!enableActions.value) {
     console.error("network not live");
     return;
   }
@@ -1746,14 +1758,26 @@ const closeFaucetOverlay = () => {
   showFaucetOverlay.value = false;
 };
 
+const showObtainTokenOverlay = ref(false);
+const openObtainTokenOverlay = () => {
+  if (!enableActions.value) {
+    console.error("network not live");
+    return;
+  }
+  showObtainTokenOverlay.value = true;
+};
+const closeObtainTokenOverlay = () => {
+  showObtainTokenOverlay.value = false;
+};
+
 const showUnshieldOverlay = ref(false);
 const openUnshieldOverlay = () => {
-  if (!isLive.value) {
+  if (!enableActions.value) {
     console.error("network not live");
     return;
   }
   unshieldAmount.value = Math.floor(
-    Math.min(10, accountStore.getDecimalBalance(incogniteeSidechain.value)),
+    Math.min(10, accountStore.getDecimalBalanceFree(incogniteeSidechain.value)),
   );
   showUnshieldOverlay.value = true;
 };
@@ -1762,7 +1786,7 @@ const closeUnshieldOverlay = () => {
 };
 const showReceiveOverlay = ref(false);
 const openReceiveOverlay = () => {
-  if (!isLive.value) {
+  if (!enableActions.value) {
     console.error("network not live");
     return;
   }
@@ -1773,7 +1797,7 @@ const closeReceiveOverlay = () => {
 };
 const showPrivateSendOverlay = ref(false);
 const openPrivateSendOverlay = () => {
-  if (!isLive.value) {
+  if (!enableActions.value) {
     console.error("network not live");
     return;
   }
@@ -1783,7 +1807,7 @@ const openPrivateSendOverlay = () => {
   sendAmount.value = Math.floor(
     Math.min(
       sendAmount.value,
-      accountStore.getDecimalBalance(incogniteeSidechain.value) - 0.1,
+      accountStore.getDecimalBalanceFree(incogniteeSidechain.value) - 0.1,
     ),
   );
   showPrivateSendOverlay.value = true;
@@ -1795,7 +1819,7 @@ const closePrivateSendOverlay = () => {
 
 const showGuessTheNumberOverlay = ref(false);
 const openGuessTheNumberOverlay = () => {
-  if (!isLive.value) {
+  if (!enableActions.value) {
     console.error("network not live");
     return;
   }
@@ -1851,9 +1875,28 @@ const formatTimestamp = (timestamp: number | null) => {
   };
   return new Intl.DateTimeFormat("de-CH", options).format(date);
 };
+
+const enableActions = computed(() => {
+  return isLive.value || forceLive.value;
+});
 </script>
 
 <style scoped>
+.currency-box {
+  position: relative;
+  outline: none; /* Keine Outline standardmäßig */
+}
+
+.currency-box:hover {
+  outline: 2px solid var(--incognitee-green); /* Verwende outline statt border */
+}
+
+.text-overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .border-green-500 {
   border-color: #24ad7c;
 }

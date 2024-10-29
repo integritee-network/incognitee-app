@@ -18,6 +18,11 @@ export default defineNuxtConfig({
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
       meta: [
+        // {
+        //   hid: 'robots',
+        //   name: 'robots',
+        //   content: 'noindex',
+        // },
         {
           hid: "msapplication-TileColor",
           name: "msapplication-TileColor",
@@ -78,6 +83,8 @@ export default defineNuxtConfig({
   routeRules: {
     "/": { ssr: false },
     "/teerdays": { ssr: false },
+    "/gtn": { ssr: false },
+    "/teerdays-lp": { ssr: false },
     "/referral": { ssr: false },
     "/referraltc": { ssr: false },
   },
