@@ -469,6 +469,13 @@
       Unshielding is the process of moving funds from your private balance on
       Incognitee to publicly visible (naked) L1.
     </p>
+    <div v-if="shieldingLimit < Infinity">
+      <p class="text-sm text-gray-400 text-left my-4">
+        During beta phase, you can only shield up to
+        {{ shieldingLimit }} {{ accountStore.getSymbol }} which includes your
+        current private balance on incognitee.
+      </p>
+    </div>
     <form class="mt-5" @submit.prevent="submitUnshieldForm">
       <div class="flex flex-col">
         <label
@@ -572,9 +579,12 @@
         step="0.1"
         :min="1.1"
         :max="
-          accountStore.getDecimalBalanceFree(incogniteeSidechain) -
-          accountStore.getDecimalExistentialDeposit(incogniteeSidechain) -
-          0.1
+          Math.min(
+            accountStore.getDecimalBalanceFree(incogniteeSidechain) -
+              accountStore.getDecimalExistentialDeposit(incogniteeSidechain) -
+              0.1,
+            shieldingLimit,
+          )
         "
         required
         class="w-full text-sm rounded-lg flex-grow py-2 bg-cool-900 text-white placeholder-gray-500 border border-green-500 text-right"
@@ -1097,7 +1107,7 @@ import {
   INCOGNITEE_TX_FEE,
   INCOGNITEE_UNSHIELDING_FEE,
 } from "../configs/incognitee";
-import { useSystemHealth } from "@/store/systemHealth";
+import { useSystemHealth, Health } from "@/store/systemHealth";
 import WarningBanner from "@/components/ui/WarningBanner.vue";
 
 const router = useRouter();
@@ -1141,7 +1151,12 @@ const selectTab = (tab) => {
 };
 
 const submitSendForm = () => {
-  // Handle the form submission here
+  if (systemHealth.getSidechainSystemHealth.overall() !== Health.Healthy) {
+    alert(
+      "Sidechain health currently can't be assessed. Please wait for a green health indicator and try again",
+    );
+    return;
+  }
   openStatusOverlay();
   closePrivateSendOverlay();
   sendPrivately();
@@ -1155,19 +1170,34 @@ const submitShieldForm = async () => {
     );
     return;
   }
-  // Handle the form submission here
+  if (systemHealth.getSidechainSystemHealth.overall() !== Health.Healthy) {
+    alert(
+      "Sidechain health currently can't be assessed. Please wait for a green health indicator and try again",
+    );
+    return;
+  }
   openStatusOverlay();
   closeShieldOverlay();
   await shield();
 };
 const submitUnshieldForm = async () => {
-  // Handle the form submission here
+  if (systemHealth.getSidechainSystemHealth.overall() !== Health.Healthy) {
+    alert(
+      "Sidechain health currently can't be assessed. Please wait for a green health indicator and try again",
+    );
+    return;
+  }
   openStatusOverlay();
   closeUnshieldOverlay();
   await unshield();
 };
 const submitGuessForm = async () => {
-  // Handle the form submission here
+  if (systemHealth.getSidechainSystemHealth.overall() !== Health.Healthy) {
+    alert(
+      "Sidechain health currently can't be assessed. Please wait for a green health indicator and try again",
+    );
+    return;
+  }
   openStatusOverlay();
   closeGuessTheNumberOverlay();
   await submitGuess();
