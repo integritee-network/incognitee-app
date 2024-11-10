@@ -1,18 +1,69 @@
 <template>
-  <div class="layout">
-    <header class="container header">
-      <Logo />
+  <div class="container">
+    <header class="header bg-gray-800 text-white py-1">
+      <div class="header-content mx-auto flex items-center justify-between">
+        <!-- Logo -->
+        <Incognitee class="logo" />
 
-      <!--p class="address">{{ accountStore.getShortAddress }}</p -->
+        <!-- Flex container for network health, indicator, and wallet information -->
+        <div class="flex items-center gap-4">
+          <!-- gap-4 steuert den Abstand zwischen den Elementen -->
+          <!-- Network health text and health indicator -->
+          <div class="flex items-center gap-2 ml-1 mr-1">
+            <!-- gap-2 für den Abstand zwischen Network Health und Indikator -->
+            <HealthIndicator />
+          </div>
+
+          <!-- SVG icon -->
+          <div v-if="accountStore.getAddress !== 'none'"></div>
+
+          <!-- Address and Connect Wallet button -->
+          <div
+            class="text-white text-sm cursor-pointer"
+            @click="emitAddressClicked"
+          >
+            <!-- Full address on larger screens and short address on mobile -->
+            <div v-if="accountStore.getAddress === 'none'">
+              <button
+                class="incognitee-bg btn btn_gradient rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+              >
+                Connect Wallet
+              </button>
+            </div>
+            <div v-else class="flex">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21 12.75H3M21 9.75h-4.5M3 12.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v5.25m-18 0h18m-18 0V16.5A2.25 2.25 0 0 0 5.25 18.75h13.5A2.25 2.25 0 0 0 21 16.5v-3.75"
+                />
+              </svg>
+              <span class="hidden md:inline ml-1 mt-0.5">{{
+                accountStore.getAddress
+              }}</span>
+              <span class="inline md:hidden ml-1 mt-0.5">{{
+                accountStore.getShortAddress
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </header>
+
     <footer class="footer">
-      <!--
-      <nav class="footer-content">
+      <nav class="footer-content container mx-auto">
         <div class="container">
           <div
-            class="flex mt-10 fixed left-0 right-0 bottom-10 mb-2 w-full px-4 rounded justify-around"
+            class="flex mt-10 fixed left-0 right-0 bottom-10 mb-2 w-full px-4 rounded justify-around z-20"
           >
-            <div class="custom-border-gradient">
+            <div class="container custom-border-gradient">
               <div class="inner-box">
                 <div class="flex justify-around text-white">
                   <div class="flex flex-col items-center text-center">
@@ -74,13 +125,25 @@
                       <p class="text-xs cursor-pointer">Gov</p>
                     </nuxt-link>
                   </div>
+                  <div
+                    v-if="accountStore.getSymbol === 'TEER'"
+                    class="flex flex-col items-center justify-center text-center"
+                  >
+                    <nuxt-link
+                      :to="{ path: '/teerdays', query: $route.query }"
+                      class="flex flex-col items-center justify-center"
+                    >
+                      <TEERdays class="w-6 h-6 mb-2" />
+                      <!-- Make TEERdays icon the same size as others -->
+                      <p class="text-xs cursor-pointer">TEERDays</p>
+                    </nuxt-link>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </nav>
-      -->
     </footer>
     <main class="main">
       <NuxtPage />
@@ -89,13 +152,24 @@
 </template>
 
 <script setup lang="ts">
-import Logo from "@/components/Logo";
+import Incognitee from "@/assets/img/incognitee-mask.svg";
+import TEERdays from "@/public/img/index/TEERdays-icon-white.svg";
 import { useAccount } from "@/store/account.ts";
+import { eventBus } from "@/helpers/eventBus";
+import HealthIndicator from "@/components/ui/HealthIndicator.vue";
 
 const accountStore = useAccount();
+
+const emitAddressClicked = () => {
+  eventBus.emit("addressClicked");
+};
 </script>
 
 <style scoped>
+.address {
+  font-size: 0.875rem; /* Small text size */
+  color: white; /* Adjust as necessary for your theme */
+}
 .layout {
   display: flex;
   flex-direction: column;
@@ -108,15 +182,17 @@ const accountStore = useAccount();
   width: 100%;
 }
 
-.header {
-  flex-shrink: 0; /* Prevents the header from shrinking */
-  padding: 10px 0px 10px 10px;
+.header,
+.footer {
+  flex-shrink: 0;
 }
 
-.header-content {
+.header-content,
+.footer-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 
 .logo {
@@ -125,27 +201,31 @@ const accountStore = useAccount();
 }
 
 .main {
-  flex-grow: 1; /* Allows the main content to take up the remaining space */
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow-y: auto;
 }
 
-.footer {
-  flex-shrink: 0; /* Prevents the footer from shrinking */
+.address {
+  font-size: 0.875rem;
+  color: white;
 }
 
-.footer-content {
-  display: flex;
-  justify-content: space-around;
+.bg-green-500 {
+  background-color: #2dad24; /* Adjust the color as needed */
 }
 
-.footer-content ul {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  padding: 0;
-  list-style-type: none;
+.w-4 {
+  width: 1rem; /* Adjust the size as needed */
+}
+
+.h-4 {
+  height: 1rem; /* Adjust the size as needed */
+}
+
+.rounded-full {
+  border-radius: 9999px; /* Makes the element a circle */
 }
 </style>

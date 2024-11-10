@@ -2,12 +2,27 @@ import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
   target: "static",
+  runtimeConfig: {
+    public: {
+      SHIELDING_TARGET: process.env.SHIELDING_TARGET,
+      INCOGNITEE_SIDECHAIN: process.env.INCOGNITEE_SIDECHAIN,
+      INTEGRITEE_NETWORK: process.env.INTEGRITEE_NETWORK,
+      SHARD: process.env.SHARD,
+      SHIELDING_LIMIT: process.env.SHIELDING_LIMIT,
+      LIVE: process.env.LIVE,
+    },
+  },
   app: {
     head: {
       title: "Incognitee",
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
       meta: [
+        // {
+        //   hid: 'robots',
+        //   name: 'robots',
+        //   content: 'noindex',
+        // },
         {
           hid: "msapplication-TileColor",
           name: "msapplication-TileColor",
@@ -68,6 +83,8 @@ export default defineNuxtConfig({
   routeRules: {
     "/": { ssr: false },
     "/teerdays": { ssr: false },
+    "/gtn": { ssr: false },
+    "/teerdays-lp": { ssr: false },
     "/referral": { ssr: false },
     "/referraltc": { ssr: false },
   },
