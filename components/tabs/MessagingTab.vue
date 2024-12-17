@@ -50,16 +50,23 @@
     </div>
     <!-- Overlay End -->
 
-    <div class="bg-gray-900 text-white max-h-[650px] flex mt-10">
+    <div class="bg-incognitee-blue text-white flex">
       <!-- Form starts here -->
 
       <!-- Sidebar -->
       <div
         v-if="!isMobile || !showChatDetail"
         :class="isMobile ? 'w-full' : 'md:w-1/3'"
-        class="bg-gray-800 border-r border-gray-700 flex flex-col"
+        class="bg-incognitee-blue border-r border-gray-700 flex flex-col"
       >
         <div class="px-4 py-4 flex items-center justify-between">
+          <!-- Sidebar-Button -->
+          <button
+            @click="eventBus.emit('toggleSidebar')"
+            class="lg:hidden text-white focus:outline-none text-2xl"
+          >
+            ☰
+          </button>
           <!-- Linksbündiger Titel -->
           <div
             class="title text-2xl font-bold tracking-tight text-white sm:text-2xl"
@@ -168,7 +175,8 @@
       <div
         v-if="!isMobile || showChatDetail"
         :class="isMobile ? 'w-full' : 'md:w-2/3'"
-        class="bg-gray-900 flex flex-col"
+        class="bg-incognitee-blue flex flex-col h-screen relative"
+        :style="{ height: chatWindowHeight }"
       >
         <!-- Header -->
         <div
@@ -184,30 +192,27 @@
           <h2 class="text-lg font-bold">
             {{
               recipientValid(conversationAddress)
-                ? "Chat with " +
-                  (maybeUsername(conversationAddress) || "") +
+                ? (maybeUsername(conversationAddress) || "") +
                   " " +
-                  conversationAddress.slice(0, 12) +
-                  "..."
+                  (isMobile
+                    ? conversationAddress.slice(0, 10) + "..." // Mobile: Abgekürzt
+                    : conversationAddress) // Desktop: Vollständige Adresse
                 : "Chat"
             }}
           </h2>
         </div>
         <!-- Chat Messages -->
-        <div class="flex-1 overflow-y-auto">
+        <div class="flex-1 overflow-y-auto" style="height: calc(100vh - 12rem)">
           <div
             v-if="eventHorizon"
-            class="ml-5 mt-5 flex justify-center text-gray-500"
+            class="my-5 mx-5 flex text-center text-xs text-gray-500"
           >
-            <i
-              >messages before {{ formatMoment(eventHorizon) }} have been purged
-              from Incognitee state. more recent messages can be polled in
-              batches</i
-            >
+            messages before {{ formatMoment(eventHorizon) }} have been purged
+            from Incognitee state. more recent messages can be polled in batches
           </div>
           <div
             v-if="unfetchedBucketsCount > 0"
-            class="mt-5 flex justify-center text-gray-500"
+            class="my-5 mx-5 flex text-center text-xs text-gray-500"
           >
             <button @click="fetchOlderBucket">
               query more messages
@@ -228,7 +233,7 @@
         <!-- Input Box -->
         <div
           v-if="recipientValid(conversationAddress)"
-          class="border-t border-gray-700"
+          class="border-t border-gray-700 bg-gray-800 absolute bottom-0 left-0 right-0 z-10"
         >
           <div class="flex items-center bg-gray-800 px-4 py-2">
             <form class="flex w-full" @submit.prevent="submitSendForm">
@@ -385,10 +390,11 @@
 <script setup lang="ts">
 import PrivateMessageHistory from "~/components/ui/PrivateMessageHistory.vue";
 import { incogniteeSidechain } from "~/lib/environmentConfig";
+import { eventBus } from "@/helpers/eventBus";
 import { INCOGNITEE_TX_FEE } from "~/configs/incognitee";
 import { Health, useSystemHealth } from "~/store/systemHealth";
 import { TypeRegistry, u32 } from "@polkadot/types";
-import { defineProps, ref, watch, computed, onMounted } from "vue";
+import { defineProps, ref, watch, computed, onMounted, onUnmounted } from "vue";
 import { useAccount } from "~/store/account";
 import { useIncognitee } from "~/store/incognitee";
 import OverlayDialog from "~/components/overlays/OverlayDialog.vue";
@@ -402,6 +408,7 @@ import { useNotes } from "@/store/notes.ts";
 import { Note, NoteDirection } from "@/lib/notes";
 import { divideBigIntToFloat } from "@/helpers/numbers";
 import NoteDetailsOverlay from "~/components/overlays/NoteDetailsOverlay.vue";
+import { SessionProxyRole } from "~/lib/sessionProxyStorage";
 
 const identityLut = [...polkadotPeopleIdentities, ...wellKnownIdentities];
 
@@ -413,9 +420,21 @@ const closeStartOverlay = () => {
   showStartOverlay.value = false;
 };
 
+const chatWindowHeight = ref("calc(100vh - 12rem)");
+
+const adjustChatWindowHeight = () => {
+  const viewportHeight = window.innerHeight;
+  chatWindowHeight.value = `${viewportHeight}px`;
+};
 // Ensure overlay is shown on reload
 onMounted(() => {
   showStartOverlay.value = false;
+  window.addEventListener("resize", adjustChatWindowHeight);
+  adjustChatWindowHeight();
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", adjustChatWindowHeight);
 });
 
 // Reaktive Variable für das Overlay
@@ -527,7 +546,9 @@ watch(isInitializing, () => {
 const filteredLut = computed(() => {
   if (!conversationAddress.value) return [];
   return identityLut.filter((entry) =>
-    entry.username.includes(conversationAddress.value),
+    entry.username
+      .toLowerCase()
+      .includes(conversationAddress.value.toLowerCase()),
   );
 });
 
@@ -579,13 +600,13 @@ const submitSendForm = () => {
 
 const sendPrivately = async () => {
   console.log("sending message on incognitee");
-  txStatus.value = "⌛ sending message privately on incognitee";
-  const amount = BigInt(0);
+  txStatus.value = "⌛ Sending message privately on incognitee";
   const account = accountStore.account;
   if (
     accountStore.getDecimalBalanceTransferable(incogniteeSidechain.value) <
     3 * INCOGNITEE_TX_FEE
   ) {
+    txStatus.value = "";
     alert("Insufficient balance");
     return;
   }
@@ -608,16 +629,18 @@ const sendPrivately = async () => {
   );
 
   await incogniteeStore.api
-    .trustedBalanceTransfer(
+    .trustedSendNote(
       account,
       incogniteeStore.shard,
       incogniteeStore.fingerprint,
       accountStore.getAddress,
       conversationAddress.value,
-      amount,
       note,
       {
         signer: accountStore.injector?.signer,
+        delegate: accountStore.sessionProxyForRole(
+          SessionProxyRole.NonTransfer,
+        ),
         nonce: nonce,
       },
     )
@@ -636,7 +659,7 @@ const handleTopResult = (result, successMsg?) => {
         txStatus.value =
           "😀 included in sidechain block: " + result.status.asInSidechainBlock;
       }
-      //update history to see successfuly action immediately
+      //update history to see successful action immediately
       props.updateNotes();
       return;
     }
@@ -646,12 +669,12 @@ const handleTopResult = (result, successMsg?) => {
     }
   }
   console.error(`unknown result: ${result}`);
-  txStatus.value = "😞 Unknown Result";
+  txStatus.value = "😞 Unknown result";
 };
 
 const handleTopError = (err) => {
   console.error(`error: ${err}`);
-  txStatus.value = `😞 Submission Failed: ${err}`;
+  txStatus.value = `😞 Submission failed: ${err}.`;
 };
 
 const scanResult = ref("No QR code data yet");
@@ -705,47 +728,60 @@ const inputText = ref("");
 
 <style scoped>
 textarea {
-  resize: none; /* Disable resizing for better layout control */
+  resize: none;
+  /* Disable resizing for better layout control */
 }
 
 .relative {
-  position: relative; /* Ensure the counter is positioned relative to the input */
+  position: relative;
+  /* Ensure the counter is positioned relative to the input */
 }
+
 .bg-opacity-75 {
   background-color: rgba(0, 0, 0, 0.828);
 }
 
 .fixed {
-  z-index: 50; /* Ensure overlay is on top */
+  z-index: 50;
+  /* Ensure overlay is on top */
 }
 
 .pointer-events-none {
   pointer-events: none;
 }
+
 /* Für Webkit-basierte Browser (Chrome, Safari, Edge) */
 ::-webkit-scrollbar {
-  width: 5px; /* Breite der Scrollbar */
+  width: 5px;
+  /* Breite der Scrollbar */
 }
 
 ::-webkit-scrollbar-track {
-  background: #1f293700; /* Hintergrund des Tracks */
+  background: #1f293700;
+  /* Hintergrund des Tracks */
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #4b556300; /* Farbe der Scrollbar */
-  border-radius: 6px; /* Runde Ecken */
-  border: 3px solid #1f2937; /* Abstand zur Scrollspur */
+  background-color: #4b556300;
+  /* Farbe der Scrollbar */
+  border-radius: 6px;
+  /* Runde Ecken */
+  border: 3px solid #1f2937;
+  /* Abstand zur Scrollspur */
 }
 
 /* Für Firefox */
 * {
-  scrollbar-width: thin; /* Dünne Scrollbar */
-  scrollbar-color: #4b5563 #1f293700; /* Daumen- und Trackfarben */
+  scrollbar-width: thin;
+  /* Dünne Scrollbar */
+  scrollbar-color: #4b5563 #1f293700;
+  /* Daumen- und Trackfarben */
 }
 
 /* Optional: Hover-Effekt auf der Scrollbar */
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #6b7280; /* Hover-Farbe der Scrollbar */
+  background-color: #6b7280;
+  /* Hover-Farbe der Scrollbar */
 }
 
 .wallet-address {
@@ -756,14 +792,14 @@ textarea {
   /* Versteckt überlaufenden Text */
   text-overflow: ellipsis;
   /* Zeigt '...' bei zu langem Text an */
-  max-width: 15ch;
+  max-width: 10ch;
   /* Maximale Länge: 10 Zeichen */
 }
 
 /* Für größere Bildschirme (ab 641px) */
 @media (min-width: 641px) {
   .wallet-address {
-    max-width: 15ch;
+    max-width: 10ch;
     /* Begrenze auch hier auf 10 Zeichen */
   }
 }

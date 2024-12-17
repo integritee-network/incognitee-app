@@ -1,8 +1,16 @@
 <template>
-  <div v-if="show">
+  <div v-if="show" class="p-3">
+    <div class="mb-3">
+      <button
+        @click="eventBus.emit('toggleSidebar')"
+        class="lg:hidden text-white focus:outline-none text-2xl"
+      >
+        ☰
+      </button>
+    </div>
     <WarningBanner
       v-if="
-        isProd &&
+        accountStore.getSymbol === 'TEER' &&
         accountStore.getAddress !== 'none' &&
         !accountStore.hasInjector
       "
@@ -25,13 +33,6 @@
       :isMobile="isMobile"
       textMobile="This page is not yet live for mainnet"
       textDesktop="This page is not yet live for mainnet. please visit <a href='https://try.incognitee.io'>try.incognitee.io</a> for the latest version of our paseo testnet wallet"
-    />
-
-    <InfoBanner
-      v-if="!enableActions"
-      :isMobile="isMobile"
-      textMobile="Looking for <a href='/teerdays'>TEERdays</a>?"
-      textDesktop="If you are looking for our TEERDAYS page, please follow <a href='/teerdays'>this link</a>"
     />
 
     <div class="mt-4"></div>
@@ -636,7 +637,11 @@
         </p>
       </div>
       <div class="mt-5 qrcode-container">
-        <qrcode :value="accountStore.getAddress"></qrcode>
+        <qrcode
+          :value="accountStore.getAddress"
+          :color="{ dark: '#000000', light: '#ffffff' }"
+          type="image/png"
+        ></qrcode>
       </div>
 
       <div class="flex flex-col mt-5">
@@ -1060,6 +1065,9 @@ import { chainConfigs } from "~/configs/chains";
 import { QrcodeStream } from "vue-qrcode-reader";
 import { ApiPromise } from "@polkadot/api";
 import { formatMoment } from "~/helpers/date";
+import { eventBus } from "@/helpers/eventBus";
+import { SessionProxyRole } from "~/lib/sessionProxyStorage";
+import SessionProxiesOverlay from "~/components/overlays/SessionProxiesOverlay.vue";
 
 const accountStore = useAccount();
 const incogniteeStore = useIncognitee();
@@ -1162,8 +1170,8 @@ const setRecipientAddressToSelf = () => {
 };
 const txResHandlerShieldingTarget = ({ events = [], status, txHash }) => {
   status.isFinalized
-    ? (txStatus.value = `😀 Finalized. Finalized. You should see your Incognitee balance increase in seconds. Please move to the Private Balance tab`)
-    : (txStatus.value = `⌛ Current transaction status: ${status.type}. please be patient a few more seconds. you should see your L1 balance going down`);
+    ? (txStatus.value = `😀 Finalized. You should see your Incognitee balance increase in seconds. Please move to the private balance tab.`)
+    : (txStatus.value = `⌛ Current transaction status: ${status.type}. Please be patient a few more seconds. You should see your L1 balance going down.`);
   isSignerBusy.value = false;
   // Loop through Vec<EventRecord> to display all events
   events.forEach(({ _, event: { data, method, section } }) => {
@@ -1197,7 +1205,7 @@ const txResHandlerShieldingTarget = ({ events = [], status, txHash }) => {
         // Other, CannotLookup, BadOrigin, no extra info
         errorInfo = dispatchError.toString();
       }
-      txStatus.value = `😞 Transaction Failed! ${section}.${method}::${errorInfo}`;
+      txStatus.value = `😞 Transaction failed! ${section}.${method}::${errorInfo}.`;
     } else if (section + ":" + method === "system:ExtrinsicSuccess") {
       console.log(
         `✅ Transaction successful with status: ${status} hash: ${txHash}`,
@@ -1207,7 +1215,7 @@ const txResHandlerShieldingTarget = ({ events = [], status, txHash }) => {
 };
 
 const txErrHandlerShieldingTarget = (err) =>
-  (txStatus.value = `😞 Transaction Failed: ${err.toString()}`);
+  (txStatus.value = `😞 Transaction failed: ${err.toString()}.`);
 
 const handleTopResult = (result, successMsg?) => {
   console.log("TOP result: " + result);
@@ -1219,22 +1227,22 @@ const handleTopResult = (result, successMsg?) => {
         txStatus.value =
           "😀 included in sidechain block: " + result.status.asInSidechainBlock;
       }
-      //update history to see successfuly action immediately
+      //update history to see successful action immediately
       props.updateNotes();
       return;
     }
     if (result.status.isInvalid) {
-      txStatus.value = "😞 Invalid (unspecified reason)";
+      txStatus.value = "😞 Invalid (unspecified reason).";
       return;
     }
   }
   console.error(`unknown result: ${result}`);
-  txStatus.value = "😞 Unknown Result";
+  txStatus.value = "😞 Unknown result.";
 };
 
 const handleTopError = (err) => {
   console.error(`error: ${err}`);
-  txStatus.value = `😞 Submission Failed: ${err}`;
+  txStatus.value = `😞 Submission failed: ${err}.`;
 };
 
 const shield = async () => {
@@ -1245,7 +1253,7 @@ const shield = async () => {
     return;
   }
   isSignerBusy.value = true;
-  txStatus.value = "⌛ awaiting signature and connection";
+  txStatus.value = "⌛ Awaiting signature and connection...";
   console.log("local api ready: " + props.api?.isReady);
   if (incogniteeStore.vault && props.api?.isReady) {
     const amount = accountStore.decimalAmountToBigInt(shieldAmount.value);
@@ -1263,7 +1271,7 @@ const shield = async () => {
 
 const unshield = async () => {
   console.log("will unshield 30% of your private funds to same account on L1");
-  txStatus.value = "⌛ will unshield to L1";
+  txStatus.value = "⌛ Will unshield to L1.";
   const amount = accountStore.decimalAmountToBigInt(unshieldAmount.value);
   const account = accountStore.account;
   const nonce = new u32(
@@ -1284,6 +1292,7 @@ const unshield = async () => {
       amount,
       {
         signer: accountStore.injector?.signer,
+        delegate: accountStore.sessionProxyForRole(SessionProxyRole.Any),
         nonce: nonce,
       },
     )
@@ -1299,7 +1308,7 @@ const unshield = async () => {
 
 const sendPrivately = async () => {
   console.log("sending funds on incognitee");
-  txStatus.value = "⌛ sending funds privately on incognitee";
+  txStatus.value = "⌛ Sending funds privately on Incognitee.";
   const amount = accountStore.decimalAmountToBigInt(sendAmount.value);
   const account = accountStore.account;
 
@@ -1332,6 +1341,7 @@ const sendPrivately = async () => {
       note,
       {
         signer: accountStore.injector?.signer,
+        delegate: accountStore.sessionProxyForRole(SessionProxyRole.Any),
         nonce: nonce,
       },
     )
@@ -1341,7 +1351,7 @@ const sendPrivately = async () => {
 };
 const submitGuess = async () => {
   console.log("submit guess: ", guess.value);
-  txStatus.value = "⌛ privately submitting your guess to incognitee";
+  txStatus.value = "⌛ Privately submitting your guess to Incognitee.";
   const account = accountStore.account;
   const nonce = new u32(
     new TypeRegistry(),
@@ -1359,6 +1369,9 @@ const submitGuess = async () => {
       guess.value,
       {
         signer: accountStore.injector?.signer,
+        delegate: accountStore.sessionProxyForRole(
+          SessionProxyRole.NonTransfer,
+        ),
         nonce: nonce,
       },
     )
@@ -1431,7 +1444,7 @@ const closePrivacyInfo = () => {
 
 const showObtainTokenOverlay = ref(false);
 const openObtainTokenOverlay = () => {
-  if (!enableActions.value) {
+  if (!props?.enableActions) {
     console.error("network not live");
     return;
   }
@@ -1443,7 +1456,7 @@ const closeObtainTokenOverlay = () => {
 
 const showShieldOverlay = ref(false);
 const openShieldOverlay = () => {
-  if (!enableActions.value) {
+  if (!props?.enableActions) {
     console.error("network not live");
     return;
   }
@@ -1458,7 +1471,7 @@ const closeShieldOverlay = () => {
 
 const showFaucetOverlay = ref(false);
 const openFaucetOverlay = () => {
-  if (!enableActions.value) {
+  if (!props?.enableActions) {
     console.error("network not live");
     return;
   }
@@ -1470,7 +1483,7 @@ const closeFaucetOverlay = () => {
 
 const showUnshieldOverlay = ref(false);
 const openUnshieldOverlay = () => {
-  if (!enableActions.value) {
+  if (!props?.enableActions) {
     console.error("network not live");
     return;
   }
@@ -1484,7 +1497,7 @@ const closeUnshieldOverlay = () => {
 };
 const showReceiveOverlay = ref(false);
 const openReceiveOverlay = () => {
-  if (!enableActions.value) {
+  if (!props?.enableActions) {
     console.error("network not live");
     return;
   }
@@ -1495,7 +1508,7 @@ const closeReceiveOverlay = () => {
 };
 const showPrivateSendOverlay = ref(false);
 const openPrivateSendOverlay = () => {
-  if (!enableActions.value) {
+  if (!props?.enableActions) {
     console.error("network not live");
     return;
   }
@@ -1517,7 +1530,7 @@ const closePrivateSendOverlay = () => {
 
 const showGuessTheNumberOverlay = ref(false);
 const openGuessTheNumberOverlay = () => {
-  if (!enableActions.value) {
+  if (!props?.enableActions) {
     console.error("network not live");
     return;
   }
@@ -1599,10 +1612,10 @@ const props = defineProps({
     type: Function,
     required: true,
   },
-});
-
-const enableActions = computed(() => {
-  return isLive.value || forceLive.value;
+  enableActions: {
+    type: Boolean,
+    required: true,
+  },
 });
 </script>
 
