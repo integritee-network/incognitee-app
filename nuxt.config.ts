@@ -81,7 +81,7 @@ export default defineNuxtConfig({
     externalVue: false,
   },
   routeRules: {
-    "/": { ssr: false },
+    "/": { redirect: "/teer" },
     "/dot": { ssr: false },
     "/teer": { ssr: false },
     "/gtn": { ssr: false },
