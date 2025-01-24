@@ -12,6 +12,10 @@
       ref="walletTabRef"
       :updateNotes="updateNotes"
       :fetchOlderBucket="fetchOlderBucket"
+      :eventHorizon="oldestMomentInNoteBuckets"
+      :bucketsCount="bucketsCount"
+      :unfetchedBucketsCount="unfetchedBucketsCount"
+      :isUpdatingNotes="isUpdatingNotes"
       :enableActions="enableActions"
     />
   </div>
@@ -30,6 +34,7 @@
   </div>
   <!-- all following tabs can be unmounted if unselected -->
   <div v-if="activeApp === 'vouchers'"><VouchersTab /></div>
+  <div v-else-if="activeApp === 'faq'"><FaqTab /></div>
   <div v-else-if="activeApp === 'swap'"><SwapTab /></div>
   <div v-else-if="activeApp === 'gov'"><GovTab /></div>
   <div v-else-if="activeApp === 'teerdays'">
@@ -164,6 +169,7 @@ import MessagingTab from "~/components/tabs/MessagingTab.vue";
 import SwapTab from "~/components/tabs/SwapTab.vue";
 import GovTab from "~/components/tabs/GovTab.vue";
 import TeerDaysTab from "~/components/tabs/TeerDaysTab.vue";
+import FaqTab from "~/components/tabs/FaqTab.vue";
 
 const router = useRouter();
 const accountStore = useAccount();
@@ -396,7 +402,7 @@ const bucketsCount = computed(() => {
 
 const unfetchedBucketsCount = computed(() => {
   if (!noteBucketsInfo.value) return 0;
-  return firstNoteBucketIndexFetched.value
+  return firstNoteBucketIndexFetched.value >= 0
     ? firstNoteBucketIndexFetched.value -
         noteBucketsInfo.value.first.unwrap().index
     : noteBucketsInfo.value.last.unwrap().index -
@@ -405,7 +411,7 @@ const unfetchedBucketsCount = computed(() => {
 });
 
 const fetchIncogniteeNotes = async (
-  bucketIndex: number,
+  maybeBucketIndex: number | null,
   skip_if_signer_needed: boolean,
 ) => {
   if (!incogniteeStore.apiReady) return;
@@ -417,6 +423,7 @@ const fetchIncogniteeNotes = async (
     );
     return;
   }
+  const bucketIndex = maybeBucketIndex ? maybeBucketIndex : 0;
   const mapKey = `notesFor:${accountStore.account}:${bucketIndex}`;
   const sessionProxy = accountStore.sessionProxyForRole(
     SessionProxyRole.ReadAny,
@@ -671,6 +678,20 @@ const pollCounter = useInterval(2000);
 watch(pollCounter, async () => {
   await fetchIncogniteeBalance();
   await fetchNetworkStatus();
+  // autofetch history slowly
+  try {
+    if (
+      accountStore.sessionProxyForRole(SessionProxyRole.ReadAny) !== null ||
+      !accountStore.hasInjector
+    ) {
+      console.debug("unfetchedBucketsCount is " + unfetchedBucketsCount.value);
+      if (unfetchedBucketsCount.value > 0) {
+        await fetchOlderBucket();
+      }
+    }
+  } catch (error) {
+    console.warn("error auto-fetching older incognitee note buckets: " + error);
+  }
 });
 
 watch(
@@ -827,6 +848,15 @@ const switchToTeerDays = () => {
   });
 };
 
+const switchToFaq = () => {
+  activeApp.value = "faq";
+  const query = { ...router.currentRoute.value.query };
+  query.app = activeApp.value;
+  router.push({
+    query: query,
+  });
+};
+
 onMounted(async () => {
   checkIfMobile();
   window.addEventListener("resize", checkIfMobile);
@@ -842,6 +872,8 @@ onMounted(async () => {
   eventBus.on("switchToGov", switchToGov);
   eventBus.on("switchToVouchers", switchToVouchers);
   eventBus.on("switchToTeerDays", switchToTeerDays);
+  eventBus.on("switchToFaq", switchToFaq);
+  eventBus.on("openSessionProxiesOverlay", openAuthorizeSessionOverlay);
 
   const injectedAddress = router.currentRoute.value.query.address;
   if (router.currentRoute.value.query.forceLive) {
