@@ -75,7 +75,7 @@
               class="flex flex-col items-end py-4 pr-4 text-right text-sm text-white sm:pr-6 lg:pr-8"
             >
               <div class="text-sm font-medium text-white">
-                {{ voucher.amount }} {{ accountStore.getSymbol }}
+                {{ voucher.amount }} {{ accountStore.getSymbol(asset) }}
               </div>
               <time class="mt-1 text-xs text-gray-500">{{
                 formatDate(voucher.timestamp)
@@ -236,12 +236,12 @@
             <label
               for="CreateVoucher"
               class="text-sm font-medium leading-6 text-white"
-              >{{ accountStore.getSymbol }} Amount</label
+              >{{ accountStore.getSymbol(asset) }} Amount</label
             >
 
             <span class="text-xs text-gray-400"
               >Available private balance:
-              {{ accountStore.formatBalanceFree(incogniteeSidechain) }}</span
+              {{ accountStore.formatBalanceFree(incogniteeChainAssetId) }}</span
             >
           </div>
 
@@ -256,9 +256,9 @@
               :max="
                 Math.max(
                   0,
-                  accountStore.getDecimalBalanceFree(incogniteeSidechain) -
+                  accountStore.getDecimalBalanceFree(incogniteeChainAssetId) -
                     accountStore.getDecimalExistentialDeposit(
-                      incogniteeSidechain,
+                      incogniteeChainAssetId,
                     ) -
                     0.1,
                 )
@@ -273,7 +273,7 @@
           <div class="text-right">
             <span class="text-xs text-gray-400"
               >Fee: {{ formatDecimalBalance(INCOGNITEE_TX_FEE) }}
-              {{ accountStore.getSymbol }} for Incognitee</span
+              {{ accountStore.getSymbol(asset) }} for Incognitee</span
             >
           </div>
         </div>
@@ -370,7 +370,12 @@ import { useAccount } from "~/store/account";
 import { useIncognitee } from "~/store/incognitee";
 import { INCOGNITEE_TX_FEE } from "~/configs/incognitee";
 import { formatDate } from "@/helpers/date";
-import { shieldingTarget, incogniteeSidechain } from "~/lib/environmentConfig";
+import {
+  shieldingTarget,
+  incogniteeSidechain,
+  asset,
+  incogniteeChainAssetId,
+} from "~/lib/environmentConfig";
 import { TypeRegistry, u32 } from "@polkadot/types";
 import StatusOverlay from "~/components/overlays/StatusOverlay.vue";
 import { Health, useSystemHealth } from "~/store/systemHealth";
@@ -472,7 +477,10 @@ const doForgetVoucher = () => {
 const fundNewVoucher = async () => {
   console.log("sending funds on incognitee");
   txStatus.value = "⌛ Sending funds privately on incognitee.";
-  const amount = accountStore.decimalAmountToBigInt(sendAmount.value);
+  const amount = accountStore.decimalAmountToBigInt(
+    sendAmount.value,
+    incogniteeChainAssetId.value,
+  );
   const account = accountStore.account;
   const encoder = new TextEncoder();
   const byteLength = encoder.encode(sendPrivateNote.value).length;
@@ -491,26 +499,51 @@ const fundNewVoucher = async () => {
   const voucher = await generateNewVoucher(amount, incogniteeStore.shard, note);
   selectedVoucher.value = voucher;
   console.log(
-    `sending ${sendAmount.value} from ${account.address} privately to ${voucher.address} with nonce ${nonce} and note: ${note}`,
+    `sending ${sendAmount.value} ${accountStore.getSymbol(asset.value)} from ${account.address} privately to ${voucher.address} with nonce ${nonce} and note: ${note}`,
   );
 
-  await incogniteeStore.api
-    .trustedBalanceTransfer(
-      account,
-      incogniteeStore.shard,
-      incogniteeStore.fingerprint,
-      accountStore.getAddress,
-      voucher.address,
-      amount,
-      note,
-      {
-        signer: accountStore.injector?.signer,
-        delegate: accountStore.sessionProxyForRole(SessionProxyRole.Any),
-        nonce: nonce,
-      },
-    )
-    .then((result) => handleTopResult(result, "😀 Balance transfer successful"))
-    .catch((err) => handleTopError(err));
+  if (asset.value) {
+    await incogniteeStore.api
+      .trustedAssetTransfer(
+        account,
+        incogniteeStore.shard,
+        incogniteeStore.fingerprint,
+        accountStore.getAddress,
+        voucher.address,
+        amount,
+        asset.value,
+        note,
+        {
+          signer: accountStore.injector?.signer,
+          delegate: accountStore.sessionProxyForRole(SessionProxyRole.Any),
+          nonce: nonce,
+        },
+      )
+      .then((result) =>
+        handleTopResult(result, "😀 Balance transfer successful"),
+      )
+      .catch((err) => handleTopError(err));
+  } else {
+    await incogniteeStore.api
+      .trustedBalanceTransfer(
+        account,
+        incogniteeStore.shard,
+        incogniteeStore.fingerprint,
+        accountStore.getAddress,
+        voucher.address,
+        amount,
+        note,
+        {
+          signer: accountStore.injector?.signer,
+          delegate: accountStore.sessionProxyForRole(SessionProxyRole.Any),
+          nonce: nonce,
+        },
+      )
+      .then((result) =>
+        handleTopResult(result, "😀 Balance transfer successful"),
+      )
+      .catch((err) => handleTopError(err));
+  }
   //todo: manually inc nonce locally avoiding clashes with fetchIncogniteeBalance
 };
 
@@ -540,7 +573,7 @@ const generateNewVoucher = async (
       encodeAddress(newAccount.address, accountStore.getSs58Format),
       voucherSeedHex,
       url.toString(),
-      divideBigIntToFloat(amount, 10 ** accountStore.getDecimals),
+      divideBigIntToFloat(amount, 10 ** accountStore.getDecimals(asset.value)),
       note,
     );
     console.log("generated new voucher: " + voucher);
