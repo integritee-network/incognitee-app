@@ -75,7 +75,7 @@
               class="flex flex-col items-end py-4 pr-4 text-right text-sm text-white sm:pr-6 lg:pr-8"
             >
               <div class="text-sm font-medium text-white">
-                {{ voucher.amount }}
+                {{ formatDecimalBalance(voucher.amount) }}
                 {{
                   voucher.asset ? voucher.asset : accountStore.getSymbol(null)
                 }}
@@ -275,7 +275,7 @@
           <!-- Fee description -->
           <div class="text-right">
             <span class="text-xs text-gray-400"
-              >Fee: {{ formatDecimalBalance(INCOGNITEE_TX_FEE) }}
+              >Fee: {{ formatDecimalBalance(txFeeBase(asset)) }}
               {{ accountStore.getSymbol(asset) }} for Incognitee</span
             >
           </div>
@@ -371,7 +371,7 @@ import Qrcode from "vue-qrcode";
 import { divideBigIntToFloat, formatDecimalBalance } from "~/helpers/numbers";
 import { useAccount } from "~/store/account";
 import { useIncognitee } from "~/store/incognitee";
-import { INCOGNITEE_TX_FEE } from "~/configs/incognitee";
+import { txFeeBase } from "~/configs/incognitee";
 import { formatDate } from "@/helpers/date";
 import {
   shieldingTarget,

@@ -379,12 +379,12 @@
           includes your current private balance on incognitee.
         </p>
       </div>
-      <div v-if="INCOGNITEE_SHIELDING_MIN > computedShieldingMax">
+      <div v-if="minShieldingAmount(asset) > computedShieldingMax">
         <p class="text-sm text-yellow-400">
           You need at least
           {{
             formatDecimalBalance(
-              INCOGNITEE_SHIELDING_MIN +
+              minShieldingAmount(asset) +
                 accountStore.getDecimalExistentialDeposit(
                   shieldingTargetChainAssetId,
                 ),
@@ -408,7 +408,8 @@
               >
 
               <span class="text-xs text-gray-400"
-                >Available for shielding: {{ computedShieldingMax.toFixed(3) }}
+                >Available for shielding:
+                {{ formatDecimalBalance(computedShieldingMax) }}
                 {{ accountStore.getSymbol(asset) }}</span
               >
             </div>
@@ -416,8 +417,8 @@
               id="shieldAmount"
               v-model="shieldAmount"
               type="number"
-              step=".1"
-              :min="INCOGNITEE_SHIELDING_MIN"
+              step=".0000001"
+              :min="minShieldingAmount(asset)"
               :max="computedShieldingMax"
               required
               class="w-full text-sm rounded-lg flex-grow py-2 bg-cool-900 text-white placeholder-gray-500 border border-green-500 text-right"
@@ -425,7 +426,7 @@
             />
             <div class="text-right">
               <span class="text-xs text-gray-400"
-                >Fee: ~16 m{{ accountStore.getSymbol(asset) }} for L1,
+                >Fee: ~16 m{{ accountStore.getSymbol(null) }} for L1,
                 {{
                   formatDecimalBalance(INCOGNITEE_SHIELDING_FEE_FRACTION * 100)
                 }}% for Incognitee</span
@@ -518,16 +519,16 @@
       </p>
       <div
         v-if="
-          INCOGNITEE_UNSHIELDING_FEE +
+          txFeeUnshielding(asset) +
             minUnshieldingAmount(accountStore.getSymbol(asset)) >
-          accountStore.formatBalanceFree(incogniteeChainAssetId)
+          accountStore.getDecimalBalanceFree(incogniteeChainAssetId)
         "
       >
         <p class="text-sm text-yellow-400">
           You need at least
           {{
             formatDecimalBalance(
-              INCOGNITEE_UNSHIELDING_FEE +
+              txFeeUnshielding(asset) +
                 minUnshieldingAmount(accountStore.getSymbol(asset)),
             )
           }}
@@ -616,8 +617,9 @@
           </div>
 
           <p class="text-sm text-gray-400 text-left mt-5">
-            For optimal k-anonymity, we advise you to unshield either exactly 10
-            or 100
+            For optimal k-anonymity, we advise you to unshield either exactly
+            {{ computedUnshieldingSuggestions[0] }} or
+            {{ computedUnshieldingSuggestions[1] }}
             {{ accountStore.getSymbol(asset) }} at the time. In the future we
             will provide a score including timing and popular amounts to enhance
             unlinkability of your actions.
@@ -639,7 +641,7 @@
             id="unshieldAmount"
             v-model="unshieldAmount"
             type="number"
-            step="0.1"
+            step=".000001"
             :min="minUnshieldingAmount(accountStore.getSymbol(asset))"
             :max="
               Math.min(
@@ -647,7 +649,7 @@
                   accountStore.getDecimalExistentialDeposit(
                     incogniteeChainAssetId,
                   ) -
-                  0.1,
+                  txFeeBase(asset),
                 shieldingLimit,
               )
             "
@@ -658,7 +660,7 @@
           <!-- Fee description -->
           <div class="text-right">
             <span class="text-xs text-gray-400"
-              >Fee: {{ formatDecimalBalance(INCOGNITEE_UNSHIELDING_FEE) }}
+              >Fee: {{ formatDecimalBalance(txFeeUnshielding(asset)) }}
               {{ accountStore.getSymbol(asset) }} for Incognitee</span
             >
           </div>
@@ -746,13 +748,13 @@
       </div>
       <div
         v-if="
-          INCOGNITEE_TX_FEE >
+          txFeeBase(asset) >
           accountStore.formatBalanceFree(incogniteeChainAssetId)
         "
       >
         <p class="text-sm text-yellow-400">
           Your balance is lower than the tx fee of
-          {{ formatDecimalBalance(INCOGNITEE_TX_FEE) }}
+          {{ formatDecimalBalance(txFeeBase(asset)) }}
           {{ accountStore.getSymbol(asset) }}. You have
           {{ accountStore.formatBalanceFree(incogniteeChainAssetId) }}.
         </p>
@@ -823,14 +825,14 @@
                 id="sendAmount"
                 v-model="sendAmount"
                 type="number"
-                step="0.01"
-                :min="0.1"
+                step=".000001"
+                :min="txFeeBase(asset)"
                 :max="
                   accountStore.getDecimalBalanceFree(incogniteeChainAssetId) -
                   accountStore.getDecimalExistentialDeposit(
                     incogniteeChainAssetId,
                   ) -
-                  0.1
+                  txFeeBase(asset)
                 "
                 required
                 class="w-full text-sm rounded-lg flex-grow py-2 bg-cool-900 text-white placeholder-gray-500 border border-green-500 text-right"
@@ -842,7 +844,7 @@
             <!-- Fee description -->
             <div class="text-right">
               <span class="text-xs text-gray-400"
-                >Fee: {{ formatDecimalBalance(INCOGNITEE_TX_FEE) }}
+                >Fee: {{ formatDecimalBalance(txFeeBase(asset)) }}
                 {{ accountStore.getSymbol(asset) }} for Incognitee</span
               >
             </div>
@@ -1104,11 +1106,10 @@
 import {
   INCOGNITEE_GTN_GUESS_FEE,
   INCOGNITEE_SHIELDING_FEE_FRACTION,
-  INCOGNITEE_TX_FEE,
-  INCOGNITEE_UNSHIELDING_FEE,
-  INCOGNITEE_SHIELDING_MIN,
   minUnshieldingAmount,
-  INCOGNITEE_SESSION_PROXY_DEPOSIT,
+  txFeeBase,
+  minShieldingAmount,
+  txFeeUnshielding,
 } from "~/configs/incognitee";
 import { formatDecimalBalance } from "~/helpers/numbers";
 import WarningBanner from "~/components/ui/WarningBanner.vue";
@@ -1161,7 +1162,7 @@ const accountStore = useAccount();
 const incogniteeStore = useIncognitee();
 const systemHealth = useSystemHealth();
 const isSignerBusy = ref(false);
-const sendAmount = ref(1.0);
+const sendAmount = ref(null);
 const sendPrivateNote = ref("");
 const shieldAmount = ref(11.0);
 const unshieldAmount = ref(10.0);
@@ -1229,7 +1230,7 @@ const submitShieldForm = async () => {
   // fixme: why is this necessary? it seems computed max will not be enforced otherwise
   if (
     shieldAmount.value > computedShieldingMax.value ||
-    shieldAmount.value < INCOGNITEE_SHIELDING_MIN
+    shieldAmount.value < minShieldingAmount(asset.value)
   ) {
     return;
   }
@@ -1622,10 +1623,14 @@ const computedShieldingMax = computed(() => {
       ) -
         accountStore.getDecimalExistentialDeposit(
           shieldingTargetChainAssetId.value,
-        ) -
-        0.1,
+        ),
     ),
   );
+});
+
+const computedUnshieldingSuggestions = computed(() => {
+  const highest = Math.pow(10, Math.floor(Math.log10(shieldingLimit.value)));
+  return [highest / 10, highest];
 });
 
 const showAssetsInfo = ref(false);
@@ -1723,7 +1728,8 @@ const openPrivateSendOverlay = () => {
   sendAmount.value = Math.floor(
     Math.min(
       sendAmount.value,
-      accountStore.getDecimalBalanceFree(incogniteeChainAssetId.value) - 0.1,
+      accountStore.getDecimalBalanceFree(incogniteeChainAssetId.value) -
+        txFeeBase(asset.value),
     ),
   );
   showPrivateSendOverlay.value = true;
